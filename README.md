@@ -1,1 +1,1 @@
-# hcomp
+# Social Human Computation
