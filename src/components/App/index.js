@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+
+import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
+
 import logo from './logo.svg';
-import './App.css';
+import './style.css';
 
 class App extends Component {
   render() {
