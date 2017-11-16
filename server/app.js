@@ -1,7 +1,7 @@
 // server/app.js
 const express = require('express');
 const path = require('path');
-const pg = require('pg');
+const {Pool} = require('pg');
 const app = express();
 
 // Serve static assets
@@ -12,14 +12,17 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
-let pool = new pg.Pool();
-console.log(process.env.DATABASE_URL);
-pool.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM user', function(err, result) {
-        done();
-        if(err) return console.error("Error: "+err);
-        console.log("Result: "+result.rows);
-    });
+const pool = new Pool({
+    connectionString:process.env.DATABASE_URL,
+    ssl : {
+        rejectUnauthorized : false,
+    }
+});
+//console.log(process.env);
+pool.query('SELECT * FROM user', (err, res) => {
+    pool.end();
+    if(err) return console.error("Error: "+err);
+    console.log("Result: "+res.rows);
 });
 
 
