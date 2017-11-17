@@ -4,9 +4,6 @@ import FBLogin from '../FBLogin'
 export default class Login extends React.Component {
     constructor(){
         super();
-        this.state = {
-            user: ''
-        };
     }
 
     render() {
