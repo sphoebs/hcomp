@@ -18,12 +18,14 @@ const pool = new Pool({
         rejectUnauthorized : false,
     }
 });
-//console.log(process.env);
-pool.query('SELECT * FROM user', (err, res) => {
-    pool.end();
-    if(err) return console.error("Error: "+err);
-    console.log("Result: "+res.rows);
-});
+
+app.get('/', (req, res)=>{
+    pool.query('SELECT * FROM public.user', (err, res) => {
+        pool.end();
+        if(err) return console.error("Error: "+err);
+        //Result access through res.rows[0].ID
+    });
+})
 
 
 module.exports = app;
