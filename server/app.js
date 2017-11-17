@@ -19,13 +19,14 @@ const pool = new Pool({
     }
 });
 
-app.get('/', (req, res)=>{
-    pool.query('SELECT * FROM public.user', (err, res) => {
-        pool.end();
-        if(err) return console.error("Error: "+err);
-        //Result access through res.rows[0].ID
-    });
+app.post('/userLogin', (req, res)=>{
+    console.log(req);
 })
 
+// pool.query('SELECT * FROM public.user', (err, res) => {
+//     pool.end();
+//     if(err) return console.error("Error: "+err);
+//     //Result access through res.rows[0].ID
+// });
 
 module.exports = app;
