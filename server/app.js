@@ -22,7 +22,8 @@ app.get('*', (req, res) => {
 
 app.post('/userLogin', (req, res)=>{
     console.log("Login request received");
-    res.status(200).send({
+    res.send({
+        status: "200",
         text: "Received request "+req,
     });
 })
