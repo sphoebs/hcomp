@@ -21,17 +21,16 @@ class UserStore extends ReduceStore {
         console.log("Reduce");
         switch (action.type) {
             case UserActionTypes.LOG_IN:
-            Api
-                .post('https://hsoc.herokuapp.com/userLogin', new User({
+                Api.post('https://hsoc.herokuapp.com/userLogin', new User({
+                        name: action.name,
+                        id: action.id
+                    }))
+                    .then((res)=>{console.log(res)}
+                    );
+                return state.set(new User({
                     name: action.name,
                     id: action.id
-                }))
-                .then(()=>{console.log("Then called")}
-                );
-            return state.set(new User({
-                name: action.name,
-                id: action.id
-            }));
+                }));
 
             default:
             return state;
