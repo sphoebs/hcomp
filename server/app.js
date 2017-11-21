@@ -22,7 +22,9 @@ app.get('*', (req, res) => {
 
 app.post('/userLogin', (req, res)=>{
     console.log("Login request received");
-    res.send("Received request "+req)
+    res.status(200).send({
+        text: "Received request "+req,
+    });
 })
 
 // pool.query('SELECT * FROM public.user', (err, res) => {
