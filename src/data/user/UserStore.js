@@ -22,7 +22,7 @@ class UserStore extends ReduceStore {
         switch (action.type) {
             case UserActionTypes.LOG_IN:
             Api
-                .post('localhost:9000/userLogin', new User({
+                .post('https://hsoc.herokuapp.com/userLogin', new User({
                     name: action.name,
                     id: action.id
                 }))
