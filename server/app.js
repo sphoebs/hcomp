@@ -7,11 +7,6 @@ const app = express();
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-// Always return the main index.html, so react-router render the route in the client
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
-
 const pool = new Pool({
     connectionString:process.env.DATABASE_URL,
     ssl : {
@@ -19,8 +14,15 @@ const pool = new Pool({
     }
 });
 
+// Always return the main index.html, so react-router render the route in the client
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});
+
+
 app.post('/userLogin', (req, res)=>{
-    console.log(req);
+    console.log("Login request received");
+    res.send("Received request "+req)
 })
 
 // pool.query('SELECT * FROM public.user', (err, res) => {
