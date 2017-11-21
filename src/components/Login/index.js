@@ -1,5 +1,6 @@
 import React from 'react';
 import FBLogin from '../FBLogin'
+import UserStore from '../../data/container/usercontainer'
 
 export default class Login extends React.Component {
     constructor(){

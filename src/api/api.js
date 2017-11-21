@@ -1,7 +1,7 @@
-var request = require('superagent');
+const request = require('superagent');
 
-var Api = {
-	post: function (url, data) {
+const Api = {
+	post(url, data) {
 		return new Promise(function (resolve, reject) {
 			request
 				.post(url)
@@ -14,7 +14,7 @@ var Api = {
 					}
 			});
 		});
-	}
+	},
 };
 
 export default Api;
