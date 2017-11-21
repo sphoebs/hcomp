@@ -6,8 +6,9 @@ const Api = {
 			request
 				.post(url)
                 .send(data)
-				.end((res) => {
-					console.log(res);
+				.end((err, res) => {
+					console.log("Err "+err);
+					console.log("Res "+res);
 					if (res.status === 404) {
 						reject();
 					} else {
