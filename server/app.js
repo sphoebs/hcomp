@@ -53,6 +53,14 @@ app.get('auth/login/facebook/return',
 );
 
 app.get('*', (req, res) => {
+    if(req.url != 'auth/login/facebook')
+        passport.authenticate('facebook');
+    if(req.url != 'auth/login/facebook/return') {
+        passport.authenticate('facebook', { failureRedirect: '/login' }),
+        function(req, res) {
+            res.redirect('/');
+        }
+    }
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
