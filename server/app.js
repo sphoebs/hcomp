@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const {Pool} = require('pg');
 const passport = require('passport');
-const strategy = require('passport-facebook').Strategy;
+const Strategy = require('passport-facebook').Strategy;
 const app = express();
 
 require('dotenv').config();
@@ -26,7 +26,7 @@ const pool = new Pool({
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-passport.use(new FacebookStrategy({
+passport.use(new Strategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "https://hsoc.herokuapp.com/auth/facebook/callback"
