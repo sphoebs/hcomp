@@ -2,10 +2,19 @@
 const express = require('express');
 const path = require('path');
 const {Pool} = require('pg');
+const passport = require('passport');
+const strategy = require('passport-facebook').Strategy;
 const app = express();
 
-// Serve static assets
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
+require('dotenv').config();
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
 
 const pool = new Pool({
     connectionString:process.env.DATABASE_URL,
@@ -14,11 +23,37 @@ const pool = new Pool({
     }
 });
 
+// Serve static assets
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "https://hsoc.herokuapp.com/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        console.log("dentro function della strategy");
+        return cb(err, user);
+    }
+));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
+app.get('/login/facebook',
+    passport.authenticate('facebook'));
+
+app.get('/login/facebook/return',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function(req, res) {
+        res.redirect('/');
+    }
+);
 
 app.post('/userLogin', (req, res)=>{
     console.log("Login request received");
