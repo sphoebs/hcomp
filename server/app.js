@@ -41,9 +41,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Always return the main index.html, so react-router render the route in the client
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
 
 app.get('auth/login/facebook',
     passport.authenticate('facebook'));
@@ -54,6 +51,10 @@ app.get('auth/login/facebook/return',
         res.redirect('/');
     }
 );
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});
 
 app.post('/userLogin', (req, res)=>{
     console.log("Login request received");
