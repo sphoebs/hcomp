@@ -29,7 +29,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 passport.use(new Strategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "https://hsoc.herokuapp.com/auth/facebook/callback"
+    callbackURL: "https://hsoc.herokuapp.com/auth/login/facebook/return"
     },
     function(accessToken, refreshToken, profile, cb) {
         console.log("dentro function della strategy");
@@ -45,10 +45,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
-app.get('/login/facebook',
+app.get('auth/login/facebook',
     passport.authenticate('facebook'));
 
-app.get('/login/facebook/return',
+app.get('auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/');
