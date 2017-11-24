@@ -42,10 +42,10 @@ app.use(passport.session());
 
 
 app.get('/auth/login/facebook',
-    passport.authenticate('facebook', { authType: 'rerequest', scope: ['user_friends', 'manage_pages'] }));
+    passport.authenticate('facebook', { authType: 'rerequest', scope: ['id', 'displayName', 'photos', 'email'] }));
 
 app.get('/auth/login/facebook/return',
-    passport.authenticate('facebook', { failureRedirect: '/' }),
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
     (req, res) => {
         console.log("Here I am");
         console.log(req);
