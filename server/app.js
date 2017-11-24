@@ -42,7 +42,7 @@ app.use(passport.session());
 
 // Always return the main index.html, so react-router render the route in the client
 
-app.get('auth/login/facebook',
+app.post('auth/login/facebook',
     passport.authenticate('facebook'));
 
 app.get('auth/login/facebook/return',
