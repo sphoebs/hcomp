@@ -32,7 +32,7 @@ passport.use(new Strategy({
     callbackURL: "https://hsoc.herokuapp.com/auth/login/facebook/return"
     },
     function(accessToken, refreshToken, profile, cb) {
-        console.log("dentro function della strategy");
+        console.log(cb);
     }
 ));
 
