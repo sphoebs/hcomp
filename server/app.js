@@ -29,7 +29,8 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 passport.use(new Strategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "https://hsoc.herokuapp.com/auth/login/facebook/return"
+    callbackURL: "https://hsoc.herokuapp.com/auth/login/facebook/return",
+    profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function(accessToken, refreshToken, profile, cb) {
         return cb();
@@ -41,7 +42,7 @@ app.use(passport.session());
 
 
 app.get('/auth/login/facebook',
-    passport.authenticate('facebook'));
+    passport.authenticate('facebook', { authType: 'rerequest', scope: ['user_friends', 'manage_pages'] }));
 
 app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),

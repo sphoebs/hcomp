@@ -11,9 +11,8 @@ export default class Login extends React.Component {
         return (
             <div>
                 <p>Login page</p>
-                <FBLogin />
                 <div>
-                    <a href="/api/login/facebook">
+                    <a href="/auth/login/facebook">
                         <svg
                           width="30"
                           height="30"
