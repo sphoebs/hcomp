@@ -47,6 +47,10 @@ app.get('auth/login/facebook',
 app.get('auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
+        console.log("Here I am");
+        console.log(req);
+        console.log("Was req, res: ");
+        console.log(res);
         res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
     }
 );
@@ -61,7 +65,6 @@ app.get('/login', (req, res) => {
 });// Always return the main index.html, so react-router render the route in the client
 
 app.get('/about', (req, res) => {
-    res.send("Try");
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
