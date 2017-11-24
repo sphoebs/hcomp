@@ -33,7 +33,6 @@ passport.use(new Strategy({
     },
     function(accessToken, refreshToken, profile, cb) {
         console.log("dentro function della strategy");
-        return cb(err, user);
     }
 ));
 
