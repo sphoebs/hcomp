@@ -33,7 +33,7 @@ passport.use(new Strategy({
     profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function(accessToken, refreshToken, profile, cb) {
-        return cb();
+        return cb(null, profile);
     }
 ));
 
@@ -46,7 +46,7 @@ app.get('/auth/login/facebook',
 
 app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/' }),
-    function(req, res) {
+    (req, res) => {
         console.log("Here I am");
         console.log(req);
         console.log("Was req, res: ");
