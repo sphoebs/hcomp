@@ -40,9 +40,8 @@ passport.use(new Strategy({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Always return the main index.html, so react-router render the route in the client
 
-app.post('auth/login/facebook',
+app.get('auth/login/facebook',
     passport.authenticate('facebook'));
 
 app.get('auth/login/facebook/return',
@@ -52,15 +51,22 @@ app.get('auth/login/facebook/return',
     }
 );
 
+// Always return the main index.html, so react-router render the route in the client
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});// Always return the main index.html, so react-router render the route in the client
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});// Always return the main index.html, so react-router render the route in the client
+
+app.get('/about', (req, res) => {
+    res.send("Try");
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});
+
+// Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {
-    // if(req.url != 'auth/login/facebook')
-    //     passport.authenticate('facebook');
-    // if(req.url != 'auth/login/facebook/return') {
-    //     passport.authenticate('facebook', { failureRedirect: '/login' }),
-    //     function(req, res) {
-    //         res.redirect('/');
-    //     }
-    // }
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 

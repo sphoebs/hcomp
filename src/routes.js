@@ -12,7 +12,6 @@ const Routes = (props) => (
             <Switch>
                 <Route exact path="/" component={App} />
                 <Route path="/login" component={Login} />
-                //<Route path="/auth/login/facebook" component={Login} />
                 <Route path="/about" component={About} />
                 <Route component={NotFound} />
             </Switch>
