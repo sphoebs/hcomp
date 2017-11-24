@@ -45,7 +45,7 @@ app.get('/auth/login/facebook',
     passport.authenticate('facebook', { authType: 'rerequest', scope: ['user_friends', 'manage_pages'] }));
 
 app.get('/auth/login/facebook/return',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req, res) {
         console.log("Here I am");
         console.log(req);
