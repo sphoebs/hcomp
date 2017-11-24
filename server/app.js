@@ -41,10 +41,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.get('auth/login/facebook',
+app.get('/auth/login/facebook',
     passport.authenticate('facebook'));
 
-app.get('auth/login/facebook/return',
+app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
         console.log("Here I am");
