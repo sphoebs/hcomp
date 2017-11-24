@@ -42,7 +42,7 @@ app.use(passport.session());
 
 
 app.get('/auth/login/facebook',
-    passport.authenticate('facebook', { authType: 'rerequest', scope: ['id', 'displayName', 'photos', 'email'] }));
+    passport.authenticate('facebook', { authType: 'rerequest' }));
 
 app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
