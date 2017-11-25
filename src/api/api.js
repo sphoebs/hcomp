@@ -1,17 +1,16 @@
 const request = require('superagent');
 
 const Api = {
-	post(url, data) {
+	loginFB() {
 		return new Promise(function (resolve, reject) {
 			request
-				.post(url)
-                .send(data)
+				.get('/auth/login/facebook')
 				.end((err, res) => {
 					console.log(res);
 					if (res.status === 404) {
 						reject();
 					} else {
-						resolve(res.text);
+						resolve(JSON.parse(res));
 					}
 			});
 		});

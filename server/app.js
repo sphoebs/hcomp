@@ -51,7 +51,7 @@ app.get('/auth/login/facebook/return',
         console.log(req.user);
         console.log("Was req, res: ");
         console.log(res.req.user);
-        res.redirect('/');
+        res.json(req.user);
     }
 );
 
