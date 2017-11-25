@@ -6,7 +6,7 @@ class FBLogin extends React.Component {
 
     responseFacebook(response) {
         console.log(response);
-        UserActions.logInUser(response.name, response.userID);
+        //UserActions.logInUser(response.name, response.userID);
     }
 
     render() {

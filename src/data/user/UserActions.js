@@ -2,12 +2,9 @@ import UserActionTypes from './UserActionTypes';
 import UserDispatcher from './UserDispatcher';
 
 const Actions = {
-    logInUser(username, id) {
-        console.log("loggingIn; "+username+", id "+id);
+    logInUserFB() {
         UserDispatcher.dispatch({
-            type: UserActionTypes.LOG_IN,
-            username,
-            id
+            type: UserActionTypes.LOG_IN
         });
     },
 };
