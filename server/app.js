@@ -32,7 +32,7 @@ passport.use(new Strategy({
     callbackURL: "https://hsoc.herokuapp.com/auth/login/facebook/return",
     profileFields: ['id', 'displayName', 'photos', 'email']
     },
-    function(accessToken, refreshToken, profile, cb) {
+    (accessToken, refreshToken, profile, cb) => {
         return cb(null, profile);
     }
 ));
@@ -48,10 +48,10 @@ app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     (req, res) => {
         console.log("Here I am");
-        console.log(req);
+        console.log(req.user);
         console.log("Was req, res: ");
-        console.log(res);
-        res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+        console.log(res.req.user);
+        res.redirect('/');
     }
 );
 
