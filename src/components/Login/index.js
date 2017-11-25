@@ -13,7 +13,7 @@ export default class Login extends React.Component {
             <div>
                 <p>Login page</p>
                 <div>
-                    <a onClick="UserActions.logInUserFB()">
+                    <button onClick={UserActions.logInUserFB()}>
                         <svg
                           width="30"
                           height="30"
@@ -25,7 +25,7 @@ export default class Login extends React.Component {
                         />
                         </svg>
                         <span>Log in with Facebook</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         );
