@@ -41,13 +41,13 @@ app.get('/auth/login/facebook/return',
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/', (req, res) => {
-    console.log(req.user);
+    console.log("/: "+req.user);
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/login', (req, res) => {
-
+    console.log("login: "+req.user);
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });// Always return the main index.html, so react-router render the route in the client
 
@@ -57,13 +57,10 @@ app.get('/about', (req, res) => {
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {
+    console.log("*: "+req.user);
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
-app.post('/userLogin', (req, res)=>{
-    console.log("Login request received");
-    res.send("Login request received");
-})
 
 // pool.query('SELECT * FROM public.user', (err, res) => {
 //     pool.end();
