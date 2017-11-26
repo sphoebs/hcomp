@@ -4,6 +4,7 @@ const path = require('path');
 const {Pool} = require('pg');
 const passport = require('passport');
 const app = express();
+const utils = require('./utils.js');
 
 require('dotenv').config();
 
@@ -35,8 +36,8 @@ app.get('/auth/login/facebook/return',
         // console.log("Here I am");
         // console.log(req.user);
         // console.log("Was req, res: ");
-        console.log(res.req.user);
-        res.redirect('/');
+        console.log(res.req.user._json);
+        res.redirect('/auth/succeded/'+utils.generateToken(res.req.user._json));
     }
 );
 
