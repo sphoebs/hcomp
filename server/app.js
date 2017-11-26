@@ -2,11 +2,17 @@
 const express = require('express');
 const path = require('path');
 const {Pool} = require('pg');
-const passport = require('./passport_settings.js');
+const passport = require('passport');
 const app = express();
 
 require('dotenv').config();
 
+require('./passport_settings.js')(passport);
+app.configure(()=>{
+    app.use(express.session());
+    app.use(passport.initialize());
+    app.use(passport.session());
+});
 
 const pool = new Pool({
     connectionString:process.env.DATABASE_URL,
@@ -19,9 +25,6 @@ const pool = new Pool({
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 
-app.use(express.session());
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 app.get('/auth/login/facebook',
