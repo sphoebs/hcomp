@@ -41,13 +41,13 @@ app.get('/auth/login/facebook/return',
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/', (req, res) => {
-    console.log("/: "+req.user);
+    console.log("/: "+req.session);
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/login', (req, res) => {
-    console.log("login: "+req.user);
+    console.log("login: "+req.session);
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });// Always return the main index.html, so react-router render the route in the client
 
@@ -57,7 +57,7 @@ app.get('/about', (req, res) => {
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {
-    console.log("*: "+req.user);
+    console.log("*: "+req.session);
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
