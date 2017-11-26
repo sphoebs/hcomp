@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import App from './components/App';
 import Login from './components/Login';
-import About from './components/About';
+import UserAuth from './components/UserAuth';
 import NotFound from './components/NotFound';
 
 const Routes = (props) => (
