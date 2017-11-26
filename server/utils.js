@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const util = {
-    generateToken(user) => {
+    generateToken(user) {
         let userInfo = {
             name: user.name,
             id: user.id
