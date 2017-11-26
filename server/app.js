@@ -2,19 +2,11 @@
 const express = require('express');
 const path = require('path');
 const {Pool} = require('pg');
-const passport = require('passport');
-const Strategy = require('passport-facebook').Strategy;
+const passport = require('./passport_settings.js');
 const app = express();
 
 require('dotenv').config();
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
-});
-
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
-});
 
 const pool = new Pool({
     connectionString:process.env.DATABASE_URL,
@@ -26,17 +18,8 @@ const pool = new Pool({
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-passport.use(new Strategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "https://hsoc.herokuapp.com/auth/login/facebook/return",
-    profileFields: ['id', 'displayName', 'photos', 'email']
-    },
-    (accessToken, refreshToken, profile, cb) => {
-        return cb(null, profile);
-    }
-));
 
+app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -47,11 +30,11 @@ app.get('/auth/login/facebook',
 app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     (req, res) => {
-        console.log("Here I am");
-        console.log(req.user);
-        console.log("Was req, res: ");
+        // console.log("Here I am");
+        // console.log(req.user);
+        // console.log("Was req, res: ");
         console.log(res.req.user);
-        res.json(req.user);
+        res.redirect('/');
     }
 );
 

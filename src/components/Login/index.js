@@ -1,7 +1,6 @@
 import React from 'react';
 import FBLogin from '../FBLogin'
 import UserStore from '../../data/container/usercontainer'
-import UserActions from '../../data/user/UserActions'
 
 export default class Login extends React.Component {
     constructor(){
@@ -13,7 +12,7 @@ export default class Login extends React.Component {
             <div>
                 <p>Login page</p>
                 <div>
-                    <button onClick={UserActions.logInUserFB()}>
+                    <a href="/auth/login/facebook">
                         <svg
                           width="30"
                           height="30"
@@ -25,7 +24,7 @@ export default class Login extends React.Component {
                         />
                         </svg>
                         <span>Log in with Facebook</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         );
