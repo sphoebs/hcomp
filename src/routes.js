@@ -10,8 +10,7 @@ const Routes = (props) => (
     <BrowserRouter {...props}>
         <div>
             <Switch>
-                <Route exact path="/" component={App} />
-                <Route path="/:token" component={App} />
+                <Route exact path="/:token" component={App} />
                 <Route path="/login" component={Login} />
                 <Route component={NotFound} />
             </Switch>
