@@ -37,7 +37,7 @@ app.get('/auth/login/facebook/return',
         // console.log(req.user);
         // console.log("Was req, res: ");
         console.log(res.req.user._json);
-        res.redirect('/'+utils.generateToken(res.req.user._json));
+        res.redirect('/auth/succeded/'+utils.generateToken());
     }
 );
 
