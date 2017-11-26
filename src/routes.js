@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import App from './components/App';
 import Login from './components/Login';
-import UserAuth from './components/UserAuth';
+//import UserAuth from './components/UserAuth';
 import NotFound from './components/NotFound';
 
 const Routes = (props) => (
@@ -11,8 +11,8 @@ const Routes = (props) => (
         <div>
             <Switch>
                 <Route exact path="/" component={App} />
+                <Route path="/:token" component={App} />
                 <Route path="/login" component={Login} />
-                <Route path="/auth/succeded/:token" component={UserAuth} />
                 <Route component={NotFound} />
             </Switch>
         </div>

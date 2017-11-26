@@ -1,7 +1,7 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 import UserActions from '../../data/user/UserActions';
 
-export default class UserAuth extends Component {
+export default class UserAuth extends React.Component {
     constructor(props){
         super(props);
         console.log(this.props.match.params.token);
