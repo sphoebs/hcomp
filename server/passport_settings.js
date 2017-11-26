@@ -1,6 +1,6 @@
 const Strategy = require('passport-facebook').Strategy;
 
-module.export = (passport)=>{
+module.exports = (passport) => {
     passport.serializeUser(function(user, cb) {
         cb(null, user);
     });

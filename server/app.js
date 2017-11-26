@@ -8,11 +8,10 @@ const app = express();
 require('dotenv').config();
 
 require('./passport_settings.js')(passport);
-app.configure(()=>{
-    app.use(express.session());
-    app.use(passport.initialize());
-    app.use(passport.session());
-});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 const pool = new Pool({
     connectionString:process.env.DATABASE_URL,
