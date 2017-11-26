@@ -25,8 +25,6 @@ const pool = new Pool({
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 
-
-
 app.get('/auth/login/facebook',
     passport.authenticate('facebook', { authType: 'rerequest' }));
 
@@ -43,10 +41,13 @@ app.get('/auth/login/facebook/return',
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/', (req, res) => {
+    console.log(req.user);
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});// Always return the main index.html, so react-router render the route in the client
+});
 
+// Always return the main index.html, so react-router render the route in the client
 app.get('/login', (req, res) => {
+
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });// Always return the main index.html, so react-router render the route in the client
 
