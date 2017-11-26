@@ -1,6 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
-import UserActions from '../../data/user/UserActions'
+import UserActions from '../../data/user/UserActions';
 
 class FBLogin extends React.Component {
 

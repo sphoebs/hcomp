@@ -21,16 +21,10 @@ class UserStore extends ReduceStore {
         console.log("Reduce");
         switch (action.type) {
             case UserActionTypes.LOG_IN:
-                Api .loginFB()
-                    .then((res)=>{
-                        console.log(res);
-
-                        return state.set(new User({
-                            name: action.name,
-                            id: action.id
-                        }));
-                    });
-                    return state;
+                return state.set(new User({
+                name: action.name,
+                id: action.id
+                }));
 
             default:
             return state;
