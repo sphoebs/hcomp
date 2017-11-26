@@ -13,6 +13,8 @@ require('./passport_settings.js')(passport);
 
 app.use(session({
     secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: true,
     cookie: {maxAge: 60*60*24}
 }));
 app.use(passport.initialize());
@@ -36,9 +38,6 @@ app.get('/auth/login/facebook',
 app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     (req, res) => {
-        // console.log("Here I am");
-        // console.log(req.user);
-        // console.log("Was req, res: ");
         console.log(res.req.user._json);
         res.redirect('/auth/succeded/'+utils.generateToken(res.req.user._json));
     }
@@ -46,13 +45,13 @@ app.get('/auth/login/facebook/return',
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/', (req, res) => {
-    console.log("/: "+req.session);
+    console.log("/: "+JSON.parse(req.session.passport));
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/login', (req, res) => {
-    console.log("login: "+req.session);
+    console.log("login: "+JSON.parse(req.session));
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });// Always return the main index.html, so react-router render the route in the client
 
@@ -62,7 +61,7 @@ app.get('/about', (req, res) => {
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {
-    console.log("*: "+req.session);
+    console.log("*: "+JSON.parse(req.session.passport));
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
