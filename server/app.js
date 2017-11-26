@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const {Pool} = require('pg');
 const passport = require('passport');
+const session = require('express-session');
 const app = express();
 const utils = require('./utils.js');
 
@@ -10,6 +11,10 @@ require('dotenv').config();
 
 require('./passport_settings.js')(passport);
 
+app.use(session({
+    secret: process.env.JWT_SECRET,
+    cookie: {maxAge: 60*60*24}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
