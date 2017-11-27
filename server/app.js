@@ -57,7 +57,7 @@ app.get('/login', (req, res) => {
     console.log(util.inspect(req.user, false, null));
     console.log("LOGIN, REQ.SESSION.PASSPORT.USER: ");
     console.log(util.inspect(req.session, false, null));
-    if (req.user != null) {
+    if (req.session.passport.user != null) {
         res.redirect('/');
     } else {
         res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
