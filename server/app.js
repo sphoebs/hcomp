@@ -30,27 +30,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-usersTable.sync().then(()=>{
-    console.log(usersTable.create({
-        FACEBOOK_ID: "provaFB",
-        GOOGLE_ID: "provaG",
-        EMAIL: "ciao@ciao.it",
-    }));
-    usersTable.findAll().then((users)=>{
-        console.log(users);
-    })
-})
-
-// const pool = new Pool({
-//     connectionString:process.env.DATABASE_URL,
-//     ssl : {
-//         rejectUnauthorized : false,
-//     }
-// });
-
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
-
 
 app.get('/auth/login/facebook',
     passport.authenticate('facebook', { authType: 'rerequest' }));

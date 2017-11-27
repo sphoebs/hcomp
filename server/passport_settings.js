@@ -16,7 +16,14 @@ module.exports = (passport) => {
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
     (accessToken, refreshToken, profile, cb) => {
-        return cb(null, profile);
+        usersTable
+        .findOrCreate({where: {facebookID: profile.user_id}})
+        .spread((user, created) => {
+            console.log(user.get({
+                plain: true
+            }));
+            console.log(created);
+            return cb(null, profile);
         }
     ));
 };
