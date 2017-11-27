@@ -40,8 +40,8 @@ app.get('/auth/login/facebook',
 app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     (req, res) => {
-        console.log(res.req.user._json);
-        res.redirect('/auth/succeded/'+utils.generateToken(res.req.user._json));
+        //console.log(req.user);
+        res.redirect('/auth/succeded/'+utils.generateToken(req.user));
     }
 );
 
