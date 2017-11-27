@@ -5,11 +5,14 @@ module.exports = (passport, sequelize) => {
     const usersTable = sequelize.import('./models/users.js');
 
     passport.serializeUser(function(user, cb) {
+        console.log("SERIALIZING");
         cb(null, {id: user.ID, name: user.FACEBOOK_ID});
     });
 
     passport.deserializeUser(function(user, cb) {
-        usersTable.findById(user.ID).then(user => {
+        console.log("DESERIALIZING");
+        usersTable.findById(user.id).then(user => {
+            console.log("DESERIALIZED");
             cb(null, user);
         })
     });
