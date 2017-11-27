@@ -5,7 +5,7 @@ module.exports = (passport, sequelize) => {
     const usersTable = sequelize.import('./models/users.js');
 
     passport.serializeUser(function(user, cb) {
-        cb(null, user.id);
+        cb(null, user.ID);
     });
 
     passport.deserializeUser(function(id, cb) {
@@ -31,7 +31,7 @@ module.exports = (passport, sequelize) => {
             //     plain: true
             // }));
             // console.log(created);
-            return cb(null, profile);
+            return cb(null, user);
         })
     }
 ));
