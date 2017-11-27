@@ -1,21 +1,25 @@
 // server/app.js
+// libraries
 const express = require('express');
 const path = require('path');
 const Sequelize = require ('sequelize');
 const passport = require('passport');
 const session = require('express-session');
+
+//configuration
 const app = express();
 const utils = require('./utils.js');
 require('dotenv').config();
 require('./passport_settings.js')(passport);
-const sequel = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
-sequel.authenticate().then(() => {
+sequelize.authenticate().then(() => {
     console.log('Connection to DB has been established successfully.');
 })
 .catch(err => {
     console.error('Unable to connect to the database:', err);
 });
+const DBmodels = require('./db_models.js')(sequelize);
 
 app.use(session({
     secret: process.env.JWT_SECRET,
@@ -26,6 +30,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+DBmodels.Users.sync().then(()=>{
+    console.log(DBmodels.Users.create({
+        FACEBOOK_ID: "provaFB",
+        GOOGLE_ID: "provaG",
+        EMAIL: "ciao@ciao.it",
+    }));
+    DBmodels.Users.findAll().then((users)=>{
+        console.log(users);
+    })
+})
 
 // const pool = new Pool({
 //     connectionString:process.env.DATABASE_URL,
