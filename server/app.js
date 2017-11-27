@@ -57,10 +57,12 @@ app.get('/login', (req, res) => {
     console.log(util.inspect(req.user, false, null));
     console.log("LOGIN, REQ.SESSION.PASSPORT.USER: ");
     console.log(util.inspect(req.session, false, null));
-    if (req.session.passport.user != null) {
-        res.redirect('/');
-    } else {
-        res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+    if (req.session.passport){
+        if (req.session.passport.user != null) {
+            res.redirect('/');
+        } else {
+            res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+        }
     }
 });// Always return the main index.html, so react-router render the route in the client
 
