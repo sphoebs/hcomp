@@ -17,9 +17,11 @@ module.exports = (passport, sequelize) => {
     },
     (accessToken, refreshToken, profile, cb) => {
         const usersTable = sequelize.import('./models/users.js');
+        console.log("PROFILE: "+profile);
         usersTable
         .findOrCreate({where: {FACEBOOK_ID: profile.user_id}})
         .spread((user, created) => {
+            console.log("INTO SPREAD");
             console.log(user.get({
                 plain: true
             }));
