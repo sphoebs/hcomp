@@ -8,9 +8,9 @@ const app = express();
 const utils = require('./utils.js');
 require('dotenv').config();
 require('./passport_settings.js')(passport);
-const sequelize = new Sequelize(''+process.env.DATABASE_URL+'');
+const sequel = new Sequelize(process.env.DATABASE_URL);
 
-sequelize.authenticate().then(() => {
+sequel.authenticate().then(() => {
     console.log('Connection to DB has been established successfully.');
 })
 .catch(err => {
@@ -24,13 +24,6 @@ app.use(session({
     cookie: {maxAge: 60*60*24}
 }));
 app.use(passport.initialize());
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
 app.use(passport.session());
 
 
