@@ -18,7 +18,7 @@ module.exports = (passport, sequelize) => {
     (accessToken, refreshToken, profile, cb) => {
         const usersTable = sequelize.import('./models/users.js');
         usersTable
-        .findOrCreate({where: {facebookID: profile.user_id}})
+        .findOrCreate({where: {FACEBOOK_ID: profile.user_id}})
         .spread((user, created) => {
             console.log(user.get({
                 plain: true
