@@ -5,6 +5,7 @@ const path = require('path');
 const Sequelize = require ('sequelize');
 const passport = require('passport');
 const session = require('express-session');
+const util = require('util');
 
 //configuration
 const app = express();
@@ -52,7 +53,11 @@ app.get('/', (req, res) => {
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/login', (req, res) => {
-    if (req.user != null) {
+    console.log("LOGIN, REQ.USER: ");
+    console.log(util.inspect(req.user, false, null));
+    console.log("LOGIN, REQ.SESSION.PASSPORT.USER: ");
+    console.log(util.inspect(req.session.passport.user, false, null));
+    if (req.session.passport.user != null) {
         res.redirect('/');
     } else {
         res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));

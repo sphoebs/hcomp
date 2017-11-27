@@ -1,5 +1,4 @@
 const Strategy = require('passport-facebook').Strategy;
-const util = require('util')
 
 module.exports = (passport, sequelize) => {
 
@@ -22,16 +21,16 @@ module.exports = (passport, sequelize) => {
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
     (accessToken, refreshToken, profile, cb) => {
-        console.log("PROFILE: ")
-        console.log(util.inspect(profile, false, null));
+        //console.log("PROFILE: ")
+        //console.log(util.inspect(profile, false, null));
         usersTable
         .findOrCreate({where: {FACEBOOK_ID: profile.id}})
         .spread((user, created) => {
             console.log("INTO SPREAD");
-            console.log(user.get({
-                plain: true
-            }));
-            console.log(created);
+            // console.log(user.get({
+            //     plain: true
+            // }));
+            // console.log(created);
             return cb(null, profile);
         })
     }
