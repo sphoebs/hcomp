@@ -19,7 +19,7 @@ sequelize.authenticate().then(() => {
 .catch(err => {
     console.error('Unable to connect to the database:', err);
 });
-const DBmodels = require('./db_models.js')(sequelize);
+const usersTable = sequelize.import('./models/users.js')
 
 app.use(session({
     secret: process.env.JWT_SECRET,
@@ -30,13 +30,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-DBmodels.Users.sync().then(()=>{
-    console.log(DBmodels.Users.create({
+usersTable.sync().then(()=>{
+    console.log(usersTable.create({
         FACEBOOK_ID: "provaFB",
         GOOGLE_ID: "provaG",
         EMAIL: "ciao@ciao.it",
     }));
-    DBmodels.Users.findAll().then((users)=>{
+    usersTable.findAll().then((users)=>{
         console.log(users);
     })
 })

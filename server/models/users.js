@@ -2,7 +2,7 @@ const uuid = require('node-uuid');
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize)=>{
-    const Users = sequelize.define('users', {
+    return sequelize.define('users', {
         ID: {
             type: Sequelize.STRING,
             defaultValue: (()=>{return uuid.v4();}),
@@ -24,5 +24,5 @@ module.exports = (sequelize)=>{
         Additional_Data: {
             type: Sequelize.JSON
         }
-    })
+    });
 };
