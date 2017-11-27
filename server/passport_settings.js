@@ -1,4 +1,5 @@
 const Strategy = require('passport-facebook').Strategy;
+const UserTable = sequelize.import('./models/users.js');
 
 module.exports = (passport) => {
     passport.serializeUser(function(user, cb) {

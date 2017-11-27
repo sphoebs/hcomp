@@ -19,7 +19,7 @@ sequelize.authenticate().then(() => {
 .catch(err => {
     console.error('Unable to connect to the database:', err);
 });
-const usersTable = sequelize.import('./models/users.js')
+const usersTable = sequelize.import('./models/users.js');
 
 app.use(session({
     secret: process.env.JWT_SECRET,
