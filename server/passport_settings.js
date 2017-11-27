@@ -1,4 +1,5 @@
 const Strategy = require('passport-facebook').Strategy;
+const util = require('util')
 
 module.exports = (passport, sequelize) => {
     passport.serializeUser(function(user, cb) {
@@ -17,7 +18,8 @@ module.exports = (passport, sequelize) => {
     },
     (accessToken, refreshToken, profile, cb) => {
         const usersTable = sequelize.import('./models/users.js');
-        console.log("PROFILE: "+profile);
+        console.log("PROFILE: ")
+        console.log(util.inspect(profile, false, null));
         usersTable
         .findOrCreate({where: {FACEBOOK_ID: profile.user_id}})
         .spread((user, created) => {
