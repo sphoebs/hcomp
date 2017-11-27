@@ -20,11 +20,12 @@
     "passport-facebook": "^2.1.1",
     "path": "^0.12.7",
     "pg": "^7.4.0",
+    "pg-hstore": "^2.3.2",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
-    "react-facebook-login": "^3.7.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.0.17",
+    "sequelize": "^4.23.1",
     "superagent": "^3.8.1"
   },
   "devDependencies": {},

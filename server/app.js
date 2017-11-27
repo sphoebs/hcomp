@@ -1,7 +1,8 @@
 // server/app.js
 const express = require('express');
 const path = require('path');
-const {Pool} = require('pg');
+// const {Pool} = require('pg');
+const Sequelize = require ('sequelize');
 const passport = require('passport');
 const session = require('express-session');
 const app = express();
@@ -21,12 +22,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-const pool = new Pool({
-    connectionString:process.env.DATABASE_URL,
-    ssl : {
-        rejectUnauthorized : false,
-    }
-});
+// const pool = new Pool({
+//     connectionString:process.env.DATABASE_URL,
+//     ssl : {
+//         rejectUnauthorized : false,
+//     }
+// });
 
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
