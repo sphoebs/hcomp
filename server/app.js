@@ -52,8 +52,11 @@ app.get('/', (req, res) => {
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/login', (req, res) => {
-    console.log("login: "+req.session);
-    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+    if (req.user != null) {
+        res.redirect('/'));
+    } else {
+        res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+    }
 });// Always return the main index.html, so react-router render the route in the client
 
 app.get('/about', (req, res) => {

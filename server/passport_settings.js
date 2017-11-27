@@ -2,12 +2,17 @@ const Strategy = require('passport-facebook').Strategy;
 const util = require('util')
 
 module.exports = (passport, sequelize) => {
+
+    const usersTable = sequelize.import('./models/users.js');
+
     passport.serializeUser(function(user, cb) {
-        cb(null, user);
+        cb(null, user.id);
     });
 
-    passport.deserializeUser(function(obj, cb) {
-        cb(null, obj);
+    passport.deserializeUser(function(id, cb) {
+        usersTable.findById(id).then(user => {
+            cb(null, user);
+        })
     });
 
     passport.use(new Strategy({
@@ -17,7 +22,6 @@ module.exports = (passport, sequelize) => {
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
     (accessToken, refreshToken, profile, cb) => {
-        const usersTable = sequelize.import('./models/users.js');
         console.log("PROFILE: ")
         console.log(util.inspect(profile, false, null));
         usersTable
