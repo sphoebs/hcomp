@@ -10,8 +10,8 @@ const session = require('express-session');
 const app = express();
 const utils = require('./utils.js');
 require('dotenv').config();
-require('./passport_settings.js')(passport);
 const sequelize = new Sequelize(process.env.DATABASE_URL);
+require('./passport_settings.js')(passport, sequelize);
 
 sequelize.authenticate().then(() => {
     console.log('Connection to DB has been established successfully.');
