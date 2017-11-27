@@ -5,14 +5,11 @@ module.exports = (passport, sequelize) => {
     const usersTable = sequelize.import('./models/users.js');
 
     passport.serializeUser(function(user, cb) {
-        console.log("SERIALIZING");
         cb(null, {id: user.ID, name: user.FACEBOOK_ID});
     });
 
     passport.deserializeUser(function(user, cb) {
-        console.log("DESERIALIZING");
-        usersTable.findById(user.id).then(user => {
-            console.log("DESERIALIZED");
+        usersTable.findById(user.id).then(user =>
             cb(null, user);
         })
     });
@@ -29,7 +26,6 @@ module.exports = (passport, sequelize) => {
         usersTable
         .findOrCreate({where: {FACEBOOK_ID: profile.id}})
         .spread((user, created) => {
-            console.log("INTO SPREAD");
             // console.log(user.get({
             //     plain: true
             // }));
