@@ -11,7 +11,7 @@ module.exports = (passport, sequelize) => {
         clientID: process.env.GOOGLE_APP_ID,
         clientSecret: process.env.GOOGLE_APP_SECRET,
         callbackURL: "https://hsoc.herokuapp.com/auth/login/google/return",
-        profileFields: ['profile'],
+        profileFields: ['profile','email'],
         enableProof: true
     },
     (accessToken, refreshToken, profile, cb) => {
