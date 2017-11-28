@@ -9,7 +9,8 @@ module.exports = (passport, sequelize) => {
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
         callbackURL: "https://hsoc.herokuapp.com/auth/login/facebook/return",
-        profileFields: ['id', 'displayName', 'photos', 'email']
+        profileFields: ['id', 'displayName', 'photos', 'email'],
+        enableProof: true
     },
     (accessToken, refreshToken, profile, cb) => {
         console.log("PROFILE: ")

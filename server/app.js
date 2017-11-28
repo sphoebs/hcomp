@@ -45,7 +45,7 @@ passport.deserializeUser(function(user, cb) {
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 app.get('/auth/login/facebook',
-    passport.authenticate('facebook', { authType: 'rerequest' }));
+    passport.authenticate('facebook', { authType: 'rerequest', scope: ['id', 'displayName', 'photos', 'email'] }));
 
 app.get('/auth/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
