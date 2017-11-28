@@ -54,6 +54,16 @@ app.get('/auth/login/facebook/return',
         res.redirect('/auth/succeded/'+utils.generateToken(req.user));
     }
 );
+app.get('/auth/login/google',
+    passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/login/google/return',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    (req, res) => {
+        //console.log(req.user);
+        res.redirect('/auth/succeded/'+utils.generateToken(req.user));
+    }
+  });
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/', (req, res) => {
