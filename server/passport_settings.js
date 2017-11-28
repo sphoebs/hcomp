@@ -16,7 +16,7 @@ module.exports = (passport, sequelize) => {
         console.log("PROFILE: ")
         console.log(util.inspect(profile, false, null));
         usersTable
-        .findOrCreate({where: {FACEBOOK_ID: profile.id, EMAIL: profile.email}})
+        .findOrCreate({where: {FACEBOOK_ID: profile.id, EMAIL: profile._json.email}})
         .spread((user, created) => {
             // console.log(user.get({
             //     plain: true
