@@ -15,7 +15,7 @@ module.exports = (passport, sequelize) => {
         enableProof: true
     },
     (accessToken, refreshToken, profile, cb) => {
-        console.log("PROFILE: ")
+        console.log("PROFILE: ");
         console.log(util.inspect(profile, false, null));
         usersTable
         .findOrCreate({where: {GOOGLE_ID: profile.id, EMAIL: profile.email}})
@@ -25,9 +25,8 @@ module.exports = (passport, sequelize) => {
             // }));
             // console.log(created);
             return cb(null, user);
-        })
-        }
-        }
+        });
+    }
     ));
     passport.use(new FBStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
@@ -49,5 +48,5 @@ module.exports = (passport, sequelize) => {
             return cb(null, user);
         })
     }
-));
+    ));
 };
