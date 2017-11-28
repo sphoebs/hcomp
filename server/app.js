@@ -63,7 +63,7 @@ app.get('/', (req, res) => {
 // Always return the main index.html, so react-router render the route in the client
 app.get('/login', (req, res) => {
     console.log("LOGIN, REQ.USER: ");
-    console.log(util.inspect(req.user, false, null));
+    //console.log(util.inspect(req.user, false, null));
     if (req.user){
         res.redirect('/');
     } else {
