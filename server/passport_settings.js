@@ -9,9 +9,9 @@ module.exports = (passport, sequelize) => {
     });
 
     passport.deserializeUser(function(user, cb) {
-        usersTable.findById(user.id).then(user =>
+        usersTable.findById(user.id).then((user) =>{
             cb(null, user);
-        )
+        });
     });
 
     passport.use(new Strategy({
