@@ -18,7 +18,7 @@ module.exports = (passport, sequelize) => {
         console.log("PROFILE: ");
         console.log(util.inspect(profile, false, null));
         usersTable
-        .findOrCreate({where: {GOOGLE_ID: profile.id, EMAIL: profile.email}})
+        .findOrCreate({where: {GOOGLE_ID: profile.id, EMAIL: profile.emails[0].value}})
         .spread((user, created) => {
             // console.log(user.get({
             //     plain: true
