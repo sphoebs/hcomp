@@ -1,18 +1,9 @@
 const Strategy = require('passport-facebook').Strategy;
+const util = require('util');
 
 module.exports = (passport, sequelize) => {
 
     const usersTable = sequelize.import('./models/users.js');
-
-    passport.serializeUser(function(user, cb) {
-        cb(null, {id: user.ID, name: user.FACEBOOK_ID});
-    });
-
-    passport.deserializeUser(function(user, cb) {
-        usersTable.findById(user.id).then((user) =>{
-            cb(null, user);
-        });
-    });
 
     passport.use(new Strategy({
         clientID: process.env.FACEBOOK_APP_ID,
@@ -21,8 +12,8 @@ module.exports = (passport, sequelize) => {
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
     (accessToken, refreshToken, profile, cb) => {
-        //console.log("PROFILE: ")
-        //console.log(util.inspect(profile, false, null));
+        console.log("PROFILE: ")
+        console.log(util.inspect(profile, false, null));
         usersTable
         .findOrCreate({where: {FACEBOOK_ID: profile.id, EMAIL: profile.email}})
         .spread((user, created) => {

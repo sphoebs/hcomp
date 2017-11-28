@@ -31,6 +31,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.serializeUser(function(user, cb) {
+    cb(null, {id: user.ID, name: user.EMAIL});
+});
+
+passport.deserializeUser(function(user, cb) {
+    usersTable.findById(user.id).then((user) =>{
+        cb(null, user);
+    });
+});
+
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
