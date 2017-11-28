@@ -63,7 +63,7 @@ app.get('/auth/login/google/return',
         //console.log(req.user);
         res.redirect('/auth/succeded/'+utils.generateToken(req.user));
     }
-  });
+);
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('/', (req, res) => {
