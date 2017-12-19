@@ -210,25 +210,19 @@ paths:
              $ref: '#/definitions/assignment'
 
   /guestmotivational:
-    get:
-     tags:
-     - Assignment
-    description: Returns the most assignment done by consumer users.
-    produces:
-       - application/json
-    parameters:
-       - name: id
-         description: User id 
-         in: path         
-         required: true
-         type: integer            
-    responses:
+      get:
+        tags:
+          - Assignment
+        description: Returns the most assignment done by consumer users.
+        produces:
+          - application/json
+        responses:
           200:
             description: An array of Assignment and Users
             schema:
               $ref: '#/definitions/assignment'
 
-  /writermotivational:
+  /writermotivational/{id}:
       get:
         tags:
           - Assignment
@@ -247,7 +241,7 @@ paths:
             schema:
               $ref: '#/definitions/assignment' 
 
-  /consumermotivational:
+  /consumermotivational/{id}:
       get:
         tags:
           - Assignment
@@ -291,7 +285,13 @@ paths:
       get:
         tags:
           - Tasks
-        description: Returns all tasks by given category id.                     
+        description: Returns all tasks by given category id.  
+        parameters:
+           - name: id
+             description: User id 
+             in: path         
+             required: true
+             type: integer        
         produces:
           - application/json                
         responses:
@@ -491,14 +491,14 @@ definitions:
        task_id:
          type: integer
        time_started:
-         type: date
+         type: string
        time_completed:
-           type: date
+           type: string
        is_in_progress:
          type: boolean
          default: false
        additional_data:
-         type: json 
+         type: object 
   tasks:
        properties:
          name:
@@ -531,7 +531,7 @@ definitions:
          type: boolean
          default: false
        additional_data:
-         type: json
+         type: object
        writer:
          type: boolean
          default: false                  
