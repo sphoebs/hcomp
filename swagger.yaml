@@ -213,22 +213,22 @@ paths:
     get:
      tags:
      - Assignment
-      description: Returns the most assignment done by consumer users.
-      produces:
-         - application/json
-      parameters:
-        - name: id
-          description: User id 
-          in: path         
-          required: true
-          type: integer            
-      responses:
+    description: Returns the most assignment done by consumer users.
+    produces:
+       - application/json
+    parameters:
+       - name: id
+         description: User id 
+         in: path         
+         required: true
+         type: integer            
+    responses:
           200:
             description: An array of Assignment and Users
             schema:
               $ref: '#/definitions/assignment'
 
-   /writermotivational:
+  /writermotivational:
       get:
         tags:
           - Assignment
@@ -247,7 +247,7 @@ paths:
             schema:
               $ref: '#/definitions/assignment' 
 
-    /consumermotivational:
+  /consumermotivational:
       get:
         tags:
           - Assignment
@@ -266,7 +266,7 @@ paths:
             schema:
               $ref: '#/definitions/assignment'
 
-   /recentTasks/{id}:
+  /recentTasks/{id}:
      get:
        tags:
          - Tasks
@@ -287,7 +287,7 @@ paths:
            schema:
              $ref: '#/definitions/tasks'
 
-   /tasksbycategory/{id}:
+  /tasksbycategory/{id}:
       get:
         tags:
           - Tasks
@@ -300,7 +300,7 @@ paths:
             schema:
               $ref: '#/definitions/tasks'
 
-   /categories:
+  /categories:
       get:
         tags:
           - Tasks
@@ -313,7 +313,7 @@ paths:
             schema:
               $ref: '#/definitions/tasks'
 
-   /writerhistory/{id}:
+  /writerhistory/{id}:
      get:
        tags:
         - Tasks
@@ -332,7 +332,7 @@ paths:
            schema:
              $ref: '#/definitions/tasks'
 
-   /writerRecentTasks/{id}:
+  /writerRecentTasks/{id}:
      get:
        tags:
          - Tasks
@@ -351,7 +351,7 @@ paths:
            schema:
              $ref: '#/definitions/tasks'
 
-    /auth/loginAsWriter/facebook:
+  /auth/loginAsWriter/facebook:
         get:
           tags:
             - Users
@@ -364,7 +364,7 @@ paths:
               schema:
                 $ref: '#/definitions/users'
 
-    /auth/loginAsWriter/google:
+  /auth/loginAsWriter/google:
        get:
          tags:
            - Users
@@ -377,7 +377,7 @@ paths:
              schema:
                $ref: '#/definitions/users'
 
-    /auth/loginAsConsumer/facebook:
+  /auth/loginAsConsumer/facebook:
         get:
           tags:
             - Users
@@ -390,7 +390,7 @@ paths:
               schema:
                 $ref: '#/definitions/users'
 
-    /auth/loginAsConsumer/google:
+  /auth/loginAsConsumer/google:
         get:
           tags:
             - Users
@@ -403,7 +403,7 @@ paths:
               schema:
                 $ref: '#/definitions/users'
 
-    /auth/logout/facebook:
+  /auth/logout/facebook:
        delete:
          tags:
            - Users
@@ -416,7 +416,7 @@ paths:
              schema:
                $ref: '#/definitions/users'
                
-    /auth/logout/google:
+  /auth/logout/google:
       delete:
          tags:
            - Users
