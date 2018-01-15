@@ -41,8 +41,6 @@ passport.deserializeUser(function(user, cb) {
     });
 });
 
-// Serve static assets
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 app.get('/auth/login/facebook',
     passport.authenticate('facebook', { scope: ['email'] }));
@@ -60,37 +58,10 @@ app.get('/auth/login/google',
 app.get('/auth/login/google/return',
     passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => {
-        //console.log(req.user);
+        //TODO: fix redirect with react running on different server
         res.redirect('/auth/succeded/'+utils.generateToken(req.user));
     }
 );
-
-// Always return the main index.html, so react-router render the route in the client
-app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
-
-// Always return the main index.html, so react-router render the route in the client
-app.get('/login', (req, res) => {
-    console.log("LOGIN, REQ.USER: ");
-    //console.log(util.inspect(req.user, false, null));
-    if (req.user){
-        res.redirect('/');
-    } else {
-        res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-    }
-
-});// Always return the main index.html, so react-router render the route in the client
-
-app.get('/about', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
-
-// Always return the main index.html, so react-router render the route in the client
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
-
 
 // pool.query('SELECT * FROM public.user', (err, res) => {
 //     pool.end();
