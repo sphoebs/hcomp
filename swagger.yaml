@@ -189,6 +189,247 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+
+  /consumerhistory/{id}:
+    get:
+      tags:
+      - Assignment
+      description: Returns all assignment done by a given user id.                    
+      produces:
+       - application/json
+      parameters:
+        - name: id
+          description: User id 
+          in: path         
+          required: true
+          type: integer                
+      responses:
+         200:
+          description: An array of Assignments and Users
+          schema:
+             $ref: '#/definitions/assignment'
+
+  /guestmotivational:
+      get:
+        tags:
+          - Assignment
+        description: Returns the most assignment done by consumer users.
+        produces:
+          - application/json
+        responses:
+          200:
+            description: An array of Assignment and Users
+            schema:
+              $ref: '#/definitions/assignment'
+
+  /writermotivational/{id}:
+      get:
+        tags:
+          - Assignment
+        description: Returns the most assignment done by consumer users regarding your tasks.
+        produces:
+          - application/json
+        parameters:
+          - name: id
+            description: User id 
+            in: path         
+            required: true
+            type: integer            
+        responses:
+          200:
+            description: An array of Assignment and Users
+            schema:
+              $ref: '#/definitions/assignment' 
+
+  /consumermotivational/{id}:
+      get:
+        tags:
+          - Assignment
+        description: Returns the most assignment done by your friends.
+        produces:
+          - application/json
+        parameters:
+            - name: id
+              description: User id 
+              in: path         
+              required: true
+              type: integer            
+        responses:
+          200:
+            description: An array of Assignment and Users
+            schema:
+              $ref: '#/definitions/assignment'
+
+  /recentTasks/{id}:
+     get:
+       tags:
+         - Tasks
+       description: Returns the most recent tasks. 2 by default. Also check if there are any friends 
+                    who have made them. If so, users also returned. If id is null just return the most
+                    recent tasks
+       produces:
+         - application/json
+       parameters:
+           - name: id
+             description: User id 
+             in: path         
+             required: true
+             type: integer            
+       responses:
+         200:
+           description: An array of Tasks and An array of Users
+           schema:
+             $ref: '#/definitions/tasks'
+
+  /tasksbycategory/{id}:
+      get:
+        tags:
+          - Tasks
+        description: Returns all tasks by given category id.  
+        parameters:
+           - name: id
+             description: User id 
+             in: path         
+             required: true
+             type: integer        
+        produces:
+          - application/json                
+        responses:
+          200:
+            description: An array of Tasks
+            schema:
+              $ref: '#/definitions/tasks'
+
+  /categories:
+      get:
+        tags:
+          - Tasks
+        description: Returns all categories.                    
+        produces:
+          - application/json                
+        responses:
+          200:
+            description: An array of Categories
+            schema:
+              $ref: '#/definitions/tasks'
+
+  /writerhistory/{id}:
+     get:
+       tags:
+        - Tasks
+       description: Returns all tasks made by a given user id.                    
+       produces:
+         - application/json
+       parameters:
+           - name: id
+             description: User id 
+             in: path         
+             required: true
+             type: integer                
+       responses:
+         200:
+           description: An array of Tasks
+           schema:
+             $ref: '#/definitions/tasks'
+
+  /writerRecentTasks/{id}:
+     get:
+       tags:
+         - Tasks
+       description: Returns the most writer recent tasks. 2 by default.
+       produces:
+         - application/json
+       parameters:
+           - name: id
+             description: User id 
+             in: path         
+             required: true
+             type: integer            
+       responses:
+         200:
+           description: An array of Tasks
+           schema:
+             $ref: '#/definitions/tasks'
+
+  /auth/loginAsWriter/facebook:
+        get:
+          tags:
+            - Users
+          description: Login with Facebook
+          produces:
+            - application/json             
+          responses:
+            200:
+              description: return a Token with user informations and Edit user's writer as true
+              schema:
+                $ref: '#/definitions/users'
+
+  /auth/loginAsWriter/google:
+       get:
+         tags:
+           - Users
+         description: Login with Google
+         produces:
+           - application/json             
+         responses:
+           200:
+             description: return a Token with user informations and Edit user's writer as true
+             schema:
+               $ref: '#/definitions/users'
+
+  /auth/loginAsConsumer/facebook:
+        get:
+          tags:
+            - Users
+          description: Login with Facebook
+          produces:
+            - application/json             
+          responses:
+            200:
+              description: return a Token with user informations. If user's writer is true change in false
+              schema:
+                $ref: '#/definitions/users'
+
+  /auth/loginAsConsumer/google:
+        get:
+          tags:
+            - Users
+          description: Login with Google
+          produces:
+            - application/json             
+          responses:
+            200:
+              description: return a Token with user informations. If user's writer is true change in false
+              schema:
+                $ref: '#/definitions/users'
+
+  /auth/logout/facebook:
+       delete:
+         tags:
+           - Users
+         description: Logout from Facebook session
+         produces:
+           - application/json                
+         responses:
+           200:
+             description: Logout succeded
+             schema:
+               $ref: '#/definitions/users'
+               
+  /auth/logout/google:
+      delete:
+         tags:
+           - Users
+         description: Logout from Google session
+         produces:
+           - application/json                
+         responses:
+           200:
+             description: Logout succeded
+             schema:
+               $ref: '#/definitions/users' 
+
+
 definitions:
   Task:
     allOf:
@@ -241,3 +482,57 @@ definitions:
         format: int32
       message:
         type: string
+  assignment:
+     properties:
+       id:
+         type: integer
+       user_id:
+         type: string
+       task_id:
+         type: integer
+       time_started:
+         type: string
+       time_completed:
+           type: string
+       is_in_progress:
+         type: boolean
+         default: false
+       additional_data:
+         type: object 
+  tasks:
+       properties:
+         name:
+           type: string
+         id:
+           type: integer
+         description:
+           type: string
+         category_id:
+           type: integer
+         owner:
+             type: integer
+         is_deleted:
+           type: boolean
+           default: false
+         is_active:
+           type: boolean
+           default: false 
+  users:
+     properties:
+       id:
+         type: string
+       Facebook_ID:
+         type: string
+       Google_ID:
+         type: string      
+       email:
+           type: string
+       is_deleted:
+         type: boolean
+         default: false
+       additional_data:
+         type: object
+       writer:
+         type: boolean
+         default: false                  
+
