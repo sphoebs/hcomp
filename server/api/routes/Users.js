@@ -7,21 +7,24 @@ module.exports = app => {
   /**
    * @swagger
    * definitions:
-   *   clients:
-   *     properties:
-   *       name:
-   *         type: string
-   *       id:
-   *         type: integer
-   *       debit:
-   *         type: number
-   *       dates:
-   *         type: array
-   *         items:
-   *           type: string
-   *       archived:
-   *         type: boolean
-   *         default: false
+   *   users:
+   *      properties:
+   *         id:
+   *            type: string
+   *         Facebook_ID:
+   *            type: string
+   *         Google_ID:
+   *            type: string      
+   *         email:
+   *            type: string
+   *         is_deleted:
+   *            type: boolean
+   *            default: false
+   *         additional_data:
+   *            type: object
+   *         writer:
+   *            type: boolean
+   *            default: false
    */
 
   app.get("/auth/login/facebook", (req, res) => {
