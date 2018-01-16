@@ -7,8 +7,6 @@ const util = require('util');
 const http = require('http');
 const bodyParser = require('body-parser');
 const utils = require('./utils.js');
-require('dotenv').config();
-
 
 //APP PORT AND SERVER CREATION
 const app = express();
@@ -34,12 +32,12 @@ const options = {
 
 
 
-/*app.use(session({
-    secret: process.env.JWT_SECRET,
+app.use(session({
+    secret: 'lol',
     resave: false,
     saveUninitialized: true,
     cookie: {maxAge: 60*60*24}
-}));*/
+}));
 
 
 //SERVER CREATION
@@ -65,6 +63,7 @@ app.get('/api/swagger', (req, res) => {
 
 // Adding API routes
 
+require('./api/routes/SocialLogin')(app);
 require('./api/routes/Assignments')(app);
 require('./api/routes/Categories')(app);
 require('./api/routes/Tasks')(app);
