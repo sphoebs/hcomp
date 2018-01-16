@@ -1,14 +1,37 @@
-// server/app.js
 // libraries
 const express = require('express');
 const path = require('path');
 const Sequelize = require ('sequelize');
 const passport = require('passport');
 const session = require('express-session');
+const swaggerJSDoc = require('swagger-jsdoc');
 const util = require('util');
+const http = require('http');
+const bodyParser = require('body-parser');
 
-//configuration
+//APP PORT AND SERVER CREATION
 const app = express();
+const port = parseInt(process.env.PORT, 10) || 8000;
+app.set('port', port);
+
+
+// Swagger options: metadata and the path were the routes are defined
+const options = {
+    swaggerDefinition: {
+      info: {
+        title: 'Node Swagger API',
+        version: '1.0.0',
+        description: 'Add Swagger documentation to the hsc API'
+      },
+      host: 'localhost:' + port,
+  
+  
+      basePath: '/'
+    },
+    apis: ['api/v1.0/routes/*.js']
+  };
+  
+
 const utils = require('./utils.js');
 require('dotenv').config();
 const sequelize = new Sequelize(process.env.DATABASE_URL);
@@ -63,10 +86,23 @@ app.get('/auth/login/google/return',
     }
 );
 
-// pool.query('SELECT * FROM public.user', (err, res) => {
-//     pool.end();
-//     if(err) return console.error("Error: "+err);
-//     //Result access through res.rows[0].ID
-// });
+//SERVER CREATION
+const server = http.createServer(app);
+server.listen(port, () => {
+  console.log("Running on port " + port);
+});
+
+const swagSpec = swaggerJSDoc(options);
+
+app.use(bodyParser.json());
+
+// Serves the whole swagger directory as static on the route /swagger
+app.use('/swagger', express.static(path.join(__dirname + '/swagger')));
+
+// Swagger JSON route
+app.get('/api/swagger', (req, res) => {
+  res.setHeader('Content-type', 'application/json');
+  res.send(swagSpec);
+});
 
 module.exports = app;
