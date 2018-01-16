@@ -1,8 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import '../node_modules/semantic-ui-css/semantic.min.css';
+import Homepage from './components/Homepage/Homepage.js';
+import NotFound from './components/NotFound/NotFound.js';
+
+
+ReactDOM.render(
+    <BrowserRouter>
+        <Switch>
+            <Route exact path='/' component={Homepage} />
+            <Route path='*' component={NotFound} />
+        </Switch>
+    </BrowserRouter>
+    , document.getElementById('root'));
