@@ -37,10 +37,42 @@ fs
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// Foreing Key bindings
+// FOREIGN KEY SETTING FOR USER
+db.users.hasMany(db.tasks, {
+  foreignKey: "id_user",
+  sourceKey: "id"
+});
+db.users.hasMany(db.assignments, {
+  foreignKey: "id_user",
+  sourceKey: 'id'
+});
+db.tasks.belongsTo(db.users, {
+  foreignKey: "id_user",
+  targetKey: "id"
+});
+db.assignments.belongsTo(db.users, {
+  foreignKey: "id_user",
+  targetKey: "id"
+});
+
+//FOREIGN KEY FOR CATEGORIES
+db.categories.hasMany(db.tasks, {
+  foreignKey: "id_category",
+  sourceKey: "id"
+});
+db.tasks.belongsTo(db.categories, {
+  foreignKey: "id_category",
+  targetKey: "id"
+});
+//FOREIGN KEY FOR TASKS 
+db.tasks.hasMany(db.assignments, {
+  foreignKey: "id_task",
+  sourceKey: "id"
+});
+db.assignments.belongsTo(db.tasks, {
+  foreignKey: "id_task",
+  targetKey: "id"
+});
 
 
-//PASSPORT SETTINGS
-
-
-module.exports = {db,sequelize};
+module.exports = db;

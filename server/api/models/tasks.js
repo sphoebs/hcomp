@@ -7,8 +7,8 @@ module.exports = (sequelize,DataTypes) =>
     image: DataTypes.TEXT,
     question: DataTypes.TEXT,
     answer: DataTypes.TEXT,  
-    category_id: DataTypes.INTEGER,
-    owner: DataTypes.INTEGER,
+    id_category: DataTypes.INTEGER,
+    id_user: DataTypes.INTEGER,
     is_deleted: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN
   });
