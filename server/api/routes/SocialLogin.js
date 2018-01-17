@@ -57,12 +57,12 @@ module.exports = app => {
     app.get('/auth/login/facebook',
         passport.authenticate('facebook', { scope: ['email'] }));
     
-    app.get('/auth/facebook/callback', passport.authenticate('facebook'),
-        (req, res) => {
-            console.log(req.user);
-            res.send('ok');
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', {session:false}),
+        (req,res) => {
+            res.redirect('http://localhost:3000/auth/complete/'+'hei');
         }
     );
+   
     app.get('/auth/login/google',
         passport.authenticate('google', { scope: ['email'] }));
     
