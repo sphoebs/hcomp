@@ -18,7 +18,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 delete models.default;
 
-var sequelize = new _sequelize2.default('postgres', 'admin', 'socialbond-dev', {
+var sequelize = new _sequelize2.default('postgres', 'admin', 'hsc-dev', {
     host: '127.0.0.1',
     dialect: 'postgres'
 });
@@ -53,7 +53,7 @@ var _loop = function _loop(model) {
     var tableName = models[model].tableName;
     var indexes = ['\n'];
 
-    if (models[model].options.indexes.length) {
+    if (models[model].options.indexes && models[model].options.indexes.length) {
 
         models[model].options.indexes.forEach(function (obj) {
 
@@ -101,6 +101,4 @@ for (var model in models) {
 };
 
 
-//////////////////////////////////
-// How to use?
-// 1. Create `sequelize-schema-file-generator.js` in your app root
+
