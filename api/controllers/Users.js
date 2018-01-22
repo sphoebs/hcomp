@@ -45,7 +45,7 @@ class Users extends Crud {
       }})
       .then(user => {
         let tmp;
-        if (!data) {    
+        if (!user) {    
           console.log("Dopo il create errore");      
           tmp = res.status(400).send({ message: 'Something goes wrong!' });
         }
@@ -71,7 +71,7 @@ class Users extends Crud {
       })
       .then(user => {
         let tmp;
-        if (!data) {
+        if (!user) {
           tmp = res.status(400).send({ message: 'Something goes wrong!' });
         }
         else {          
