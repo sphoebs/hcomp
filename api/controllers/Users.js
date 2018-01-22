@@ -28,20 +28,19 @@ class Users extends Crud {
   }
 
   
-  findOrCreate(req, res) {
+
+  create(req, res) {
     let data = req.body.data;
     let type = req.body.type;
     let isWriter = req.body.isWriter;   
     if(type === facebookType){
       return this.model
-      .findOrCreate({
-        where: {
+      .create({
         facebook_id: data.id,
         email: data.email,
         img: data.picture.data.url,
         accessToken: data.accessToken,
-        writer: isWriter    
-        }    
+        writer: isWriter        
       })
       .then(user => {
         let tmp;
@@ -60,13 +59,12 @@ class Users extends Crud {
     }
     else {
       return this.model
-      .findOrCreate({ where: {
+      .create({
         google_id: data.profileObj.googleId,
         email: data.profileObj.email,
         img: data.profileObj.imageUrl, 
         accessToken: data.accessToken, 
-        writer: isWriter   
-      }   
+        writer: isWriter      
       })
       .then(user => {
         let tmp;
