@@ -17,6 +17,7 @@
   "dependencies": {
     "all": "^0.0.0",
     "body-parser": "^1.17.2",
+    "db-migrate": "^0.10.2",
     "express": "^4.15.4",
     "express-session": "^1.15.6",
     "json-web-token": "^2.1.3",
