@@ -24,16 +24,7 @@ module.exports = {
                 answer: {
                     type: Sequelize.TEXT
                 },
-                id_category: {
-                    type: Sequelize.INTEGER,
-                    allowNull: true,
-                    references: {
-                        model: 'categories',
-                        key: 'id'
-                    },
-                    onDelete: 'CASCADE',
-                    onUpdate: 'CASCADE'
-                },
+                
                 id_user: {
                     type: Sequelize.INTEGER,
                     allowNull: true,
