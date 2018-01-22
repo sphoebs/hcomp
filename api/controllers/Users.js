@@ -42,16 +42,18 @@ class Users extends Crud {
       })
       .then(user => {
         let tmp;
-        if (!data) {
+        if (!data) {    
+          console.log("Dopo il create errore");      
           tmp = res.status(400).send({ message: 'Something goes wrong!' });
         }
-        else {          
+        else {   
+          console.log("tuttop è andato a buon fine");           
           let user_id = user.id;
           tmp = res.status(200).send(JSON.stringify(user_id));
         }
         return tmp;
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(400).send("erroreee"));
     }
     else {
       return this.model

@@ -15,10 +15,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "admin",
-    "database": "humansocialcomputation",
-    "host": "127.0.0.1",
+    "username": "wjiugcpmwkkbsk",
+    "password": "666402e4b8e6f0d22f617aac1c221959b7d55a610b37e694bb0a1a9b33e06671",
+    "database": "dfdms41acr35sl",
+    "host": "ec2-46-137-174-67.eu-west-1.compute.amazonaws.com",
     "dialect": "postgres"
   }
 }
