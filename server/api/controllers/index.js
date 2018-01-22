@@ -6,7 +6,7 @@ const Users = require('./Users');
 const Tasks = require('./Tasks');
 const Assignments = require('./Assignments');
 const Categories = require('./Categories');
-const hello = require("../../app").hello;
+
 
 
 
@@ -18,5 +18,5 @@ module.exports = {
   tasks: new Tasks(),
   assignments: new Assignments(),
   categories: new Categories(),
-  hello: hello
+
 };
