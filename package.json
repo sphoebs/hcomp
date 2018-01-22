@@ -6,7 +6,7 @@
   "author": "MohamedDounnani",
   "scripts": {
     "test": "echo \"Error: no test script specified\" && exit 1",
-    "setupDev": "createdb -U postgres shc-dev; NODE_ENV=development sequelize -U postgres db:migrate",
+    "setupDev": "createdb -U postgres shc-dev; NODE_ENV=development sequelize -U postgres db-migrate",
     "setupProd": "createdb -U postgres humansocialcomputation; NODE_ENV=production sequelize -U postgres db:migrate",
     "resetDev": "dropdb -U postgres shc-dev",
     "resetProd": "dropdb -U postgres humansocialcomputation",
