@@ -10,7 +10,7 @@
     "setupProd": "createdb -U postgres humansocialcomputation; NODE_ENV=production sequelize -U postgres db:migrate",
     "resetDev": "dropdb -U postgres dfdms41acr35sl",
     "resetProd": "dropdb -U postgres humansocialcomputation",
-    "start": "NODE_ENV=production node app.js",
+    "start": "node app.js",
     "dev": "NODE_ENV=development nodemon app.js",
     "prettier": "prettier --write --single-quote \"api/**/*.js\""
   },
