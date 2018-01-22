@@ -56,7 +56,7 @@ class Users extends Crud {
         }
         return tmp;
       })
-      .catch(error => res.status(400).send("erroreee"));
+      .catch(error => res.status(400).send(error));
     }
     else {
       return this.model
