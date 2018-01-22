@@ -24,66 +24,171 @@ passport.deserializeUser((user, cb) => {
 class Users extends Crud {
   constructor() {
     super(users);
-    this.lastUpdated;    
+    this.lastUpdated;
   }
-
-  
-
   create(req, res) {
     let data = req.body.data;
     let type = req.body.type;
-    let isWriter = req.body.isWriter;   
-    if(type === facebookType){
+    let isWriter = req.body.isWriter;
+    if (type === facebookType) {
       return this.model
-      .findOrCreate({
-        where: {
-        facebook_id: data.id,
-        email: data.email,
-        img: data.picture.data.url,
-        accessToken: data.accessToken,
-        writer: isWriter        
-      }})
-      .then(user => {
-        let tmp;
-        if (!user) {    
-          console.log("Dopo il create errore");      
-          tmp = res.status(400).send({ message: 'Something goes wrong!' });
-        }
-        else {   
-          console.log("tuttop è andato a buon fine");           
-          let user_id = user.id;
-          tmp = res.status(200).send(JSON.stringify(user_id));
-        }
-        return tmp;
-      })
-      .catch(error => res.status(400).send(error));
+        .findOne({
+          where: {
+            facebook_id: data.id,
+            email: data.email,
+            img: data.picture.data.url,
+            accessToken: data.accessToken,
+            writer: isWriter
+          }
+        })
+        .then(user => {
+          let tmp;
+          if (!user) {
+            return this.model
+              .create({
+                facebook_id: data.id,
+                email: data.email,
+                img: data.picture.data.url,
+                accessToken: data.accessToken,
+                writer: isWriter
+
+              })
+              .then(user => {
+                let tmp;
+                if (!user) {
+                  tmp = res.status(400).send({ message: 'Something goes wrong!' });
+                }
+                else {
+                  let user_id = user.id;
+                  tmp = res.status(200).send(JSON.stringify(user_id));
+                }
+                return tmp;
+              })
+              .catch(error => res.status(400).send(error));
+          } else {
+            let user_id = user.id;
+            tmp = res.status(200).send(JSON.stringify(user_id));
+          }
+          return tmp;
+        })
+        .catch(error => res.status(400).send(error));
     }
     else {
       return this.model
-      .findOrCreate({
-        where: {
+        .findOne({
+          where: {
+            google_id: data.profileObj.googleId,
+            email: data.profileObj.email,
+            img: data.profileObj.imageUrl,
+            accessToken: data.accessToken,
+            writer: isWriter
+          }
+        })
+        .then(user => {
+          let tmp;
+          if (!user) {
+            return this.model
+              .create({
+                google_id: data.profileObj.googleId,
+                email: data.profileObj.email,
+                img: data.profileObj.imageUrl,
+                accessToken: data.accessToken,
+                writer: isWriter
+              })
+              .then(user => {
+                let tmp;
+                if (!user) {
+                  tmp = res.status(400).send({ message: 'Something goes wrong!' });
+                }
+                else {
+                  let user_id = user.id;
+                  tmp = res.status(200).send(JSON.stringify(user_id));
+                }
+                return tmp;
+              })
+              .catch(error => res.status(400).send(error));
+          } else {
+            let user_id = user.id;
+            tmp = res.status(200).send(JSON.stringify(user_id));
+          }
+          return tmp;
+        })
+        .catch(error => res.status(400).send(error));
+    }
+  }
+
+
+  /*create(req, res) {
+    let data = req.body.data;
+    let type = req.body.type;
+    let isWriter = req.body.isWriter;
+    if (type === facebookType) {
+      return this.model
+        .findOne({
+          where: {
+            facebook_id: data.id
+          }
+        })
+        .then(user => {
+          let tmp;
+          if (!user) {
+            this.model
+              .create({
+                facebook_id: data.id,
+                email: data.email,
+                img: data.picture.data.url,
+                accessToken: data.accessToken,
+                writer: isWriter
+              })
+              .then(user => {
+                let tmp;
+                if (!user) {
+                  tmp = res.status(400).send({ message: 'Something goes wrong!' });
+                }
+                else {
+                  let user_id = user.id;
+                  tmp = res.status(200).send(JSON.stringify(user_id));
+                }
+                return tmp;
+              })
+              .catch(error => res.status(400).send(error));
+          })
+    }
+    else {
+      console.log("tuttop è andato a buon fine");
+      let user_id = user.id;
+      tmp = res.status(200).send(JSON.stringify(user_id));
+    }
+    return tmp;
+  })
+      .catch(error => res.status(400).send(error));
+}
+    else {
+  return this.model
+    .findOrCreate({
+      where: {
         google_id: data.profileObj.googleId,
         email: data.profileObj.email,
-        img: data.profileObj.imageUrl, 
-        accessToken: data.accessToken, 
-        writer: isWriter  
-        }    
-      })
-      .then(user => {
-        let tmp;
-        if (!user) {
-          tmp = res.status(400).send({ message: 'Something goes wrong!' });
-        }
-        else {          
-          let user_id = user.id;
-          tmp = res.status(200).send(JSON.stringify(user_id));
-        }
-        return tmp;
-      })
-      .catch(error => res.status(400).send(error));
-    }    
-  }
-} 
-  
+        img: data.profileObj.imageUrl,
+        accessToken: data.accessToken,
+        writer: isWriter
+      }
+    })
+    .then(user => {
+      let tmp;
+      if (!user) {
+        tmp = res.status(400).send({ message: 'Something goes wrong!' });
+      }
+      else {
+        let user_id = user.id;
+        tmp = res.status(200).send(JSON.stringify(user_id));
+      }
+      return tmp;
+    })
+    .catch(error => res.status(400).send(error));
+}    
+  }*/
+}
+
 
 module.exports = Users;
