@@ -6,8 +6,8 @@
     "database": "dfdms41acr35sl",
     "host": "ec2-46-137-174-67.eu-west-1.compute.amazonaws.com",
     "dialect": "postgres"
-  }  
-  },
+  }  ,
+  
   "test": {
     "username": "postgres",
     "password": null,
