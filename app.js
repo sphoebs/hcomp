@@ -6,7 +6,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const util = require('util');
 const http = require('http');
 const bodyParser = require('body-parser');
-const Sequelize = require ('sequelize');
+//const Sequelize = require ('sequelize');
 
 
 //APP PORT AND SERVER CREATION
@@ -14,7 +14,7 @@ const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+/*const sequelize = new Sequelize(process.env.DATABASE_URL);
 sequelize.authenticate().then(() => {
   console.log('Connection to DB has been established successfully.');
 })
@@ -24,7 +24,7 @@ sequelize.authenticate().then(() => {
 const users= sequelize.import('./api/migrations/20180117213418-users.js');
 const categories= sequelize.import('./api/migrations/20180117213418-categories.js');
 const tasks= sequelize.import('./api/migrations/20180117213418-tasks.js');
-const assignments= sequelize.import('./api/migrations/20180117213418-assignments.js');
+const assignments= sequelize.import('./api/migrations/20180117213418-assignments.js');*/
 
 // Swagger options: metadata and the path were the routes are defined
 const options = {
