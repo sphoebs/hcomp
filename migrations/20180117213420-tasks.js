@@ -25,16 +25,7 @@ module.exports = {
                     type: Sequelize.TEXT
                 },
                 
-                id_user: {
-                    type: Sequelize.INTEGER,
-                    allowNull: true,
-                    references: {
-                        model: 'users',
-                        key: 'id'
-                    },
-                    onDelete: 'CASCADE',
-                    onUpdate: 'CASCADE'
-                },
+                
                 is_deleted: {
                     type: Sequelize.BOOLEAN
                 },
