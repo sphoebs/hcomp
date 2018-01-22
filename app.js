@@ -34,7 +34,7 @@ const options = {
         version: '1.0.0',
         description: 'Add Swagger documentation to the hsc API'
       },
-      host: 'localhost:' + port,
+      host: 'hsoc.herokuapp.com:' + port,
   
   
       basePath: '/'
