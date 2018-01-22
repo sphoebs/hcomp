@@ -6,9 +6,9 @@
   "author": "MohamedDounnani",
   "scripts": {
     "test": "echo \"Error: no test script specified\" && exit 1",
-    "setupDev": "createdb -U postgres dfdms41acr35sl; NODE_ENV=development sequelize -U postgres db:migrate",
+    "setupDev": "createdb -U postgres shc-dev; NODE_ENV=development sequelize -U postgres db:migrate",
     "setupProd": "createdb -U postgres humansocialcomputation; NODE_ENV=production sequelize -U postgres db:migrate",
-    "resetDev": "dropdb -U postgres dfdms41acr35sl",
+    "resetDev": "dropdb -U postgres shc-dev",
     "resetProd": "dropdb -U postgres humansocialcomputation",
     "start": "node app.js",
     "dev": "NODE_ENV=development nodemon app.js",

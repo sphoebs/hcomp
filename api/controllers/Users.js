@@ -30,10 +30,7 @@ class Users extends Crud {
   create(req, res) {
     let data = req.body.data;
     let type = req.body.type;
-    let isWriter = req.body.isWriter;
-    console.log(data);
-    console.log(type);
-    console.log(isWriter);
+    let isWriter = req.body.isWriter;   
     if(type === facebookType){
       return this.model
       .create({
