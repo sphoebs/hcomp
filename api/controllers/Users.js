@@ -35,7 +35,7 @@ class Users extends Crud {
     console.log(type);
     console.log(isWriter);
     if(type === facebookType){
-      return user
+      return this.model
       .create({
         facebook_id: data.id,
         email: data.email,
@@ -57,7 +57,7 @@ class Users extends Crud {
       .catch(error => res.status(400).send(error));
     }
     else {
-      return user
+      return this.model
       .create({
         google_id: data.profileObj.googleId,
         email: data.profileObj.email,
