@@ -9,7 +9,7 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 
-let sequelize;
+let sequelize = new Sequelize(env);
 
 
   sequelize = new Sequelize(
@@ -18,7 +18,6 @@ let sequelize;
     config.password,
     config
   );
-
 
 fs
   .readdirSync(__dirname)
