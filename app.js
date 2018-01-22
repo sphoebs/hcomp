@@ -7,7 +7,7 @@ const util = require('util');
 const http = require('http');
 const bodyParser = require('body-parser');
 const Sequelize = require ('sequelize');
-const utils = require('./utils.js');
+
 
 //APP PORT AND SERVER CREATION
 const app = express();
