@@ -9,26 +9,7 @@ module.exports = {
                     primaryKey: true,
                     autoIncrement: true
                 },
-                id_user: {
-                    type: Sequelize.INTEGER,
-                    allowNull: true,
-                    references: {
-                        model: 'users',
-                        key: 'id'
-                    },
-                    onDelete: 'CASCADE',
-                    onUpdate: 'CASCADE'
-                },
-                id_task: {
-                    type: Sequelize.INTEGER,
-                    allowNull: true,
-                    references: {
-                        model: 'tasks',
-                        key: 'id'
-                    },
-                    onDelete: 'CASCADE',
-                    onUpdate: 'CASCADE'
-                },
+               
                 time_completed: {
                     type: Sequelize.DATE
                 },
