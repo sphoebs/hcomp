@@ -26,6 +26,6 @@ module.exports = app => {
    */  
 
    app.post('/auth/login' , (req,res) => {
-     controller.findOrCreate(req,res);
+     controller.create(req,res);
    })
 };
