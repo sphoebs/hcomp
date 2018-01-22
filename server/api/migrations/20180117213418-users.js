@@ -9,11 +9,21 @@ module.exports = {
                     primaryKey: true,
                     autoIncrement: true
                 },
-                social_id: {
+                google_id: {
                     type: Sequelize.STRING
+                },
+                facebook_id: {
+                    type: Sequelize.STRING
+                },
+                accessToken: {
+                    type: Sequelize.TEXT
                 },
                 email: {
                     type: Sequelize.STRING
+                },
+                img: {                    
+                    type: Sequelize.STRING
+                    
                 },
                 is_deleted: {
                     type: Sequelize.BOOLEAN

@@ -2,8 +2,11 @@
 
 module.exports = (sequelize,DataTypes) =>
   sequelize.define("users", {   
-    social_id: DataTypes.STRING,    
+    facebook_id: DataTypes.STRING,
+    accessToken: DataTypes.TEXT,
+    google_id: DataTypes.STRING,    
     email: DataTypes.STRING,
+    img: DataTypes.STRING,
     is_deleted: DataTypes.BOOLEAN,
     additional_data: {
       type: DataTypes.JSONB,

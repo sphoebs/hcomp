@@ -1,7 +1,5 @@
 const controller = require("../controllers").users;
-const passport = require("passport");
-const sequelize = require("../models/index").sequelize;
-require('./passport_settings')(passport, sequelize);
+
 
 module.exports = app => {
   /**
@@ -26,4 +24,8 @@ module.exports = app => {
    *            type: boolean
    *            default: false
    */  
+
+   app.post('/auth/login' , (req,res) => {
+     controller.create(req,res);
+   })
 };
