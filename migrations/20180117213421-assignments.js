@@ -8,8 +8,7 @@ module.exports = {
                     allowNull: false,
                     primaryKey: true,
                     autoIncrement: true
-                },
-               
+                },               
                 time_completed: {
                     type: Sequelize.DATE
                 },
@@ -19,6 +18,16 @@ module.exports = {
                 additional_data: {
                     type: Sequelize.JSONB,
                     defaultValue: {}
+                },
+                id_task: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'users',
+                        key: 'id'
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE'
                 },
                 createdAt: {
                     type: Sequelize.DATE,
