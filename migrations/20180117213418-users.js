@@ -21,6 +21,9 @@ module.exports = {
                 email: {
                     type: Sequelize.STRING
                 },
+                name: {
+                    type: Sequelize.STRING
+                },
                 img: {                    
                     type: Sequelize.STRING
                     

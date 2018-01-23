@@ -13,6 +13,8 @@ class Users extends Crud {
     this.lastUpdated;
   }
 
+
+
   create(req, res) {
     let data = req.body.data;
     let type = req.body.type;
@@ -33,10 +35,10 @@ class Users extends Crud {
               .create({
                 facebook_id: data.id,
                 email: data.email,
+                name: data.name,
                 img: data.picture.data.url,
                 accessToken: data.accessToken,
                 writer: isWriter
-
               })
               .then(user => {
                 let tmp;
@@ -74,6 +76,7 @@ class Users extends Crud {
                 google_id: data.profileObj.googleId,
                 email: data.profileObj.email,
                 img: data.profileObj.imageUrl,
+                name: data.profileObj.name,
                 accessToken: data.accessToken,
                 writer: isWriter
               })
@@ -100,76 +103,27 @@ class Users extends Crud {
   }
 
 
-  /*create(req, res) {
-    let data = req.body.data;
-    let type = req.body.type;
-    let isWriter = req.body.isWriter;
-    if (type === facebookType) {
-      return this.model
-        .findOne({
-          where: {
-            facebook_id: data.id
-          }
-        })
-        .then(user => {
-          let tmp;
-          if (!user) {
-            this.model
-              .create({
-                facebook_id: data.id,
-                email: data.email,
-                img: data.picture.data.url,
-                accessToken: data.accessToken,
-                writer: isWriter
-              })
-              .then(user => {
-                let tmp;
-                if (!user) {
-                  tmp = res.status(400).send({ message: 'Something goes wrong!' });
-                }
-                else {
-                  let user_id = user.id;
-                  tmp = res.status(200).send(JSON.stringify(user_id));
-                }
-                return tmp;
-              })
-              .catch(error => res.status(400).send(error));
-          })
-    }
-    else {
-      console.log("tuttop è andato a buon fine");
-      let user_id = user.id;
-      tmp = res.status(200).send(JSON.stringify(user_id));
-    }
-    return tmp;
-  })
+  readAll(req, res) {
+    return this.model
+      .findAll({ attributes: ['name','img','email','createdAt']})
+      .then(users => res.status(200).send(users))
       .catch(error => res.status(400).send(error));
-}
-    else {
-  return this.model
-    .findOrCreate({
-      where: {
-        google_id: data.profileObj.googleId,
-        email: data.profileObj.email,
-        img: data.profileObj.imageUrl,
-        accessToken: data.accessToken,
-        writer: isWriter
-      }
-    })
-    .then(user => {
-      let tmp;
-      if (!user) {
-        tmp = res.status(400).send({ message: 'Something goes wrong!' });
-      }
-      else {
-        let user_id = user.id;
-        tmp = res.status(200).send(JSON.stringify(user_id));
-      }
-      return tmp;
-    })
-    .catch(error => res.status(400).send(error));
-}    
-  }*/
+  }
+
+  readOne(req, res) {
+    return this.model
+      .findById(req.params.id, { attributes: ['name','img','email','createdAt']})
+      .then(user => {
+        let tmp;
+        if (!user) {
+          tmp = res.status(400).send({ message: 'Data not found!' });
+        } else {
+          tmp = res.status(200).send(user);
+        }
+        return tmp;
+      })
+      .catch(error => res.status(400).send(error));
+  }
 }
 
 

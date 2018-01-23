@@ -6,6 +6,7 @@ module.exports = (sequelize,DataTypes) =>
     accessToken: DataTypes.TEXT,
     google_id: DataTypes.STRING,    
     email: DataTypes.STRING,
+    name: DataTypes.STRING,
     img: DataTypes.STRING,
     is_deleted: DataTypes.BOOLEAN,
     additional_data: {

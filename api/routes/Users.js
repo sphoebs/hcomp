@@ -28,4 +28,10 @@ module.exports = app => {
    app.post('/auth/login' , (req,res) => {
      controller.create(req,res);
    })
+   app.get('/users', (req,res) => {
+     controller.readAll(req,res);
+   })
+   app.get('/users/:id', (req,res) => {
+     controller.readOne(req,res);
+   });
 };
