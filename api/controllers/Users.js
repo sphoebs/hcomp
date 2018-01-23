@@ -12,6 +12,7 @@ class Users extends Crud {
     super(users);
     this.lastUpdated;
   }
+
   create(req, res) {
     let data = req.body.data;
     let type = req.body.type;
@@ -20,7 +21,7 @@ class Users extends Crud {
       return this.model
         .findOne({
           where: {
-            facebook_id: data.id            
+            facebook_id: data.id
           }
         })
         .then(user => {
@@ -47,7 +48,8 @@ class Users extends Crud {
                 return tmp;
               })
               .catch(error => res.status(400).send(error));
-          } else {
+          }
+          else {
             let user_id = user.id;
             tmp = res.status(200).send(JSON.stringify(user_id));
           }
@@ -59,7 +61,7 @@ class Users extends Crud {
       return this.model
         .findOne({
           where: {
-            google_id: data.profileObj.googleId            
+            google_id: data.profileObj.googleId
           }
         })
         .then(user => {
