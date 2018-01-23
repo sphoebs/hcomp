@@ -24,8 +24,26 @@ module.exports = {
                 answer: {
                     type: Sequelize.TEXT
                 },
-
-                
+                id_user: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'users',
+                        key: 'id'
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE'
+                  },
+                  id_category: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'categories',
+                        key: 'id'
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE'
+                },                
                 is_deleted: {
                     type: Sequelize.BOOLEAN
                 },
