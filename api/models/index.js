@@ -42,7 +42,7 @@ db.users.hasMany(db.tasks, {
 });
 db.users.hasMany(db.assignments, {
   foreignKey: "id_user",
-  sourceKey: 'id'
+  sourceKey: "id"
 });
 db.tasks.belongsTo(db.users, {
   foreignKey: "id_user",

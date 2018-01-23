@@ -6,20 +6,6 @@ const app = require("../../app").app;
 const facebookType = 'facebook';
 
 
-/*app.use(passport.initialize());
-app.use(passport.session());
-
-//SERIALIZE USER
-passport.serializeUser((user, cb) => {
-  cb(null, { id: user.ID, name: user.EMAIL });
-});
-
-//DESERIALIZE USER
-passport.deserializeUser((user, cb) => {
-  users.findById(user.id).then(user => {
-    cb(null, user);
-  });
-});*/
 
 class Users extends Crud {
   constructor() {
@@ -34,11 +20,7 @@ class Users extends Crud {
       return this.model
         .findOne({
           where: {
-            facebook_id: data.id,
-            email: data.email,
-            img: data.picture.data.url,
-            accessToken: data.accessToken,
-            writer: isWriter
+            facebook_id: data.id            
           }
         })
         .then(user => {
@@ -77,11 +59,7 @@ class Users extends Crud {
       return this.model
         .findOne({
           where: {
-            google_id: data.profileObj.googleId,
-            email: data.profileObj.email,
-            img: data.profileObj.imageUrl,
-            accessToken: data.accessToken,
-            writer: isWriter
+            google_id: data.profileObj.googleId            
           }
         })
         .then(user => {
