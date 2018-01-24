@@ -1,9 +1,9 @@
 const controller = require("../controllers").users;
-const {DecodeOfAuth, ensureAuthenticated} = require('./SourceOfAuth');
+const {DecodeOfAuth} = require('./SourceOfAuth');
 const users = require('../models').users;
 module.exports = app => {
 
-  /*const ensureAuthenticated = (req,res,next) => {
+  const ensureAuthenticated = (req,res,next) => {
     if(req.headers.authorization){
       let decodedJWT = DecodeOfAuth(req.headers.authorization.jwt);
       users
@@ -21,7 +21,7 @@ module.exports = app => {
     else {
       res.send("unAuthorized Area, Che minchia fai");
     }
-  }*/
+  }
   /**
    * @swagger
    * definitions:
@@ -51,7 +51,7 @@ module.exports = app => {
    app.get('/users', (req,res) => {
      controller.readAll(req,res);
    })
-   app.get('/users/:id',  ensureAuthenticated(req,res,next), (req,res) => {
+   app.get('/users/:id',  ensureAuthenticated, (req,res) => {
      controller.readOne(req,res);
    });
 };

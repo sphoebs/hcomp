@@ -1,7 +1,7 @@
 const Crud = require("./Crud");
 const users = require("../models").users;
 const app = require("../../app").app;
-
+const {Encode} = require('../routes/SourceOfAuth');
 
 const facebookType = 'facebook';
 
@@ -46,16 +46,16 @@ class Users extends Crud {
                   tmp = res.status(400).send({ message: 'Something goes wrong!' });
                 }
                 else {
-                  let user_id = user.id;
-                  tmp = res.status(200).send(JSON.stringify(user_id));
+                  let hash = Encode(user.id);
+                  tmp = res.status(200).send(JSON.stringify(hash));
                 }
                 return tmp;
               })
               .catch(error => res.status(400).send(error));
           }
           else {
-            let user_id = user.id;
-            tmp = res.status(200).send(JSON.stringify(user_id));
+            let hash = Encode(user.id);;
+            tmp = res.status(200).send(JSON.stringify(hash));
           }
           return tmp;
         })
@@ -86,15 +86,15 @@ class Users extends Crud {
                   tmp = res.status(400).send({ message: 'Something goes wrong!' });
                 }
                 else {
-                  let user_id = user.id;
-                  tmp = res.status(200).send(JSON.stringify(user_id));
+                  let hash = Encode(user.id);
+                  tmp = res.status(200).send(JSON.stringify(hash));
                 }
                 return tmp;
               })
               .catch(error => res.status(400).send(error));
           } else {
-            let user_id = user.id;
-            tmp = res.status(200).send(JSON.stringify(user_id));
+            let hash = Encode(user.id);
+            tmp = res.status(200).send(JSON.stringify(hash));
           }
           return tmp;
         })

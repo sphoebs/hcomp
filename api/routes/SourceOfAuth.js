@@ -29,25 +29,7 @@ const Decode = token => {
     return dehash;
 }
 
-const ensureAuthenticated = (req,res,next) => {
-    if(req.headers.authorization){
-      let decodedJWT = DecodeOfAuth(req.headers.authorization.jwt);
-      users
-      .findOne(decodedJWT)
-      .then(user => {
-        if(!user){
-          res.send("unAuthorized Area, Che minchia fai");
-        }
-        else {
-          return next();
-        }
-      })
-      .catch(error => res.status(400).send(error));      
-    }
-    else {
-      res.send("unAuthorized Area, Che minchia fai");
-    }
-  }
+
 
 
 module.exports = {Encode,Decode};
