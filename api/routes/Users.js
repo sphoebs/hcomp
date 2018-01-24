@@ -51,7 +51,7 @@ module.exports = app => {
    app.get('/users', (req,res) => {
      controller.readAll(req,res);
    })
-   app.get('/users/:id',  ensureAuthenticated, (req,res) => {
+   app.get('/users/:id',  ensureAuthenticated(req,res,next), (req,res) => {
      controller.readOne(req,res);
    });
 };
