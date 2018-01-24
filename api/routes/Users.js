@@ -7,7 +7,7 @@ module.exports = app => {
     if(req.headers.authorization){
       let decodedJWT = DecodeOfAuth(req.headers.authorization.jwt);
       users
-      .findOne(decodedJWT)
+      .findById(decodedJWT)
       .then(user => {
         if(!user){
           res.send("unAuthorized Area, Che minchia fai");
