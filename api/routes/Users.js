@@ -1,17 +1,27 @@
 const controller = require("../controllers").users;
-const {DecodeOfAuth} = require('./SourceOfAuth');
-
+const {DecodeOfAuth, ensureAuthenticated} = require('./SourceOfAuth');
+const users = require('../models').users;
 module.exports = app => {
 
-  const ensureAuthenticated = (req,res,next) => {
+  /*const ensureAuthenticated = (req,res,next) => {
     if(req.headers.authorization){
-      console.log(req.headers.authorization);
-      return next();
+      let decodedJWT = DecodeOfAuth(req.headers.authorization.jwt);
+      users
+      .findOne(decodedJWT)
+      .then(user => {
+        if(!user){
+          res.send("unAuthorized Area, Che minchia fai");
+        }
+        else {
+          return next();
+        }
+      })
+      .catch(error => res.status(400).send(error));      
     }
     else {
       res.send("unAuthorized Area, Che minchia fai");
     }
-  }
+  }*/
   /**
    * @swagger
    * definitions:
