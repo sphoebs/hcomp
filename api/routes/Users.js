@@ -5,7 +5,9 @@ module.exports = app => {
 
   const ensureAuthenticated = (req,res,next) => {
     if(req.headers.authorization){
+      console.log(req.headers.authorization.jwt);
       let decodedJWT = Decode(req.headers.authorization.jwt);
+      console.log(decodedJWT);
       users
       .findById(decodedJWT)
       .then(user => {
@@ -19,6 +21,7 @@ module.exports = app => {
       .catch(error => res.status(400).send(error));      
     }
     else {
+      console.log("NON C'È NIENTE");
       res.status(404).send("unAuthorized Area, Che minchia fai");
     }
   }
