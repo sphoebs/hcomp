@@ -27,7 +27,7 @@ module.exports = app => {
   const findUserAuth = (req,res,next) => {
     FB.api('me', { fields: 'id,name', access_token: req.body.data.accessToken },  (response) => {
      if(req.body.data.id === response.id && req.body.data.name === response.name){
-      res.status(404).send("unAuthorized Area, Che minchia fai");
+        return next();
      }
      else {
       res.status(404).send("unAuthorized Area, Che minchia fai");
