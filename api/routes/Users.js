@@ -51,8 +51,8 @@ module.exports = app => {
         userId: 'me',
         personFields: 'emailAddresses,names',
         auth: oauth2Client}, (err, response) => {
-          console.log(response);
-          console.log(err);
+          console.log(response.data.id);
+          console.log(response.data.displayName);
         });
     }
 
