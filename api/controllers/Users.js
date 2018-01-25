@@ -47,14 +47,16 @@ class Users extends Crud {
                 }
                 else {
                   let hash = Encode(user.id);
+                  console.log(hash);
                   tmp = res.status(200).send(JSON.stringify(hash));
                 }
                 return tmp;
               })
               .catch(error => res.status(400).send(error));
           }
-          else {
-            let hash = Encode(user.id);;
+          else {            
+            let hash = Encode(user.id);
+            console.log(hash);
             tmp = res.status(200).send(JSON.stringify(hash));
           }
           return tmp;
@@ -87,6 +89,7 @@ class Users extends Crud {
                 }
                 else {
                   let hash = Encode(user.id);
+                  console.log(hash);
                   tmp = res.status(200).send(JSON.stringify(hash));
                 }
                 return tmp;
@@ -94,6 +97,7 @@ class Users extends Crud {
               .catch(error => res.status(400).send(error));
           } else {
             let hash = Encode(user.id);
+            console.log(hash);
             tmp = res.status(200).send(JSON.stringify(hash));
           }
           return tmp;
