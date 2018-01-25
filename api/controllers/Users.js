@@ -48,8 +48,7 @@ class Users extends Crud {
                     id: user.id
                   }                  
                   let hash = Encode(payload);
-                  let sendResponse = this.createPayload(user.id,hash);
-                  console.log(sendResponse);
+                  let sendResponse = this.createPayload(user.id,hash);                
                   tmp = res.status(200).send(JSON.stringify(sendResponse));
                 }
                 return tmp;
@@ -61,8 +60,7 @@ class Users extends Crud {
               id: user.id
             }            
             let hash = Encode(payload);
-            let sendResponse = this.createPayload(user.id,hash);
-            console.log(sendResponse);
+            let sendResponse = this.createPayload(user.id,hash);           
             tmp = res.status(200).send(JSON.stringify(sendResponse));
           }
           return tmp;
@@ -128,10 +126,7 @@ class Users extends Crud {
       .catch(error => res.status(400).send(error));
   }
 
-  readOne(req, res) {
-    console.log("ID");
-    console.log(req.params.id);
-    console.log("sono su readOne");
+  readOne(req, res) {    
     return this.model
       .findById(req.params.id, { attributes: ['name','img','email','createdAt']})
       .then(user => {

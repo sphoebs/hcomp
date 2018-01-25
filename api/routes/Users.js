@@ -1,14 +1,12 @@
 const controller = require("../controllers").users;
 const {Decode} = require('./SourceOfAuth');
 const users = require('../models').users;
+const {FB, FacebookApiException} = require('fb');
 module.exports = app => {
 
   const ensureAuthenticated = (req,res,next) => {
-    if(req.headers.authorization){
-      console.log("Stampa auth");
-      console.log(req.headers.authorization);
-      let decodedJWT = Decode(req.headers.authorization);
-      console.log(decodedJWT);
+    if(req.headers.authorization){      
+      let decodedJWT = Decode(req.headers.authorization);     
       users
       .findById(decodedJWT.id)
       .then(user => {
@@ -21,11 +19,16 @@ module.exports = app => {
       })
       .catch(error => res.status(400).send(error));      
     }
-    else {
-      console.log("Stampa auth se non c'è");
-      console.log(req.headers.authorization);
+    else {      
       res.status(404).send("unAuthorized Area, Che minchia fai");
     }
+  }
+
+  const findUserAuth = (req,res,next) => {
+    FB.api('me', { fields: 'id,name', access_token: req.body.data.accessToken }, function (res) {
+      console.log(res);
+  });
+  return  next();
   }
   /**
    * @swagger
@@ -50,7 +53,7 @@ module.exports = app => {
    *            default: false
    */  
 
-   app.post('/auth/login' , (req,res) => {
+   app.post('/auth/login', findUserAuth , (req,res) => {
      controller.create(req,res);
    })
    app.get('/users', (req,res) => {
