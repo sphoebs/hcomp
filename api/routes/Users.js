@@ -5,7 +5,7 @@ module.exports = app => {
 
   const ensureAuthenticated = (req,res,next) => {
     if(req.headers.authorization){
-      let decodedJWT = DecodeOfAuth(req.headers.authorization.jwt);
+      let decodedJWT = Decode(req.headers.authorization.jwt);
       users
       .findById(decodedJWT)
       .then(user => {
