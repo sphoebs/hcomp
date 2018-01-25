@@ -5,6 +5,11 @@ const { FB, FacebookApiException } = require('fb');
 const google = require('googleapis');
 const plus = google.plus('v1');
 const facebookType = 'facebook';
+const OAuth2 = google.auth.OAuth2;
+const oauth2Client = new OAuth2(
+  process.env.GOOGLE_APP_ID,
+  process.env.GOOGLE_APP_SECRET  
+);
 module.exports = app => {
 
   const ensureAuthenticated = (req, res, next) => {
@@ -39,10 +44,13 @@ module.exports = app => {
       });
     }
     else {
+      oauth2Client.setCredentials({
+        access_token: req.body.data.accessToken       
+      });
       plus.people.get({
         resourceName: 'people/me',
         personFields: 'emailAddresses,names',
-        auth: req.body.data.accessToken}, (err, response) => {
+        auth: oauth2Client}, (err, response) => {
           console.log(response);
         });
     }
