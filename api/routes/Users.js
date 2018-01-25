@@ -1,5 +1,5 @@
 const controller = require("../controllers").users;
-const {DecodeOfAuth} = require('./SourceOfAuth');
+const {Decode} = require('./SourceOfAuth');
 const users = require('../models').users;
 module.exports = app => {
 
@@ -57,4 +57,17 @@ module.exports = app => {
    app.get('/users/:id',  ensureAuthenticated, (req,res) => {
      controller.readOne(req,res);
    });
+
+ /*  app.get('/get_fb_profile', function(req, res) {
+    oauth2.get(&quot ;https://graph.facebook.com/me&quot;, req.session.accessToken, function(err, data ,response) {
+     if (err) {
+      console.error(err);
+      res.send(err);
+     } else {
+      var profile = JSON.parse(data);
+      console.log(profile);
+      var profile_img_url = "https://graph.facebook.com/"+profile.id+"/picture";
+     }
+    });
+   });*/
 };
