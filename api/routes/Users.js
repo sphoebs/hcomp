@@ -8,7 +8,7 @@ const facebookType = 'facebook';
 const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(
   process.env.GOOGLE_APP_ID,
-  process.env.GOOGLE_APP_SECRET  
+  process.env.GOOGLE_APP_SECRET
 );
 module.exports = app => {
 
@@ -45,15 +45,21 @@ module.exports = app => {
     }
     else {
       oauth2Client.setCredentials({
-        access_token: req.body.data.accessToken       
+        access_token: req.body.data.accessToken
       });
       plus.people.get({
         userId: 'me',
         personFields: 'emailAddresses,names',
-        auth: oauth2Client}, (err, response) => {
-          console.log(response.data.id);
-          console.log(response.data.displayName);
-        });
+        auth: oauth2Client
+      }, (err, response) => {
+        if (req.body.data.profileObj.googleId === response.data.id && req.body.data.profileObj.name === response.data.name) {
+          return next();
+        }
+        else {
+          res.status(404).send("unAuthorized Area, Che minchia fai");
+        }
+      });
+
     }
 
   }
