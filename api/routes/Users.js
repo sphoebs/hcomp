@@ -48,7 +48,7 @@ module.exports = app => {
         access_token: req.body.data.accessToken       
       });
       plus.people.get({
-        resourceName: 'people/me',
+        userId: 'me',
         personFields: 'emailAddresses,names',
         auth: oauth2Client}, (err, response) => {
           console.log(response);
