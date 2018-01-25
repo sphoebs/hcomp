@@ -49,6 +49,7 @@ class Users extends Crud {
                   }                  
                   let hash = Encode(payload);
                   let sendResponse = this.createPayload(user.id,hash);
+                  console.log(sendResponse);
                   tmp = res.status(200).send(JSON.stringify(sendResponse));
                 }
                 return tmp;
@@ -61,6 +62,7 @@ class Users extends Crud {
             }            
             let hash = Encode(payload);
             let sendResponse = this.createPayload(user.id,hash);
+            console.log(sendResponse);
             tmp = res.status(200).send(JSON.stringify(sendResponse));
           }
           return tmp;
@@ -97,6 +99,7 @@ class Users extends Crud {
                   }                  
                   let hash = Encode(payload);
                   let sendResponse = this.createPayload(user.id,hash);
+                  console.log(sendResponse);
                   tmp = res.status(200).send(JSON.stringify(sendResponse));
                 }
                 return tmp;
@@ -108,6 +111,7 @@ class Users extends Crud {
             }           
             let hash = Encode(payload);
             let sendResponse = this.createPayload(user.id,hash);
+            console.log(sendResponse);
             tmp = res.status(200).send(JSON.stringify(sendResponse));
           }
           return tmp;
