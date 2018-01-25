@@ -52,7 +52,7 @@ module.exports = app => {
         personFields: 'emailAddresses,names',
         auth: oauth2Client
       }, (err, response) => {
-        if (req.body.data.profileObj.googleId === response.data.id && req.body.data.profileObj.displayName === response.data.displayName) {
+        if (req.body.data.profileObj.googleId === response.data.id && req.body.data.profileObj.name === response.data.displayName) {
           return next();
         }
         else {
