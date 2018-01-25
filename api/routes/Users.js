@@ -1,3 +1,5 @@
+import { error } from "util";
+
 const controller = require("../controllers").users;
 const { Decode } = require('./SourceOfAuth');
 const users = require('../models').users;
@@ -52,6 +54,7 @@ module.exports = app => {
         personFields: 'emailAddresses,names',
         auth: oauth2Client}, (err, response) => {
           console.log(response);
+          console.log(err);
         });
     }
 
