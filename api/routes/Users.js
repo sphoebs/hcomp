@@ -1,39 +1,52 @@
 const controller = require("../controllers").users;
-const {Decode} = require('./SourceOfAuth');
+const { Decode } = require('./SourceOfAuth');
 const users = require('../models').users;
-const {FB, FacebookApiException} = require('fb');
+const { FB, FacebookApiException } = require('fb');
+const googleapis = require('googleapis');
+const plus = google.plus('v1');
+const facebookType = 'facebook';
 module.exports = app => {
 
-  const ensureAuthenticated = (req,res,next) => {
-    if(req.headers.authorization){      
-      let decodedJWT = Decode(req.headers.authorization);     
+  const ensureAuthenticated = (req, res, next) => {
+    if (req.headers.authorization) {
+      let decodedJWT = Decode(req.headers.authorization);
       users
-      .findById(decodedJWT.id)
-      .then(user => {
-        if(!user){
-          res.status(404).send("unAuthorized Area, Che minchia fai");
-        }
-        else {
-          return next();
-        }
-      })
-      .catch(error => res.status(400).send(error));      
+        .findById(decodedJWT.id)
+        .then(user => {
+          if (!user) {
+            res.status(404).send("unAuthorized Area, Che minchia fai");
+          }
+          else {
+            return next();
+          }
+        })
+        .catch(error => res.status(400).send(error));
     }
-    else {      
+    else {
       res.status(404).send("unAuthorized Area, Che minchia fai");
     }
   }
 
-  const findUserAuth = (req,res,next) => {
-    FB.api('me', { fields: 'id,name', access_token: req.body.data.accessToken },  (response) => {
-     if(req.body.data.id === response.id && req.body.data.name === response.name){
-        return next();
-     }
-     else {
-      res.status(404).send("unAuthorized Area, Che minchia fai");
-     }
-    });
-     
+  const findUserAuth = (req, res, next) => {
+    if (req.body.type === facebookType) {
+      FB.api('me', { fields: 'id,name', access_token: req.body.data.accessToken }, (response) => {
+        if (req.body.data.id === response.id && req.body.data.name === response.name) {
+          return next();
+        }
+        else {
+          res.status(404).send("unAuthorized Area, Che minchia fai");
+        }
+      });
+    }
+    else {
+      plus.people.get({
+        resourceName: 'people/me',
+        personFields: 'emailAddresses,names',
+        auth: req.body.data.profileObj.googleId}, (err, response) => {
+          console.log(response);
+        });
+    }
+
   }
   /**
    * @swagger
@@ -56,28 +69,28 @@ module.exports = app => {
    *         writer:
    *            type: boolean
    *            default: false
-   */  
+   */
 
-   app.post('/auth/login', findUserAuth , (req,res) => {
-     controller.create(req,res);
-   })
-   app.get('/users', (req,res) => {
-     controller.readAll(req,res);
-   })
-   app.get('/users/:id',  ensureAuthenticated, (req,res) => {
-     controller.readOne(req,res);
-   });
+  app.post('/auth/login', findUserAuth, (req, res) => {
+    controller.create(req, res);
+  })
+  app.get('/users', (req, res) => {
+    controller.readAll(req, res);
+  })
+  app.get('/users/:id', ensureAuthenticated, (req, res) => {
+    controller.readOne(req, res);
+  });
 
- /*  app.get('/get_fb_profile', function(req, res) {
-    oauth2.get(&quot ;https://graph.facebook.com/me&quot;, req.session.accessToken, function(err, data ,response) {
-     if (err) {
-      console.error(err);
-      res.send(err);
-     } else {
-      var profile = JSON.parse(data);
-      console.log(profile);
-      var profile_img_url = "https://graph.facebook.com/"+profile.id+"/picture";
-     }
-    });
-   });*/
+  /*  app.get('/get_fb_profile', function(req, res) {
+     oauth2.get(&quot ;https://graph.facebook.com/me&quot;, req.session.accessToken, function(err, data ,response) {
+      if (err) {
+       console.error(err);
+       res.send(err);
+      } else {
+       var profile = JSON.parse(data);
+       console.log(profile);
+       var profile_img_url = "https://graph.facebook.com/"+profile.id+"/picture";
+      }
+     });
+    });*/
 };
