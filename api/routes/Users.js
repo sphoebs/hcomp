@@ -25,15 +25,14 @@ module.exports = app => {
   }
 
   const findUserAuth = (req,res,next) => {
-    const lol = FB.api('me', { fields: 'id,name', access_token: req.body.data.accessToken },  (res) => {
-     if(req.body.data.id === res.id && req.body.data.name === res.name){
-      return 'ciao';
+    FB.api('me', { fields: 'id,name', access_token: req.body.data.accessToken },  (response) => {
+     if(req.body.data.id === response.id && req.body.data.name === response.name){
+      res.status(404).send("unAuthorized Area, Che minchia fai");
      }
      else {
-      return 'ops';
+      res.status(404).send("unAuthorized Area, Che minchia fai");
      }
     });
-    console.log(lol);
      
   }
   /**
