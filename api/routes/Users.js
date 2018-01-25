@@ -10,7 +10,7 @@ module.exports = app => {
       .findById(decodedJWT)
       .then(user => {
         if(!user){
-          res.send("unAuthorized Area, Che minchia fai");
+          res.status(404).send("unAuthorized Area, Che minchia fai");
         }
         else {
           return next();
@@ -19,7 +19,7 @@ module.exports = app => {
       .catch(error => res.status(400).send(error));      
     }
     else {
-      res.send("unAuthorized Area, Che minchia fai");
+      res.status(404).send("unAuthorized Area, Che minchia fai");
     }
   }
   /**

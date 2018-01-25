@@ -17,9 +17,7 @@ class Users extends Crud {
   //controllare con access token
   create(req, res) {
     let data = req.body.data;
-    let type = req.body.type;
-    console.log("tipo");
-    console.log(type);
+    let type = req.body.type;    
     let isWriter = req.body.isWriter;
     if (type === facebookType) {
       return this.model
@@ -48,11 +46,10 @@ class Users extends Crud {
                 else {
                   let payload = {
                     id: user.id
-                  }
-                  console.log(payload);
+                  }                  
                   let hash = Encode(payload);
-                  console.log(hash);
-                  tmp = res.status(200).send(JSON.stringify(hash));
+                  let sendResponse = this.createPayload(user.id,hash);
+                  tmp = res.status(200).send(JSON.stringify(sendResponse));
                 }
                 return tmp;
               })
@@ -61,12 +58,10 @@ class Users extends Crud {
           else {     
             let payload = {
               id: user.id
-            }
-            console.log(payload);
+            }            
             let hash = Encode(payload);
-            console.log(hash);
-
-            tmp = res.status(200).send(JSON.stringify(hash));
+            let sendResponse = this.createPayload(user.id,hash);
+            tmp = res.status(200).send(JSON.stringify(sendResponse));
           }
           return tmp;
         })
@@ -99,12 +94,10 @@ class Users extends Crud {
                 else {
                   let payload = {
                     id: user.id
-                  }
-                  console.log(payload);
+                  }                  
                   let hash = Encode(payload);
-                  console.log(hash);
-
-                  tmp = res.status(200).send(JSON.stringify(hash));
+                  let sendResponse = this.createPayload(user.id,hash);
+                  tmp = res.status(200).send(JSON.stringify(sendResponse));
                 }
                 return tmp;
               })
@@ -112,12 +105,10 @@ class Users extends Crud {
           } else {
             let payload = {
               id: user.id
-            }
-            console.log(payload);
+            }           
             let hash = Encode(payload);
-            console.log(hash);
-
-            tmp = res.status(200).send(JSON.stringify(hash));
+            let sendResponse = this.createPayload(user.id,hash);
+            tmp = res.status(200).send(JSON.stringify(sendResponse));
           }
           return tmp;
         })
@@ -148,6 +139,14 @@ class Users extends Crud {
         return tmp;
       })
       .catch(error => res.status(400).send(error));
+  }
+
+  createPayload(id,jwt){
+    let payload = {
+      id: id,
+      jwt: jwt
+    }
+    return payload;
   }
 }
 
