@@ -42,7 +42,7 @@ module.exports = app => {
       plus.people.get({
         resourceName: 'people/me',
         personFields: 'emailAddresses,names',
-        auth: req.body.data.profileObj.googleId}, (err, response) => {
+        auth: req.body.data.accessToken}, (err, response) => {
           console.log(response);
         });
     }
