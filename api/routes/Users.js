@@ -1,5 +1,3 @@
-import { error } from "util";
-
 const controller = require("../controllers").users;
 const { Decode } = require('./SourceOfAuth');
 const users = require('../models').users;
