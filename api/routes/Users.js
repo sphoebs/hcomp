@@ -2,7 +2,7 @@ const controller = require("../controllers").users;
 const { Decode } = require('./SourceOfAuth');
 const users = require('../models').users;
 const { FB, FacebookApiException } = require('fb');
-const googleapis = require('googleapis');
+const google = require('googleapis');
 const plus = google.plus('v1');
 const facebookType = 'facebook';
 module.exports = app => {
