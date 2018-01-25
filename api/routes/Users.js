@@ -54,7 +54,7 @@ module.exports = app => {
       }, (err, response) => {
         console.log(response.data.id);
         console.log(req.body.data.profileObj.googleId);
-        console.log(response.data.name);
+        console.log(response.data);
         console.log(req.body.data.profileObj.name);
         if (req.body.data.profileObj.googleId === response.data.id && req.body.data.profileObj.name === response.data.name) {
           return next();
