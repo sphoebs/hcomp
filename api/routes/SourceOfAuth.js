@@ -1,9 +1,9 @@
 var jwt = require('json-web-token');
-const users = require('../models').users;
+
 
 
 const Encode = payload => {        
-    let secret = 'eqwtreuytpoibv4bv65cfds312rwe465f12x3w4er5ffds123rw4e56fsd213r4we65';
+    const secret = 'weqsdacxzdsaewqdsacxzdsaewqdsa';
     // encode 
     const hash = jwt.encode(secret, payload, function (err, token) {
         if (err) {
