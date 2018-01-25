@@ -131,6 +131,7 @@ class Users extends Crud {
   readOne(req, res) {
     console.log("ID");
     console.log(req.params.id);
+    console.log("sono su readOne");
     return this.model
       .findById(req.params.id, { attributes: ['name','img','email','createdAt']})
       .then(user => {

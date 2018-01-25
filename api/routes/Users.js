@@ -5,6 +5,7 @@ module.exports = app => {
 
   const ensureAuthenticated = (req,res,next) => {
     if(req.headers.authorization){
+      console.log("Stampa auth");
       console.log(req.headers.authorization);
       let decodedJWT = Decode(req.headers.authorization);
       console.log(decodedJWT);
@@ -21,6 +22,7 @@ module.exports = app => {
       .catch(error => res.status(400).send(error));      
     }
     else {
+      console.log("Stampa auth se non c'è");
       console.log(req.headers.authorization);
       res.status(404).send("unAuthorized Area, Che minchia fai");
     }
