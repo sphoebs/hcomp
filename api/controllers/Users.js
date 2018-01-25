@@ -46,7 +46,7 @@ class Users extends Crud {
                   tmp = res.status(400).send({ message: 'Something goes wrong!' });
                 }
                 else {
-                  payload = {
+                  let payload = {
                     id: user.id
                   }
                   console.log(payload);
@@ -59,7 +59,7 @@ class Users extends Crud {
               .catch(error => res.status(400).send(error));
           }
           else {     
-            payload = {
+            let payload = {
               id: user.id
             }
             console.log(payload);
@@ -97,7 +97,7 @@ class Users extends Crud {
                   tmp = res.status(400).send({ message: 'Something goes wrong!' });
                 }
                 else {
-                  payload = {
+                  let payload = {
                     id: user.id
                   }
                   console.log(payload);
@@ -110,7 +110,7 @@ class Users extends Crud {
               })
               .catch(error => res.status(400).send(error));
           } else {
-            payload = {
+            let payload = {
               id: user.id
             }
             console.log(payload);
