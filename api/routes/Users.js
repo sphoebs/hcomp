@@ -1,5 +1,5 @@
 const controller = require("../controllers").users;
-const { Decode } = require('./SourceOfAuth');
+const { Decode , ensureAuth1} = require('./SourceOfAuth');
 const users = require('../models').users;
 const { FB, FacebookApiException } = require('fb');
 const google = require('googleapis');
@@ -12,6 +12,9 @@ const oauth2Client = new OAuth2(
 );
 module.exports = app => {
 
+  /*DECPDE THE JWT INSIDE HEADERS AUTHORIZATION AND CHECK IF ID IS IN DATABASE
+  IF GO NEXT ELSE ERROR
+  */ 
   const ensureAuthenticated = (req, res, next) => {
     if (req.headers.authorization) {
       let decodedJWT = Decode(req.headers.authorization);
@@ -19,7 +22,7 @@ module.exports = app => {
         .findById(decodedJWT.id)
         .then(user => {
           if (!user) {
-            res.status(404).send("unAuthorized Area, Che minchia fai");
+            res.status(404).send("unAuthorized Area");
           }
           else {
             return next();
@@ -28,10 +31,13 @@ module.exports = app => {
         .catch(error => res.status(400).send(error));
     }
     else {
-      res.status(404).send("unAuthorized Area, Che minchia fai");
+      res.status(404).send("unAuthorized Area");
     }
   }
 
+  /*
+  CHECK IF THE RECEIVED ACCESS TOKEN CORRESPONDS TO THE USER THROUGH A CALL TO FACEBOOK API AND GOOGLE API
+  */
   const findUserAuth = (req, res, next) => {
     if (req.body.type === facebookType) {
       FB.api('me', { fields: 'id,name', access_token: req.body.data.accessToken }, (response) => {
@@ -39,7 +45,7 @@ module.exports = app => {
           return next();
         }
         else {
-          res.status(404).send("unAuthorized Area, Che minchia fai");
+          res.status(404).send("unAuthorized Area");
         }
       });
     }
@@ -56,7 +62,7 @@ module.exports = app => {
           return next();
         }
         else {
-          res.status(404).send("unAuthorized Area, Che minchia fai");
+          res.status(404).send("unAuthorized Area");
         }
       });
 
@@ -89,23 +95,10 @@ module.exports = app => {
   app.post('/auth/login', findUserAuth, (req, res) => {
     controller.create(req, res);
   })
-  app.get('/users', (req, res) => {
+  app.get('/users',ensureAuthenticated, (req, res) => {
     controller.readAll(req, res);
   })
-  app.get('/users/:id', ensureAuthenticated, (req, res) => {
+  app.get('/users/:id', ensureAuth1, (req, res) => {
     controller.readOne(req, res);
   });
-
-  /*  app.get('/get_fb_profile', function(req, res) {
-     oauth2.get(&quot ;https://graph.facebook.com/me&quot;, req.session.accessToken, function(err, data ,response) {
-      if (err) {
-       console.error(err);
-       res.send(err);
-      } else {
-       var profile = JSON.parse(data);
-       console.log(profile);
-       var profile_img_url = "https://graph.facebook.com/"+profile.id+"/picture";
-      }
-     });
-    });*/
 };

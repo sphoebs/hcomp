@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) =>
-        queryInterface.createTable('categories',
+        queryInterface.createTable('tasktypes',
             {
                 id: {
                     type: Sequelize.INTEGER,
@@ -21,5 +21,5 @@ module.exports = {
                     allowNull: false
                 }
             }),
-    down: (queryInterface, Sequelize) => queryInterface.dropTable('categories')
+    down: (queryInterface, Sequelize) => queryInterface.dropTable('tasktypes')
 };

@@ -29,7 +29,11 @@ const Decode = token => {
     return dehash;
 }
 
+const ensureAuth1 = (req,res,next) => {
+    console.log("ciao");
+    console.log(res+req+next);
+}
 
 
 
-module.exports = {Encode,Decode};
+module.exports = {Encode,Decode, ensureAuth1};
