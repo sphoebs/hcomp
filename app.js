@@ -85,7 +85,7 @@ app.get('/api/swagger', (req, res) => {
 
 require('./api/routes/SocialLogin')(app);
 require('./api/routes/Assignments')(app);
-require('./api/routes/Categories')(app);
+require('./api/routes/TaskTypes')(app);
 require('./api/routes/Tasks')(app);
 require('./api/routes/Users')(app);
 
