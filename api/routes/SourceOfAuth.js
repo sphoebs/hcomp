@@ -15,8 +15,7 @@ const Encode = payload => {
     return hash;
 }
 
-const Decode = token => {
-    let tmp = '';
+const Decode = token => {   
     const secret = 'weqsdacxzdsaewqdsacxzdsaewqdsa';
     const dehash = jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
         if (err) {
