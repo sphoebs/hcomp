@@ -54,12 +54,12 @@ db.assignments.belongsTo(db.users, {
 });
 
 //FOREIGN KEY FOR CATEGORIES
-db.categories.hasMany(db.tasks, {
-  foreignKey: "id_category",
+db.tasktypes.hasMany(db.tasks, {
+  foreignKey: "id_tasktype",
   sourceKey: "id"
 });
-db.tasks.belongsTo(db.categories, {
-  foreignKey: "id_category",
+db.tasks.belongsTo(db.tasktypes, {
+  foreignKey: "id_tasktype",
   targetKey: "id"
 });
 //FOREIGN KEY FOR TASKS 
