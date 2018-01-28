@@ -32,6 +32,7 @@ const Decode = token => {
 const ensureAuth1 = (req,res,next) => {
     console.log("ciao");
     console.log(res+req+next);
+    res.send('ok');
 }
 
 
