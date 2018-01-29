@@ -6,7 +6,6 @@ info:
   termsOfService: http://swagger.io/terms/
   contact:
     name: Hcomp Team
-    email: mohamed.dounnani@studenti.unitn.it 
     url: https://hsoc.herokuapp.com/
   license:
     name: MIT
