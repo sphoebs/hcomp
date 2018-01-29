@@ -19,6 +19,6 @@ module.exports = {
   users : new Users(),
   tasks: new Tasks(),
   assignments: new Assignments(),
-  tasktypes: new TaskTypes(),
+  runtypes: new RunTypes(),
   runs: new Runs()
 };
