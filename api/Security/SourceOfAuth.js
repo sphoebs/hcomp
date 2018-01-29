@@ -30,7 +30,7 @@ const Decode = token => {
 
 const ensureAuth1 = (req, res, next) => {
     if (req.headers.authorization) {
-        let decodedJWT = this.Decode(req.headers.authorization);
+        let decodedJWT = Decode(req.headers.authorization);
         users
             .findById(decodedJWT.id)
             .then(user => {
