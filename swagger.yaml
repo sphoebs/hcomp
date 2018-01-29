@@ -206,11 +206,11 @@ paths:
         404:
           description: "Task not found"
           
-  /tasks/workerRecentTasks/{id}:
+  /tasks/creatorRecentTasks/{id}:
      get:
        tags:
          - "tasks"
-       description: Returns the most writer recent tasks. 2 by default.
+       description: Returns the most creator recent tasks. 2 by default.
        produces:
          - application/json
        parameters:
