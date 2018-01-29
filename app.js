@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 
 require('./api/routes/Runs')(app);
 require('./api/routes/Assignments')(app);
-require('./api/routes/TaskTypes')(app);
+require('./api/routes/RunTypes')(app);
 require('./api/routes/Tasks')(app);
 require('./api/routes/Users')(app);
 
