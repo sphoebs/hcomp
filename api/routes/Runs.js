@@ -1,5 +1,5 @@
 const controller = require('../controllers').assignments;
-const {ensureAuthorization} = require('../Security/SourceOfAuth');
+const {ensureAuthorization, ensureAuthorizationCreator} = require('../Security/SourceOfAuth');
 module.exports = app => {
    
     app.post("/tasks/runs", ensureAuthorization,  (req,res) => {
