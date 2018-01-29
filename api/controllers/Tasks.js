@@ -57,4 +57,4 @@ class Tasks extends Crud {
     }
 }
 
-module.exports = Tasks;)
+module.exports = Tasks;
