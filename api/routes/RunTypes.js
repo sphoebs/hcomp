@@ -1,24 +1,24 @@
-const controller = require('../controllers').tasktypes;
+const controller = require('../controllers').runtypes;
 
 module.exports = app => {
   
-    app.post("/tasktypes", (req,res)=> {
+    app.post("/runtypes", (req,res)=> {
         
     })
 
-    app.get("/tasktypes", (req,res)=> {
+    app.get("/runtypes", (req,res)=> {
         
     })
 
-    app.get("/tasktypes/:id", (req,res)=> {
+    app.get("/runtypes/:id", (req,res)=> {
         
     })
 
-    app.put("/tasktypes/:id", (req,res)=> {
+    app.put("/runtypes/:id", (req,res)=> {
         
     })
 
-    app.delete("/tasktypes", (req,res)=> {
+    app.delete("/runtypes", (req,res)=> {
         
     })
 };
