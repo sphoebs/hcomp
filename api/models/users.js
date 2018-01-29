@@ -2,16 +2,12 @@
 
 module.exports = (sequelize,DataTypes) =>
   sequelize.define("users", {   
-    facebook_id: DataTypes.STRING,
-    accessToken: DataTypes.TEXT,
-    google_id: DataTypes.STRING,    
+    social_id: DataTypes.STRING,
+    accessToken: DataTypes.STRING,
+    access_type: DataTypes.STRING,    
     email: DataTypes.STRING,
     name: DataTypes.STRING,
     img: DataTypes.STRING,
-    is_deleted: DataTypes.BOOLEAN,
-    additional_data: {
-      type: DataTypes.JSONB,
-      defaultValue: {}
-    },
+    is_deleted: DataTypes.BOOLEAN,    
     writer: DataTypes.BOOLEAN
   });

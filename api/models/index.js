@@ -37,29 +37,29 @@ db.Sequelize = Sequelize;
 
 // FOREIGN KEY SETTING FOR USER
 db.users.hasMany(db.tasks, {
-  foreignKey: "id_user",
+  foreignKey: "id_creator",
   sourceKey: "id"
 });
 db.users.hasMany(db.assignments, {
-  foreignKey: "id_user",
+  foreignKey: "id_worker",
   sourceKey: "id"
 });
 db.tasks.belongsTo(db.users, {
-  foreignKey: "id_user",
+  foreignKey: "id_creator",
   targetKey: "id"
 });
 db.assignments.belongsTo(db.users, {
-  foreignKey: "id_user",
+  foreignKey: "id_worker",
   targetKey: "id"
 });
 
-//FOREIGN KEY FOR TASKTYPES
-db.tasktypes.hasMany(db.tasks, {
-  foreignKey: "id_tasktype",
+//FOREIGN KEY FOR RUNTYPES
+db.runtypes.hasMany(db.runs, {
+  foreignKey: "id_runtype",
   sourceKey: "id"
 });
-db.tasks.belongsTo(db.tasktypes, {
-  foreignKey: "id_tasktype",
+db.runs.belongsTo(db.runtypes, {
+  foreignKey: "id_runtype",
   targetKey: "id"
 });
 //FOREIGN KEY FOR TASKS 
@@ -75,11 +75,11 @@ db.runs.belongsTo(db.tasks, {
 //FOREIGN KEY FOR RUNS
 
 db.runs.hasMany(db.assignments, {
-  foreignKey: "id_task",
+  foreignKey: "id_run",
   sourceKey: "id"
 });
 db.assignments.belongsTo(db.runs, {
-  foreignKey: "id_task",
+  foreignKey: "id_run",
   targetKey: "id"
 });
 module.exports = db;

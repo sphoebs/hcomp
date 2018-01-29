@@ -2,12 +2,14 @@
 
 module.exports = (sequelize,DataTypes) =>
   sequelize.define('assignments', {   
-    id_user: DataTypes.INTEGER,
-    id_task: DataTypes.INTEGER,    
-    time_completed: DataTypes.DATE,
-    is_in_progress: DataTypes.BOOLEAN,
-    additional_data: {
-        type: DataTypes.JSONB,
-        defaultValue: {}
-      },
+    id_worker: DataTypes.INTEGER,
+    id_task: DataTypes.INTEGER,
+    id_run: DataTypes.INTEGER,
+    answers: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      defaultValue: []
+    },    
+    is_completed: DataTypes.BOOLEAN,
+    is_in_progress: DataTypes.BOOLEAN,   
+ 
   });
