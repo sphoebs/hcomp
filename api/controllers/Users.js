@@ -4,7 +4,7 @@ const app = require("../../app").app;
 const {Encode} = require('../Security/SourceOfAuth');
 
 const facebookType = 'facebook';
-
+const googleType = 'google';
 
 
 class Users extends Crud {
@@ -23,7 +23,7 @@ class Users extends Crud {
       return this.model
         .findOne({
           where: {
-            facebook_id: data.id
+            social_id: data.id
           }
         })
         .then(user => {
@@ -31,12 +31,13 @@ class Users extends Crud {
           if (!user) {
             return this.model
               .create({
-                facebook_id: data.id,
+                social_id: data.id,
                 email: data.email,
                 name: data.name,
                 img: data.picture.data.url,
                 accessToken: data.accessToken,
-                writer: isWriter
+                writer: isWriter,
+                access_type: facebookType
               })
               .then(user => {
                 let tmp;
@@ -71,7 +72,7 @@ class Users extends Crud {
       return this.model
         .findOne({
           where: {
-            google_id: data.profileObj.googleId
+            social_id: data.profileObj.googleId
           }
         })
         .then(user => {
@@ -79,12 +80,13 @@ class Users extends Crud {
           if (!user) {
             return this.model
               .create({
-                google_id: data.profileObj.googleId,
+                social_id: data.profileObj.googleId,
                 email: data.profileObj.email,
                 img: data.profileObj.imageUrl,
                 name: data.profileObj.name,
                 accessToken: data.accessToken,
-                writer: isWriter
+                writer: isWriter,
+                access_type: googleType
               })
               .then(user => {
                 let tmp;

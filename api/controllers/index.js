@@ -1,12 +1,12 @@
 const users = require('../models').users;
 const tasks = require('../models').tasks;
 const assignments = require('../models').assignments;
-const tasktypes = require('../models').tasktypes;
+const runtypes = require('../models').runtypes;
 const runs = require('../models').runs;
 const Users = require('./Users');
 const Tasks = require('./Tasks');
 const Assignments = require('./Assignments');
-const TaskTypes = require('./TaskTypes');
+const RunTypes = require('./RunTypes');
 const Runs = require('./Runs');
 
 
