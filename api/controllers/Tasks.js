@@ -28,7 +28,7 @@ class Tasks extends Crud {
             }
         })
     }
-    writerRecentTasks(req,res){
+    creatorRecentTasks(req,res){
 
     }
     createData(image) {

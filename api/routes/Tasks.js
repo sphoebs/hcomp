@@ -14,8 +14,8 @@ module.exports = app => {
     app.delete("/tasks/:id", (req,res)=> {
         controller.delete(req,res);
     });   
-    app.get("/tasks/writerRecentTasks:id", (req,res) => {
-        controller.writerRecentTasks(req,res);
+    app.get("/tasks/creatorRecentTasks:id", (req,res) => {
+        controller.creatorRecentTasks(req,res);
     }); 
    
 };
