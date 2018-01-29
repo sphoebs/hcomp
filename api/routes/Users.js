@@ -42,9 +42,7 @@ module.exports = app => {
           res.status(404).send("unAuthorized Area");
         }
       });
-
     }
-
   }
   
 
@@ -57,4 +55,5 @@ module.exports = app => {
   app.get('/users/:id', ensureAuthorization, (req, res) => {
     controller.readOne(req, res);
   });
+
 };

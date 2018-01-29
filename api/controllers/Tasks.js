@@ -28,7 +28,9 @@ class Tasks extends Crud {
             }
         })
     }
+    writerRecentTasks(req,res){
 
+    }
     createData(image) {
         let data = {
             Key: req.body.imageName,

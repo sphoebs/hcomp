@@ -6,6 +6,10 @@ class Runs extends Crud{
         super(runs);
         this.lastUpdated;
     }
+
+    recentRuns(req,res){
+        
+    }
 } 
 
 module.exports = Runs;
