@@ -1,5 +1,5 @@
 const controller = require("../controllers").users;
-const { Decode , ensureAuth1} = require('../Security/SourceOfAuth');
+const { Decode , ensureAuthorization} = require('../Security/SourceOfAuth');
 const users = require('../models').users;
 const { FB, FacebookApiException } = require('fb');
 const google = require('googleapis');
@@ -11,29 +11,6 @@ const oauth2Client = new OAuth2(
   process.env.GOOGLE_APP_SECRET
 );
 module.exports = app => {
-
-  /*DECPDE THE JWT INSIDE HEADERS AUTHORIZATION AND CHECK IF ID IS IN DATABASE
-  IF GO NEXT ELSE ERROR
-  */ 
-  const ensureAuthenticated = (req, res, next) => {
-    if (req.headers.authorization) {
-      let decodedJWT = Decode(req.headers.authorization);
-      users
-        .findById(decodedJWT.id)
-        .then(user => {
-          if (!user) {
-            res.status(404).send("unAuthorized Area");
-          }
-          else {
-            return next();
-          }
-        })
-        .catch(error => res.status(400).send(error));
-    }
-    else {
-      res.status(404).send("unAuthorized Area");
-    }
-  }
 
   /*
   CHECK IF THE RECEIVED ACCESS TOKEN CORRESPONDS TO THE USER THROUGH A CALL TO FACEBOOK API AND GOOGLE API
@@ -74,10 +51,10 @@ module.exports = app => {
   app.post('/auth/login', findUserAuth, (req, res) => {
     controller.create(req, res);
   })
-  app.get('/users', ensureAuthenticated, (req, res) => {
+  app.get('/users', ensureAuthorization, (req, res) => {
     controller.readAll(req, res);
   })
-  app.get('/users/:id', ensureAuth1, (req, res) => {
+  app.get('/users/:id', ensureAuthorization, (req, res) => {
     controller.readOne(req, res);
   });
 };

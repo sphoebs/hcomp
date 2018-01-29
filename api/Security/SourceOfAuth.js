@@ -28,7 +28,11 @@ const Decode = token => {
     return dehash;
 }
 
-const ensureAuth1 = (req, res, next) => {
+ /*DECPDE THE JWT INSIDE HEADERS AUTHORIZATION AND CHECK IF ID IS IN DATABASE
+  IF GO NEXT ELSE ERROR
+  */ 
+
+const ensureAuthorization = (req, res, next) => {
     if (req.headers.authorization) {
         let decodedJWT = Decode(req.headers.authorization);
         users
@@ -50,4 +54,4 @@ const ensureAuth1 = (req, res, next) => {
 
 
 
-module.exports = { Encode, Decode, ensureAuth1 };
+module.exports = { Encode, Decode, ensureAuthorization };
