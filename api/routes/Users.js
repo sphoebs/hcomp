@@ -74,7 +74,7 @@ module.exports = app => {
   app.post('/auth/login', findUserAuth, (req, res) => {
     controller.create(req, res);
   })
-  app.get('/users',ensureAuthenticated, (req, res) => {
+  app.get('/users', ensureAuthenticated, (req, res) => {
     controller.readAll(req, res);
   })
   app.get('/users/:id', ensureAuth1, (req, res) => {

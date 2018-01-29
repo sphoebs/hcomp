@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 
 // Adding API routes
 
-require('./api/routes/SocialLogin')(app);
+require('./api/routes/Runs')(app);
 require('./api/routes/Assignments')(app);
 require('./api/routes/TaskTypes')(app);
 require('./api/routes/Tasks')(app);
