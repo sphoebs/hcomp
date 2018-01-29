@@ -137,7 +137,7 @@ paths:
        type: "string"
      responses:
       200:
-          description: return Alla tasks filtered by type
+          description: return All tasks filtered by type
       400:
           description: "Invalid Type supplied"
         
@@ -206,7 +206,7 @@ paths:
         404:
           description: "Task not found"
           
-  /tasks/writerRecentTasks/{id}:
+  /tasks/workerRecentTasks/{id}:
      get:
        tags:
          - "tasks"
@@ -449,7 +449,7 @@ paths:
         404:
           description: "Assignment not found"  
   
-  /tasks/runs/assignments/consumerhistory/{id}:
+  /tasks/runs/assignments/workerhistory/{id}:
     get:
       tags:
       - "assignments"
@@ -482,7 +482,7 @@ paths:
             schema:
               $ref: '#/definitions/assignments'
 
-  /tasks/runs/assignments/writermotivational/{id}:
+  /tasks/runs/assignments/creatormotivational/{id}:
       get:
         tags:
           - "assignments"
@@ -501,7 +501,7 @@ paths:
             schema:
               $ref: '#/definitions/assignments' 
 
-  /tasks/runs/assignments/consumermotivational/{id}:
+  /tasks/runs/assignments/workermotivational/{id}:
       get:
         tags:
           - "assignments"
