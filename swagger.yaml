@@ -11,7 +11,7 @@ info:
     name: MIT
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
 host: hsoc.herokuapp.com
-basePath: /api
+basePath: /
 schemes:
   - https
 consumes:
