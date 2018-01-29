@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) =>
-        queryInterface.createTable('tasks',
+        queryInterface.createTable('runs',
             {
                 id: {
                     type: Sequelize.INTEGER,
@@ -15,40 +15,48 @@ module.exports = {
                 description: {
                     type: Sequelize.TEXT
                 },
-                image: {
+                introduction: {
                     type: Sequelize.TEXT
+                },
+                images: {
+                    type: Sequelize.ARRAY(Sequelize.TEXT),
+                    defaultValue: []
                 },
                 question: {
                     type: Sequelize.TEXT
                 },
-                answer: {
-                    type: Sequelize.TEXT
+                tutorial: {
+                    type: Sequelize.ARRAY(Sequelize.TEXT),
+                    defaultValue: []
                 },
-                id_user: {
+                id_runtype: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
                     references: {
-                        model: 'users',
+                        model: 'runtypes',
                         key: 'id'
                     },
                     onDelete: 'CASCADE',
                     onUpdate: 'CASCADE'
-                  },
-                  id_category: {
+                },
+                id_task: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
                     references: {
-                        model: 'categories',
+                        model: 'tasks',
                         key: 'id'
                     },
                     onDelete: 'CASCADE',
                     onUpdate: 'CASCADE'
-                },                
+                },
                 is_deleted: {
                     type: Sequelize.BOOLEAN
                 },
                 is_active: {
                     type: Sequelize.BOOLEAN
+                },
+                max_assignments: {
+                    type: Sequelize.INTEGER
                 },
                 createdAt: {
                     type: Sequelize.DATE,
@@ -59,8 +67,6 @@ module.exports = {
                     allowNull: false
                 }
             }),
-
     down: (queryInterface, Sequelize) =>
-
-        queryInterface.dropTable('tasks')
+        queryInterface.dropTable('runs')
 };

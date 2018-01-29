@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) =>
-        queryInterface.createTable('tasktypes',
+        queryInterface.createTable('runtypes',
             {
                 id: {
                     type: Sequelize.INTEGER,
@@ -9,7 +9,7 @@ module.exports = {
                     primaryKey: true,
                     autoIncrement: true
                 },
-                category_name: {
+                runtype: {
                     type: Sequelize.STRING
                 },
                 createdAt: {
@@ -21,5 +21,6 @@ module.exports = {
                     allowNull: false
                 }
             }),
-    down: (queryInterface, Sequelize) => queryInterface.dropTable('tasktypes')
+    down: (queryInterface, Sequelize) =>
+        queryInterface.dropTable('runtypes')
 };

@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-    up: (queryInterface, Sequelize) =>
+    up: (queryInterface, Sequelize) => 
         queryInterface.createTable('users',
             {
                 id: {
@@ -9,14 +9,14 @@ module.exports = {
                     primaryKey: true,
                     autoIncrement: true
                 },
-                google_id: {
-                    type: Sequelize.STRING
-                },
-                facebook_id: {
+                social_id: {
                     type: Sequelize.STRING
                 },
                 accessToken: {
-                    type: Sequelize.TEXT
+                    type: Sequelize.STRING
+                },
+                access_type: {
+                    type: Sequelize.STRING
                 },
                 email: {
                     type: Sequelize.STRING
@@ -24,17 +24,12 @@ module.exports = {
                 name: {
                     type: Sequelize.STRING
                 },
-                img: {                    
+                img: {
                     type: Sequelize.STRING
-                    
                 },
                 is_deleted: {
                     type: Sequelize.BOOLEAN
-                },
-                additional_data: {
-                    type: Sequelize.JSONB,
-                    defaultValue: {}
-                },
+                },                
                 writer: {
                     type: Sequelize.BOOLEAN
                 },
@@ -46,7 +41,7 @@ module.exports = {
                     type: Sequelize.DATE,
                     allowNull: false
                 }
-            }),
+            }),        
     down: (queryInterface, Sequelize) =>
-        queryInterface.dropTable('users')
+        queryInterface.dropTable('users')        
 };

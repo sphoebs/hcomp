@@ -1,25 +1,27 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) =>
-        queryInterface.createTable('assignments',
+        queryInterface.createTable('tasks',
             {
                 id: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
                     primaryKey: true,
                     autoIncrement: true
-                },               
-                time_completed: {
-                    type: Sequelize.DATE
                 },
-                is_in_progress: {
-                    type: Sequelize.BOOLEAN
+                name: {
+                    type: Sequelize.STRING
                 },
-                additional_data: {
-                    type: Sequelize.JSONB,
-                    defaultValue: {}
+                description: {
+                    type: Sequelize.TEXT
                 },
-                id_task: {
+                introduction: {
+                    type: Sequelize.TEXT
+                },
+                avatar_image: {
+                    type: Sequelize.TEXT
+                },
+                id_creator: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
                     references: {
@@ -28,6 +30,12 @@ module.exports = {
                     },
                     onDelete: 'CASCADE',
                     onUpdate: 'CASCADE'
+                },
+                is_deleted: {
+                    type: Sequelize.BOOLEAN
+                },
+                is_active: {
+                    type: Sequelize.BOOLEAN
                 },
                 createdAt: {
                     type: Sequelize.DATE,
@@ -38,8 +46,6 @@ module.exports = {
                     allowNull: false
                 }
             }),
-
     down: (queryInterface, Sequelize) =>
-        queryInterface.dropTable('assignments')
-
+        queryInterface.dropTable('tasks')
 };
