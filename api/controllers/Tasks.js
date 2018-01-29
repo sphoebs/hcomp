@@ -22,15 +22,30 @@ class Tasks extends Crud {
             }
             else {
                 return this.model
-                    .create({req.body})
+                    .create()
                     .then(data => res.status(200).send(data))
                     .catch(error => res.status(400).send(error));
             }
         })
     }
-    creatorRecentTasks(req,res){
 
+    creatorRecentTasks(req, res) {
+        return this.model
+            .findAll({ 
+                where: { id_creator: req.params.id }, order: 'createdAt DESC', limit: 2 
+            })
+            .then(tasks => {
+                if(!tasks){
+                    res.send(404).send({message: 'Not found'});
+                } 
+                else{
+                    res.send(200).send(tasks);
+                }
+                
+            })
+            .catch(error => res.status(400).send(error));
     }
+
     createData(image) {
         let data = {
             Key: req.body.imageName,
