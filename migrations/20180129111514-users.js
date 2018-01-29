@@ -30,7 +30,7 @@ module.exports = {
                 is_deleted: {
                     type: Sequelize.BOOLEAN
                 },                
-                writer: {
+                creator: {
                     type: Sequelize.BOOLEAN
                 },
                 createdAt: {

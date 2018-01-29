@@ -36,7 +36,7 @@ class Users extends Crud {
                 name: data.name,
                 img: data.picture.data.url,
                 accessToken: data.accessToken,
-                writer: isWriter,
+                creator: isWriter,
                 access_type: facebookType
               })
               .then(user => {
@@ -85,7 +85,7 @@ class Users extends Crud {
                 img: data.profileObj.imageUrl,
                 name: data.profileObj.name,
                 accessToken: data.accessToken,
-                writer: isWriter,
+                creator: isWriter,
                 access_type: googleType
               })
               .then(user => {

@@ -9,5 +9,5 @@ module.exports = (sequelize,DataTypes) =>
     name: DataTypes.STRING,
     img: DataTypes.STRING,
     is_deleted: DataTypes.BOOLEAN,    
-    writer: DataTypes.BOOLEAN
+    creator: DataTypes.BOOLEAN
   });
