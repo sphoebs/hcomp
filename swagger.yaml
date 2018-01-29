@@ -6,7 +6,7 @@ info:
   termsOfService: http://swagger.io/terms/
   contact:
     name: Hcomp Team
-    email: francesco.spagnolo@studenti.unitn.it
+    email: mohamed.dounnani@studenti.unitn.it 
     url: https://hsoc.herokuapp.com/
   license:
     name: MIT
@@ -20,10 +20,95 @@ consumes:
 produces:
   - application/json
 paths:
-  /task:
+  /auth/login:
     post:
       tags:
-      - "task"
+      - "users"
+      summary: "User Login"
+      description: Controll user, if don't exist create and return id+jwt else only id+jwt
+      operationId: createAndReturnUser
+      parameters:
+        - name: user
+          in: body
+          description: User
+          required: true
+          schema:
+            $ref: '#/definitions/users'
+      responses:
+        200:
+          description: id+jwt
+        400:
+          description: "Invalid ID supplied"
+        
+  /users/{userID}:
+    get:
+      tags:
+      - "users"
+      summary: "Get user by ID"
+      description: "Returns a single user"
+      operationId: returnUser
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/users"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "User not found"
+    put:
+      tags:
+      - "users"
+      summary: "Update user by ID"
+      description: "Updates a User status"
+      operationId: updateUser
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of user to update"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful updated"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "User not found"
+    delete:
+      tags:
+      - "users"
+      summary: "Delete user by ID"
+      description: "Deletes a user by ID"
+      operationId: deleteUser
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of user to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "User succesfully deleted"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "User not found"
+
+  /tasks:
+    post:
+      tags:
+      - "tasks"
       summary: "Add Task"
       description: Creates a new Task
       operationId: createTask
@@ -33,21 +118,37 @@ paths:
           description: Task
           required: true
           schema:
-            $ref: '#/definitions/NewTask'
+            $ref: '#/definitions/tasks'
       responses:
         200:
           description: task succesfully created
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /task/{taskID}:
+        400:
+          description: "Invalid ID supplied"
+    get:
+     tags:
+     - "tasks"
+     summary: "Get tasks by type"
+     description: Get Tasks
+     operationId: getTasks
+     parameters:
+     - name: "type"
+       in: "query"
+       description: "filter by type of tasks return"
+       required: false
+       type: "string"
+     responses:
+      200:
+          description: return Alla tasks filtered by type
+      400:
+          description: "Invalid Type supplied"
+        
+  /tasks/{taskID}:
     get:
       tags:
-      - "task"
+      - "tasks"
       summary: "Get task by ID"
       description: "Returns a single task"
-      operationId: "getTaskByID"
+      operationId: returnTask
       produces:
       - "application/json"
       parameters:
@@ -60,14 +161,14 @@ paths:
         200:
           description: "successful operation"
           schema:
-            $ref: "#/definitions/Task"
+            $ref: "#/definitions/tasks"
         400:
           description: "Invalid ID supplied"
         404:
           description: "Task not found"
     put:
       tags:
-      - "task"
+      - "tasks"
       summary: "Update task by ID"
       description: "Updates a Task status"
       operationId: updateTask
@@ -86,12 +187,12 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Task not found"
-
     delete:
       tags:
-      - "task"
+      - "tasks"
       summary: "Delete task by ID"
       description: "Deletes a task by ID"
+      operationId: deleteTask
       parameters:
       - name: "taskID"
         in: "path"
@@ -105,237 +206,11 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Task not found"
-  /task/complete:
-    post:
-      tags:
-      - "task"
-      summary: "Task answers submit"
-      description: Submits task answers
-      operationId: taskCompleted
-      parameters:
-        - name: task
-          in: body
-          description: Task ID with mapping associated
-          required: true
-          schema:
-            $ref: '#/definitions/TaskAnswers'
-      responses:
-        200:
-          description: task succesfully created
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
-  /auth/login/facebook:
-    get:
-      tags:
-      - "oAuth"
-      summary: "Facebook login"
-      description: "Redirects to facebook oauth login"
-      responses:
-        200:
-          description: "Logged in"
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
-  /auth/login/google:
-    get:
-      tags:
-      - "oAuth"
-      summary: "Google login"
-      description: "Redirects to google oauth login"
-      responses:
-        200:
-          description: "Logged in"
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
-  /auth/logout:
-    get:
-      tags:
-      - "oAuth"
-      summary: "Logout"
-      description: "Logouts the user (brute?)"
-      responses:
-        200:
-          description: "Logged out"
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
-  /stats/{userID}:
-    get:
-      tags:
-      - "Stats"
-      summary: "Get User Stats"
-      description: Retrieve some statistics of the given User
-      operationId: getStatsById
-      parameters:
-        - name: userID
-          in: path
-          type: string
-          description: User ID
-          required: true
-      responses:
-        200:
-          description: stats succesfully returned
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
-  /consumerhistory/{id}:
-    get:
-      tags:
-      - Assignment
-      description: Returns all assignment done by a given user id.                    
-      produces:
-       - application/json
-      parameters:
-        - name: id
-          description: User id 
-          in: path         
-          required: true
-          type: integer                
-      responses:
-         200:
-          description: An array of Assignments and Users
-          schema:
-             $ref: '#/definitions/assignment'
-
-  /guestmotivational:
-      get:
-        tags:
-          - Assignment
-        description: Returns the most assignment done by consumer users.
-        produces:
-          - application/json
-        responses:
-          200:
-            description: An array of Assignment and Users
-            schema:
-              $ref: '#/definitions/assignment'
-
-  /writermotivational/{id}:
-      get:
-        tags:
-          - Assignment
-        description: Returns the most assignment done by consumer users regarding your tasks.
-        produces:
-          - application/json
-        parameters:
-          - name: id
-            description: User id 
-            in: path         
-            required: true
-            type: integer            
-        responses:
-          200:
-            description: An array of Assignment and Users
-            schema:
-              $ref: '#/definitions/assignment' 
-
-  /consumermotivational/{id}:
-      get:
-        tags:
-          - Assignment
-        description: Returns the most assignment done by your friends.
-        produces:
-          - application/json
-        parameters:
-            - name: id
-              description: User id 
-              in: path         
-              required: true
-              type: integer            
-        responses:
-          200:
-            description: An array of Assignment and Users
-            schema:
-              $ref: '#/definitions/assignment'
-
-  /recentTasks/{id}:
+          
+  /tasks/writerRecentTasks/{id}:
      get:
        tags:
-         - Tasks
-       description: Returns the most recent tasks. 2 by default. Also check if there are any friends 
-                    who have made them. If so, users also returned. If id is null just return the most
-                    recent tasks
-       produces:
-         - application/json
-       parameters:
-           - name: id
-             description: User id 
-             in: path         
-             required: true
-             type: integer            
-       responses:
-         200:
-           description: An array of Tasks and An array of Users
-           schema:
-             $ref: '#/definitions/tasks'
-
-  /tasksbycategory/{id}:
-      get:
-        tags:
-          - Tasks
-        description: Returns all tasks by given category id.  
-        parameters:
-           - name: id
-             description: User id 
-             in: path         
-             required: true
-             type: integer        
-        produces:
-          - application/json                
-        responses:
-          200:
-            description: An array of Tasks
-            schema:
-              $ref: '#/definitions/tasks'
-
-  /categories:
-      get:
-        tags:
-          - Tasks
-        description: Returns all categories.                    
-        produces:
-          - application/json                
-        responses:
-          200:
-            description: An array of Categories
-            schema:
-              $ref: '#/definitions/tasks'
-
-  /writerhistory/{id}:
-     get:
-       tags:
-        - Tasks
-       description: Returns all tasks made by a given user id.                    
-       produces:
-         - application/json
-       parameters:
-           - name: id
-             description: User id 
-             in: path         
-             required: true
-             type: integer                
-       responses:
-         200:
-           description: An array of Tasks
-           schema:
-             $ref: '#/definitions/tasks'
-
-  /writerRecentTasks/{id}:
-     get:
-       tags:
-         - Tasks
+         - "tasks"
        description: Returns the most writer recent tasks. 2 by default.
        produces:
          - application/json
@@ -349,156 +224,461 @@ paths:
          200:
            description: An array of Tasks
            schema:
-             $ref: '#/definitions/tasks'
+             $ref: '#/definitions/tasks'          
+          
+  /tasks/runs:
+    post:
+      tags:
+      - "runs"
+      summary: "Add Run"
+      description: Creates a new Run
+      operationId: createRun
+      parameters:
+        - name: run
+          in: body
+          description: Run
+          required: true
+          schema:
+            $ref: '#/definitions/runs'
+      responses:
+        200:
+          description: run succesfully created
+        400:
+          description: "Invalid ID supplied"
+    get:
+     tags:
+     - "runs"
+     summary: "Get run by type"
+     description: Get a Run
+     operationId: getRun
+     parameters:
+     - name: "type"
+       in: "query"
+       description: "filter by type of run return"
+       required: false
+       type: "string"
+     responses:
+      200:
+          description: return All runs filtered by type
+      400:
+          description: "Invalid Type supplied"     
+          
+  /tasks/runs/{runID}:
+    get:
+      tags:
+      - "runs"
+      summary: "Get run by ID"
+      description: "Returns a single run"
+      operationId: getRunByID
+      produces:
+      - "application/json"
+      parameters:
+      - name: "runID"
+        in: "path"
+        description: "ID of run to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/runs"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Run not found"
+    put:
+      tags:
+      - "runs"
+      summary: "Update run by ID"
+      description: "Updates a Run status"
+      operationId: updateRun
+      produces:
+      - "application/json"
+      parameters:
+      - name: "runID"
+        in: "path"
+        description: "ID of run to update"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful updated"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Run not found"
+    delete:
+      tags:
+      - "runs"
+      summary: "Delete run by ID"
+      description: "Deletes a run by ID"
+      operationId: deleteRun
+      parameters:
+      - name: "runID"
+        in: "path"
+        description: "ID of run to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Run succesfully deleted"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Run not found"  
+          
+  /tasks/runs/recentRuns/{id}:
+     get:
+       tags:
+         - "runs"
+       description: Returns the most recent runs. 2 by default. Also check if there are any friends 
+                    who have made them. If so, users also returned. If id is null just return the most recent runs
+       produces:
+         - application/json
+       parameters:
+           - name: id
+             description: User id 
+             in: path         
+             required: true
+             type: integer            
+       responses:
+         200:
+           description: An array of Runs and An array of Users
+           schema:
+             $ref: '#/definitions/runs'        
+          
+  /tasks/runs/assignments:
+    post:
+      tags:
+      - "assignments"
+      summary: "Add Assignment"
+      description: Creates a new Assignment
+      operationId: createAssignment
+      parameters:
+        - name: assignment
+          in: body
+          description: Assignment
+          required: true
+          schema:
+            $ref: '#/definitions/assignments'
+      responses:
+        200:
+          description: assignment succesfully created
+        400:
+          description: "Invalid ID supplied"
+    get:
+     tags:
+     - "assignments"
+     summary: "Get assignment by type"
+     description: get an  Assignment
+     operationId: getAssignment
+     parameters:
+     - name: "type"
+       in: "query"
+       description: "filter by type of assignment return"
+       required: false
+       type: "string"
+     responses:
+      200:
+          description: return All assignments filtered by type
+      400:
+          description: "Invalid Type supplied"     
+          
+  /tasks/runs/assignments/{assignmentID}:
+    get:
+      tags:
+      - "assignments"
+      summary: "Get assignment by ID"
+      description: "Returns a single assignment"
+      operationId: getAssignmentByID
+      produces:
+      - "application/json"
+      parameters:
+      - name: "assignmentID"
+        in: "path"
+        description: "ID of assignment to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/assignments"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Assignment not found"
+    put:
+      tags:
+      - "assignments"
+      summary: "Update assignment by ID"
+      description: "Updates an Assignment status"
+      operationId: updateAssignment
+      produces:
+      - "application/json"
+      parameters:
+      - name: "assignmentID"
+        in: "path"
+        description: "ID of assignment to update"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful updated"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Assignment not found"
+    delete:
+      tags:
+      - "assignments"
+      summary: "Delete assignments by ID"
+      description: "Deletes an assignment by ID"
+      operationId: deleteAssignment
+      parameters:
+      - name: "assignmentID"
+        in: "path"
+        description: "ID of assignment to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Assignment succesfully deleted"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Assignment not found"  
+  
+  /tasks/runs/assignments/consumerhistory/{id}:
+    get:
+      tags:
+      - "assignments"
+      description: Returns all assignments done by a given user id.                   
+      produces:
+       - application/json
+      parameters:
+        - name: id
+          description: User id 
+          in: path         
+          required: true
+          type: integer                
+      responses:
+         200:
+          description: An array of Assignments and Users
+          schema:
+             $ref: '#/definitions/assignments'    
+             
+  
+  /tasks/runs/assignments/guestmotivational:
+      get:
+        tags:
+          - "assignments"
+        description: Returns the most recent ten assignments done by worker users.
+        produces:
+          - application/json
+        responses:
+          200:
+            description: An array of Assignments and Users
+            schema:
+              $ref: '#/definitions/assignments'
 
-  /auth/loginAsWriter/facebook:
-        get:
-          tags:
-            - Users
-          description: Login with Facebook
-          produces:
-            - application/json             
-          responses:
-            200:
-              description: return a Token with user informations and Edit user's writer as true
-              schema:
-                $ref: '#/definitions/users'
+  /tasks/runs/assignments/writermotivational/{id}:
+      get:
+        tags:
+          - "assignments"
+        description: Returns the most recent ten assignments done by worker users regarding your tasks.
+        produces:
+          - application/json
+        parameters:
+          - name: id
+            description: User id 
+            in: path         
+            required: true
+            type: integer            
+        responses:
+          200:
+            description: An array of Assignments and Users
+            schema:
+              $ref: '#/definitions/assignments' 
 
-  /auth/loginAsWriter/google:
-       get:
-         tags:
-           - Users
-         description: Login with Google
-         produces:
-           - application/json             
-         responses:
-           200:
-             description: return a Token with user informations and Edit user's writer as true
-             schema:
-               $ref: '#/definitions/users'
-
-  /auth/loginAsConsumer/facebook:
-        get:
-          tags:
-            - Users
-          description: Login with Facebook
-          produces:
-            - application/json             
-          responses:
-            200:
-              description: return a Token with user informations. If user's writer is true change in false
-              schema:
-                $ref: '#/definitions/users'
-
-  /auth/loginAsConsumer/google:
-        get:
-          tags:
-            - Users
-          description: Login with Google
-          produces:
-            - application/json             
-          responses:
-            200:
-              description: return a Token with user informations. If user's writer is true change in false
-              schema:
-                $ref: '#/definitions/users'
-
-  /auth/logout/facebook:
-       delete:
-         tags:
-           - Users
-         description: Logout from Facebook session
-         produces:
-           - application/json                
-         responses:
-           200:
-             description: Logout succeded
-             schema:
-               $ref: '#/definitions/users'
-               
-  /auth/logout/google:
-      delete:
-         tags:
-           - Users
-         description: Logout from Google session
-         produces:
-           - application/json                
-         responses:
-           200:
-             description: Logout succeded
-             schema:
-               $ref: '#/definitions/users' 
+  /tasks/runs/assignments/consumermotivational/{id}:
+      get:
+        tags:
+          - "assignments"
+        description: Returns the most recent ten assignments done by your friends.
+        produces:
+          - application/json
+        parameters:
+            - name: id
+              description: User id 
+              in: path         
+              required: true
+              type: integer            
+        responses:
+          200:
+            description: An array of Assignments and Users
+            schema:
+              $ref: '#/definitions/assignments'
+  
+  /runtypes:
+    post:
+      tags:
+      - "runtypes"
+      summary: "Add Run Type"
+      description: Creates a new Run Type
+      operationId: createRunType
+      parameters:
+        - name: runtype
+          in: body
+          description: Run Type
+          required: true
+          schema:
+            $ref: '#/definitions/runtypes'
+      responses:
+        200:
+          description: runtype succesfully created
+        400:
+          description: "Invalid ID supplied"
+    get:
+     tags:
+     - "runtypes"
+     summary: "Get runtype by type"
+     description: get a Run Type
+     operationId: getRunType
+     parameters:
+     - name: "type"
+       in: "query"
+       description: "filter by type of runtype return"
+       required: false
+       type: "string"
+     responses:
+      200:
+          description: return runtype filtered by type
+      400:
+          description: "Invalid Type supplied"     
+          
+  /runtypes/{runtypeID}:
+    get:
+      tags:
+      - "runtypes"
+      summary: "Get runtype by ID"
+      description: "Returns a single runtype"
+      operationId: getRunTypeById
+      produces:
+      - "application/json"
+      parameters:
+      - name: "runtypeID"
+        in: "path"
+        description: "ID of runtype to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/runtypes"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Runtype not found"
+    put:
+      tags:
+      - "runtypes"
+      summary: "Update runtype by ID"
+      description: "Updates a RunType status"
+      operationId: updateRunType
+      produces:
+      - "application/json"
+      parameters:
+      - name: "runtypeID"
+        in: "path"
+        description: "ID of runtype to update"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful updated"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Runtype not found"
+    delete:
+      tags:
+      - "runtypes"
+      summary: "Delete runtype by ID"
+      description: "Deletes a runtype by ID"
+      operationId: deleteRunType
+      parameters:
+      - name: "runtypeID"
+        in: "path"
+        description: "ID of runtype to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Runtype succesfully deleted"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "RunType not found"    
 
 
 definitions:
-  Task:
-    allOf:
-      - $ref: '#/definitions/NewTask'
-      - required:
-        - id
-        properties:
-          id:
-            type: string
-  TaskAnswers:
-    required:
-      - taskID
-      - content
-    properties:
-      taskID:
-        type: string
-      content:
-        $ref: '#/definitions/TaskMap'
-  NewTask:
-    required:
-      - title
-      - description
-      - type
-      - content
-    properties:
-      title:
-        type: string
-      description:
-        type: string
-      type:
-        type: integer
-      content:
-        $ref: '#/definitions/TaskMap'
-  TaskMap:
-    type: object
-    properties:
-      imageURI:
-        type: string
-      question:
-        type: string
-      answer:
-        type: string
-  Error:
-    required:
-      - code
-      - message
-    properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string
-  assignment:
+  assignments:
      properties:
        id:
          type: integer
-       user_id:
+       id_worker:
          type: string
-       task_id:
+       id_task:
          type: integer
-       time_started:
-         type: string
-       time_completed:
-           type: string
+       id_run:
+         type: integer
+       answers:
+         type: array
+       "items": {
+       "type": "string"
+        }   
        is_in_progress:
          type: boolean
          default: false
-       additional_data:
-         type: object 
+       is_completed:
+         type: boolean
+  
+  runs:
+     properties:
+       id:
+         type: integer
+       name:
+         type: string
+       description:
+         type: string
+       introduction:
+         type: string
+       images:
+         type: array
+       "images_items": {
+       "type": "string"
+        }   
+       question:
+         type: string
+       tutorial:
+         type: array
+       "tutorial_items": {
+       "type": "string"
+        }
+       id_runtype:
+          type: integer
+       id_task:
+          type: integer
+       is_deleted:
+          type: boolean
+       is_active:
+          type: boolean
+       max_assignments:
+          type: integer
+        
   tasks:
        properties:
          name:
@@ -507,10 +687,12 @@ definitions:
            type: integer
          description:
            type: string
-         category_id:
+         introduction:
+           type: string
+         avatar_image:
+           type: string
+         id_creator:
            type: integer
-         owner:
-             type: integer
          is_deleted:
            type: boolean
            default: false
@@ -521,18 +703,28 @@ definitions:
      properties:
        id:
          type: string
-       Facebook_ID:
+       social_id:
          type: string
-       Google_ID:
-         type: string      
+       accessToken:
+         type: string
+       accessType:
+         type: string
        email:
+           type: string
+       name: 
+           type: string
+       img:
            type: string
        is_deleted:
          type: boolean
          default: false
-       additional_data:
-         type: object
        writer:
          type: boolean
-         default: false                  
-
+         default: false  
+  
+  runtypes:
+     properties:
+       id:
+         type: string
+       runtype:
+         type: string
