@@ -8,7 +8,7 @@ module.exports = app => {
     app.get("/tasks/:id", (req,res) => {
         controller.readOne(req,res);
     });
-    app.patch("/tasks/:id", (req,res) => {
+    app.put("/tasks/:id", (req,res) => {
         controller.update(req,res);
     });
     app.delete("/tasks/:id", (req,res)=> {

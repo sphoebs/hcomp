@@ -53,7 +53,7 @@ db.assignments.belongsTo(db.users, {
   targetKey: "id"
 });
 
-//FOREIGN KEY FOR CATEGORIES
+//FOREIGN KEY FOR TASKTYPES
 db.tasktypes.hasMany(db.tasks, {
   foreignKey: "id_tasktype",
   sourceKey: "id"
@@ -63,14 +63,23 @@ db.tasks.belongsTo(db.tasktypes, {
   targetKey: "id"
 });
 //FOREIGN KEY FOR TASKS 
-db.tasks.hasMany(db.assignments, {
+db.tasks.hasMany(db.runs, {
   foreignKey: "id_task",
   sourceKey: "id"
 });
-db.assignments.belongsTo(db.tasks, {
+db.runs.belongsTo(db.tasks, {
   foreignKey: "id_task",
   targetKey: "id"
 });
 
+//FOREIGN KEY FOR RUNS
 
+db.runs.hasMany(db.assignments, {
+  foreignKey: "id_task",
+  sourceKey: "id"
+});
+db.assignments.belongsTo(db.runs, {
+  foreignKey: "id_task",
+  targetKey: "id"
+});
 module.exports = db;
