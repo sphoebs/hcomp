@@ -3,9 +3,9 @@ const users = require('../models').users;
 
 
 const Encode = payload => {
-    const secret = 'weqsdacxzdsaewqdsacxzdsaewqdsa';
+    const secret = process.env.secretHSC;
     // encode 
-    const hash = jwt.encode(secret, payload, function (err, token) {
+    const hash = jwt.encode(secret, payload, (err, token) => {
         if (err) {
             console.error(err.name, err.message);
         } else {
@@ -16,8 +16,8 @@ const Encode = payload => {
 }
 
 const Decode = token => {   
-    const secret = 'weqsdacxzdsaewqdsacxzdsaewqdsa';
-    const dehash = jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
+    const secret = process.env.secretHSC;
+    const dehash = jwt.decode(secret, token, (err, decodedPayload, decodedHeader) => {
         if (err) {
             return null;
 
