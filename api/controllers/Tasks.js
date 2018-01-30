@@ -23,36 +23,40 @@ class Tasks extends Crud {
     }
 
     update(req, res) {
-        //IF UPDATE IS AN IMAGE
-        if (req.body.image) {
-            const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-            let data = this.createData(req.body.image);
-            s3.putObject(data, (err, data) => {
-                if (err) {
-                    console.log(err);
+        return this.model
+            .findById(req.params.id)
+            .then(task => {
+                let tmp;
+                if (!task) {
+                    tmp = res.status(400).send({ message: 'Data not found!' });
                 }
                 else {
-                    //UPDATE TASK TABLE WITH IMAGES
+                    if (req.body.image) {
+                        const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
+                        let data = this.createData(req.body.image);
+                        s3.putObject(data, (err, response) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                console.log(response)
+                                tmp = task
+                                    .update(req.body)
+                                    .then(() => res.status(200).send(JSON.stringify(task.id_creator)))
+                                    .catch(error => res.status(400).send(error));
+                            }
+                        })
+                    }
+                    else {
+                        tmp = task
+                            .update(req.body)
+                            .then(() => res.status(200).send(JSON.stringify(task.id_creator)))
+                            .catch(error => res.status(400).send(error));
+                    }
                 }
-            })
-        }
-        else {
-            return this.model
-            .findById(req.params.id)
-            .then(data => {
-              let tmp;
-              if (!data) {
-                tmp = res.status(400).send({ message: 'Data not found!' });
-              } else {
-                tmp = data
-                  .update(req.body)
-                  .then(() => res.status(200).send(JSON.stringify(data.id_creator)))
-                  .catch(error => res.status(400).send(error));
-              }
-              return tmp;
+                return tmp;
             })
             .catch(error => res.status(400).send(error));
-        }
     }
     creatorRecentTasks(req, res) {
         return this.model
