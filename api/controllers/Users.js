@@ -143,17 +143,27 @@ class Users extends Crud {
             tmp = res, status(404).send({ message: 'Something goes wrong' });
           }
           else {
-            user.update({
-              accessToken: data.accessToken
-            })
-              .then(user => {
-                let payload = {
-                  id: user.id
-                }
-                let hash = Encode(payload);
-                let sendResponse = this.createPayload(user.id, hash);
-                tmp = res.status(200).send(JSON.stringify(sendResponse));
-              }).catch(error => res.status(400).send(error));
+            if(user.accessToken !== data.accessToken){
+              user.update({
+                accessToken: data.accessToken
+              })
+                .then(user => {
+                  let payload = {
+                    id: user.id
+                  }
+                  let hash = Encode(payload);
+                  let sendResponse = this.createPayload(user.id, hash);
+                  tmp = res.status(200).send(JSON.stringify(sendResponse));
+                }).catch(error => res.status(400).send(error));
+            }
+            else {
+              let payload = {
+                id: user.id
+              }
+              let hash = Encode(payload);
+              let sendResponse = this.createPayload(user.id, hash);
+              tmp = res.status(200).send(JSON.stringify(sendResponse));
+            }
           }
           return tmp;
         })
@@ -176,17 +186,28 @@ class Users extends Crud {
           if (!user) {
             tmp = res, status(404).send({ message: 'Something goes wrong' });
           } else {
-            user.update({
-              accessToken: data.accessToken
-            })
-              .then(user => {
-                let payload = {
-                  id: user.id
-                }
-                let hash = Encode(payload);
-                let sendResponse = this.createPayload(user.id, hash);
-                tmp = res.status(200).send(JSON.stringify(sendResponse));
-              }).catch(error => res.status(400).send(error));
+            if(user.accessToken !== data.accessToken){
+              user.update({
+                accessToken: data.accessToken
+              })
+                .then(user => {
+                  let payload = {
+                    id: user.id
+                  }
+                  let hash = Encode(payload);
+                  let sendResponse = this.createPayload(user.id, hash);
+                  tmp = res.status(200).send(JSON.stringify(sendResponse));
+                }).catch(error => res.status(400).send(error));
+            }
+            else {
+              let payload = {
+                id: user.id
+              }
+              let hash = Encode(payload);
+              let sendResponse = this.createPayload(user.id, hash);
+              tmp = res.status(200).send(JSON.stringify(sendResponse));
+            }
+            
           }
           return tmp;
         })
