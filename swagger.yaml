@@ -120,7 +120,7 @@ paths:
             $ref: '#/definitions/tasks'
       responses:
         200:
-          description: task succesfully created
+          description: id of task
         400:
           description: "Invalid ID supplied"
     get:
@@ -241,7 +241,7 @@ paths:
             $ref: '#/definitions/runs'
       responses:
         200:
-          description: run succesfully created
+          description: id of run
         400:
           description: "Invalid ID supplied"
     get:
@@ -363,7 +363,7 @@ paths:
             $ref: '#/definitions/assignments'
       responses:
         200:
-          description: assignment succesfully created
+          description: id of assignment
         400:
           description: "Invalid ID supplied"
     get:
