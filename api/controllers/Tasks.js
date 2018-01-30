@@ -14,39 +14,63 @@ class Tasks extends Crud {
     }
 
     create(req, res) {
-        const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-        let data = this.createData(req.body.image);
-        s3.putObject(data, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                return this.model
-                    .create()
-                    .then(data => res.status(200).send(data))
-                    .catch(error => res.status(400).send(error));
-            }
-        })
+        return this.model
+            .create(req.body)
+            .then(data => res.status(200).send(data.id_creator))
+            .catch(error => res.status(400).send(error));
     }
 
+    update(req, res) {
+        //IF UPDATE IS AN IMAGE
+        if (req.body.image) {
+            const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
+            let data = this.createData(req.body.image);
+            s3.putObject(data, (err, data) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    //UPDATE TASK TABLE WITH IMAGES
+                }
+            })
+        }
+        else {
+            return this.model
+            .findById(req.params.id)
+            .then(data => {
+              let tmp;
+              if (!data) {
+                tmp = res.status(400).send({ message: 'Data not found!' });
+              } else {
+                tmp = data
+                  .update(req.body)
+                  .then(() => res.status(200).send(JSON.stringify(data.id_creator)))
+                  .catch(error => res.status(400).send(error));
+              }
+              return tmp;
+            })
+            .catch(error => res.status(400).send(error));
+        }
+    }
     creatorRecentTasks(req, res) {
         return this.model
-            .findAll({ 
-                where: { id_creator: req.params.id }, order: 'createdAt DESC', limit: 2 
+            .findAll({
+                where: { id_creator: req.params.id }, order: 'createdAt DESC', limit: 2
             })
             .then(tasks => {
-                if(!tasks){
-                    res.send(404).send({message: 'Not found'});
-                } 
-                else{
+                if (!tasks) {
+                    res.send(404).send({ message: 'Not found' });
+                }
+                else {
                     res.send(200).send(tasks);
                 }
-                
+
             })
             .catch(error => res.status(400).send(error));
     }
 
     createData(image) {
+        //TODO NOME CARTELLA
         let data = {
             Key: req.body.imageName,
             Body: image,
