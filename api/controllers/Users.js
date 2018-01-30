@@ -57,12 +57,29 @@ class Users extends Crud {
               .catch(error => res.status(400).send(error));
           }
           else {
-            let payload = {
-              id: user.id
+            //CHECK IF ACCESS TOKEN IS DIFFERENT, IF SO CHANGE IT
+            if (user.accessToken !== data.accessToken) {
+              user.update({
+                accessToken: data.accessToken
+              })
+                .then(user => {
+                  let payload = {
+                    id: user.id
+                  }
+                  let hash = Encode(payload);
+                  let sendResponse = this.createPayload(user.id, hash);
+                  tmp = res.status(200).send(JSON.stringify(sendResponse));
+                })
+                .catch(error => res.status(400).send(error));
             }
-            let hash = Encode(payload);
-            let sendResponse = this.createPayload(user.id, hash);
-            tmp = res.status(200).send(JSON.stringify(sendResponse));
+            else {
+              let payload = {
+                id: user.id
+              }
+              let hash = Encode(payload);
+              let sendResponse = this.createPayload(user.id, hash);
+              tmp = res.status(200).send(JSON.stringify(sendResponse));
+            }
           }
           return tmp;
         })
@@ -106,44 +123,8 @@ class Users extends Crud {
               })
               .catch(error => res.status(400).send(error));
           } else {
-            let payload = {
-              id: user.id
-            }
-            let hash = Encode(payload);
-            let sendResponse = this.createPayload(user.id, hash);
-            console.log(sendResponse);
-            tmp = res.status(200).send(JSON.stringify(sendResponse));
-          }
-          return tmp;
-        })
-        .catch(error => res.status(400).send(error));
-    }
-  }
-
-
-  findOrCreate(req, res) {
-    let data = req.body.data;
-    let type = req.body.type;
-    let isWriter = req.body.isWriter;
-    if (type === facebookType) {
-      return this.model
-        .findOrCreate({
-          where: {
-            social_id: data.id,
-            email: data.email,
-            name: data.name,
-            img: data.picture.data.url,
-            creator: isWriter,
-            access_type: facebookType
-          }
-        })
-        .then(user => {
-          let tmp;
-          if (!user) {
-            tmp = res, status(404).send({ message: 'Something goes wrong' });
-          }
-          else {
-            if(user.accessToken !== data.accessToken){
+            //CHECK IF ACCESS TOKEN IS DIFFERENT, IF SO CHANGE IT
+            if (user.accessToken !== data.accessToken) {
               user.update({
                 accessToken: data.accessToken
               })
@@ -154,7 +135,8 @@ class Users extends Crud {
                   let hash = Encode(payload);
                   let sendResponse = this.createPayload(user.id, hash);
                   tmp = res.status(200).send(JSON.stringify(sendResponse));
-                }).catch(error => res.status(400).send(error));
+                })
+                .catch(error => res.status(400).send(error));
             }
             else {
               let payload = {
@@ -169,51 +151,8 @@ class Users extends Crud {
         })
         .catch(error => res.status(400).send(error));
     }
-    else {
-      return this.model
-        .findOrCreate({
-          where: {
-            social_id: data.profileObj.googleId,
-            email: data.profileObj.email,
-            img: data.profileObj.imageUrl,
-            name: data.profileObj.name,
-            creator: isWriter,
-            access_type: googleType
-          }
-        })
-        .then(user => {
-          let tmp;
-          if (!user) {
-            tmp = res, status(404).send({ message: 'Something goes wrong' });
-          } else {
-            if(user.accessToken !== data.accessToken){
-              user.update({
-                accessToken: data.accessToken
-              })
-                .then(user => {
-                  let payload = {
-                    id: user.id
-                  }
-                  let hash = Encode(payload);
-                  let sendResponse = this.createPayload(user.id, hash);
-                  tmp = res.status(200).send(JSON.stringify(sendResponse));
-                }).catch(error => res.status(400).send(error));
-            }
-            else {
-              let payload = {
-                id: user.id
-              }
-              let hash = Encode(payload);
-              let sendResponse = this.createPayload(user.id, hash);
-              tmp = res.status(200).send(JSON.stringify(sendResponse));
-            }
-            
-          }
-          return tmp;
-        })
-        .catch(error => res.status(400).send(error));
-    }
   }
+
 
   readAll(req, res) {
     return this.model
