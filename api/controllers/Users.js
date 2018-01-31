@@ -1,10 +1,7 @@
 const Crud = require("./Crud");
 const users = require("../models").users;
 const app = require("../../app").app;
-const { Encode } = require('../Utility/Utility');
-
-const facebookType = 'facebook';
-const googleType = 'google';
+const { Encode, facebookType, googleType } = require('../Utility/Utility');
 
 
 class Users extends Crud {

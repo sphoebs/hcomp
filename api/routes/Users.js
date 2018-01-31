@@ -1,10 +1,11 @@
 const controller = require("../controllers").users;
-const { Decode , ensureAuthorization} = require('../Utility/Utility');
+const { Decode , ensureAuthorization, facebookType} = require('../Utility/Utility');
 const users = require('../models').users;
 const { FB, FacebookApiException } = require('fb');
 const google = require('googleapis');
 const plus = google.plus('v1');
-const facebookType = 'facebook';
+
+
 const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(
   process.env.GOOGLE_APP_ID,

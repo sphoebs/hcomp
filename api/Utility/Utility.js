@@ -1,6 +1,9 @@
 var jwt = require('json-web-token');
 const users = require('../models').users;
 
+const facebookType = 'facebook';
+
+const googleType = 'google';
 
 const Encode = payload => {
     const secret = process.env.secretHSC;
@@ -109,5 +112,7 @@ module.exports = {
     ensureAuthorization,
     ensureAuthorizationCreator,
     readQuery,
-    securityControl
+    securityControl,
+    facebookType,
+    googleType
 };
