@@ -1,6 +1,8 @@
 const Crud = require("./Crud");
 const assignments = require("../models").assignments;
-const { readQuery, securityControl } = require('../Utility/Utility');
+const users = require("../models").users;
+const runs = require("../models").runs;
+const { readQuery, securityControl, facebookType, googleType } = require('../Utility/Utility');
 
 const id_task = 'id_task';
 const id_runType = 'id_runtype';
@@ -41,12 +43,87 @@ class Assignments extends Crud {
             })
             .catch(error => res.status(400).send(error));
     }
+
+
     creatorMotivational(req, res) {
 
     }
 
     workerMotivational(req, res) {
+        let tmp = '';
+        /*
+        resultobject = {i,1,n}
+        i = [run,username]
 
+        */
+        let resultObject = {};
+        return users
+        .findOne({where: {id: req.params.id_user}})
+        .then(user => {
+            if(user.access_type === facebookType){
+                FB.api('/me/friends', {access_token: user.accessToken },(response) => {
+                    if(response.data) {
+                       console.log(response.data)
+                       response.data.forEach(element => {
+                           users.findOne({where: {social_id: element.id}})
+                           .then(user => {
+                             this.model
+                             .findAll({group: {id_worker: user.id}, order: 'createdAt DESC', limit: 1})
+                             .then(assignment => {
+                                runs.findOne({
+                                    where: {id : assignment.id_run}
+                                })
+                                .then(run => {
+                                    //TODO ADD ON AN ARRAY WITH USER NAME
+                                })
+                                .catch(error => tmp = res.status(400).send(error));
+                             })
+                             .catch(error => tmp = res.status(400).send(error));
+                           })
+                           .catch(error => tmp = res.status(400).send(error));
+                       });
+                    } else {
+                        tmp = res.status(400).send({message: 'Something Goes Wrong'});
+                    }
+                });
+            }
+            else {
+                oauth2Client.setCredentials({
+                    access_token: user.accessToken
+                  });
+                  plus.people.get({
+                    userId: 'me/friends',
+                    personFields: 'emailAddresses,names',
+                    auth: oauth2Client
+                  }, (err, response) => {
+                    if(err){
+                        tmp = res.status(400).send({message: 'Something Goes Wrong'})
+                    }
+                    else {
+                        console.log(response.data)
+                        response.data.forEach(element => {
+                            users.findOne({where: {social_id: element.id}})
+                            .then(user => {
+                              this.model
+                              .findAll({group: {id_worker: user.id}, order: 'createdAt DESC', limit: 1})
+                              .then(assignment => {
+                                 runs.findOne({
+                                     where: {id : assignment.id_run}
+                                 })
+                                 .then(run => {
+                                     //TODO ADD ON AN ARRAY WITH USER NAME
+                                 })
+                                 .catch(error => tmp = res.status(400).send(error));
+                              })
+                              .catch(error => tmp = res.status(400).send(error));
+                            })
+                            .catch(error => tmp = res.status(400).send(error));
+                        });
+                    }
+            });
+        }
+        })
+        .catch(error => tmp = res.status(400).send(error));
     }
 
 
