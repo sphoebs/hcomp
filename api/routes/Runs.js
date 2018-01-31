@@ -6,7 +6,7 @@ module.exports = app => {
         controller.create(req,res);
     });      
 
-    app.get("/tasks/runs", (req,res) => {        
+    app.get("/tasks/runs", ensureAuthorization, (req,res) => {        
         controller.readAll(req,res);
     });  
 
