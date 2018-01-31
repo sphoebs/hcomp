@@ -1,7 +1,7 @@
 const Crud = require("./Crud");
 const users = require("../models").users;
 const app = require("../../app").app;
-const { Encode } = require('../Security/SourceOfAuth');
+const { Encode } = require('../Utility/Utility');
 
 const facebookType = 'facebook';
 const googleType = 'google';

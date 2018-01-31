@@ -15,7 +15,7 @@ const Encode = payload => {
     return hash;
 }
 
-const Decode = token => {   
+const Decode = token => {
     const secret = process.env.secretHSC;
     const dehash = jwt.decode(secret, token, (err, decodedPayload, decodedHeader) => {
         if (err) {
@@ -28,9 +28,9 @@ const Decode = token => {
     return dehash;
 }
 
- /*DECODE THE JWT INSIDE HEADERS AUTHORIZATION AND CHECK IF ID IS IN DATABASE
-  IF GO NEXT ELSE ERROR
-  */ 
+/*DECODE THE JWT INSIDE HEADERS AUTHORIZATION AND CHECK IF ID IS IN DATABASE
+ IF GO NEXT ELSE ERROR
+ */
 
 const ensureAuthorization = (req, res, next) => {
     if (req.headers.authorization) {
@@ -53,12 +53,12 @@ const ensureAuthorization = (req, res, next) => {
 }
 /*DECODE THE JWT INSIDE HEADERS AUTHORIZATION AND CHECK IF ID IS IN DATABASE AND IF IS CREATOR
   IF GO NEXT ELSE ERROR
-  */ 
+  */
 const ensureAuthorizationCreator = (req, res, next) => {
     if (req.headers.authorization) {
         let decodedJWT = Decode(req.headers.authorization);
         users
-            .findOne({where : {id: decodedJWT.id, creator: true}})
+            .findOne({ where: { id: decodedJWT.id, creator: true } })
             .then(user => {
                 if (!user) {
                     res.status(404).send("unAuthorized Area");
@@ -74,5 +74,40 @@ const ensureAuthorizationCreator = (req, res, next) => {
     }
 }
 
+const readQuery = (elementSearched, url) => {
+    let query = url;
+    let vars = query.split('&');
+    let result = '';
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == elementSearched) {
+            result = decodeURIComponent(pair[1]);
+        }
+    }
+    return result;
+}
 
-module.exports = { Encode, Decode, ensureAuthorization, ensureAuthorizationCreator };
+//CHECK IF THERE IS ONLY ONE TRUE
+const securityControll = (id_task,id_runtype,id_run) => {
+    let arrayOfBooleans = [id_task,id_run,id_runtype];
+    if(id_task && id_runtype && id_run){
+        for(let i = 0; i<arrayOfBooleans.length; i++){
+            if(!arrayOfBooleans[i]){
+                return true;
+            }
+        }
+        return false;
+    }
+    else {
+        return false;
+    }
+}
+
+module.exports = {
+    Encode,
+    Decode,
+    ensureAuthorization,
+    ensureAuthorizationCreator,
+    readQuery,
+    securityControll
+};

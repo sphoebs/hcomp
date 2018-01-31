@@ -1,5 +1,5 @@
 const controller = require("../controllers").users;
-const { Decode , ensureAuthorization} = require('../Security/SourceOfAuth');
+const { Decode , ensureAuthorization} = require('../Utility/Utility');
 const users = require('../models').users;
 const { FB, FacebookApiException } = require('fb');
 const google = require('googleapis');
