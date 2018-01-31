@@ -1,4 +1,4 @@
-const controller = require('../controllers').assignments;
+const controller = require('../controllers').runs;
 const {ensureAuthorization, ensureAuthorizationCreator} = require('../Utility/Utility');
 module.exports = app => {
    
@@ -6,8 +6,7 @@ module.exports = app => {
         controller.create(req,res);
     });      
 
-    app.get("/tasks/runs", (req,res) => {
-        
+    app.get("/tasks/runs", (req,res) => {        
         controller.readAll(req,res);
     });  
 
