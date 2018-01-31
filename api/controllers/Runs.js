@@ -1,6 +1,6 @@
 const Crud = require("./Crud");
 const runs = require("../models").runs;
-const {readQuery} = require('../Utility/Utility');
+const { readQuery } = require('../Utility/Utility');
 const aws = require('aws-sdk');
 
 
@@ -27,6 +27,7 @@ class Runs extends Crud {
             .catch(error => res.status(400).send(error));
     }
 
+    //TODO TRY S3 AND HOW TO WORK WITH IT
     update(req, res) {
         return this.model
             .findById(req.params.id)
@@ -72,10 +73,16 @@ class Runs extends Crud {
     }
 
     recentRuns(req, res) {
-
+        let tmp = '';
+        return this.model
+            .findAll({order: 'createdAt DESC', limit: 2})
+            .then(data =>
+                tmp = res.status(200).send(data))
+            .catch(error =>
+                tmp = res.status(400).send(error));
     }
 
-    readAll(req, res) {        
+    readAll(req, res) {
         let filterTask = readQuery(id_task, req.url);
         let filterRunType = readQuery(id_runType, req.url);
         let tmp = '';
@@ -91,7 +98,7 @@ class Runs extends Crud {
             if (filterRunType && !filterTask) {
                 return this.model
                     .findAll({ where: { id_runtype } })
-                    .then(data => 
+                    .then(data =>
                         tmp = res.status(200).send(data))
                     .catch(error =>
                         tmp = res.status(400).send(error));
@@ -114,8 +121,8 @@ class Runs extends Crud {
         };
         return data;
     }
- 
-   
+
+
 }
 
 module.exports = Runs;
