@@ -7,6 +7,7 @@ module.exports = app => {
     });      
 
     app.get("/tasks/runs", (req,res) => {
+        
         controller.readAll(req,res);
     });  
 
