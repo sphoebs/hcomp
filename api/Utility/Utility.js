@@ -109,5 +109,5 @@ module.exports = {
     ensureAuthorization,
     ensureAuthorizationCreator,
     readQuery,
-    securityControll
+    securityControl
 };
