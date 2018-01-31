@@ -1,5 +1,5 @@
 const controller = require('../controllers').runs;
-const {ensureAuthorization, ensureAuthorizationCreator} = require('../Utility/Utility');
+const {ensureAuthorization,ensureAuthorizationCreator} = require('../Utility/Utility');
 module.exports = app => {
    
     app.post("/tasks/runs", ensureAuthorization,  (req,res) => {
@@ -18,7 +18,7 @@ module.exports = app => {
         controller.update(req,res);
     });  
 
-    app.delete("/tasks/runs/:id", ensureAuthorization, (req,res) => {
+    app.delete("/tasks/runs/:id", ensureAuthorizationCreator, (req,res) => {
         controller.delete(req,res);
     });  
     
