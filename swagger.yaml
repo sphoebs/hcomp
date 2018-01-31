@@ -539,23 +539,6 @@ paths:
           description: runtype succesfully created
         400:
           description: "Invalid ID supplied"
-    get:
-     tags:
-     - "runtypes"
-     summary: "Get runtype by type"
-     description: get a Run Type
-     operationId: getRunType
-     parameters:
-     - name: "type"
-       in: "query"
-       description: "filter by type of runtype return"
-       required: false
-       type: "string"
-     responses:
-      200:
-          description: return runtype filtered by type
-      400:
-          description: "Invalid Type supplied"     
           
   /runtypes/{runtypeID}:
     get:
