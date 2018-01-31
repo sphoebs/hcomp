@@ -75,13 +75,9 @@ class Runs extends Crud {
 
     }
 
-    readAll(req, res) {
-        console.log(req.url);
-        console.log(req.url.pathname);
-        res.send('ok');
-        /*
-        let filterTask = readQuery(id_task, url);
-        let filterRunType = readQuery(id_runType, url);
+    readAll(req, res) {        
+        let filterTask = readQuery(id_task, req.url);
+        let filterRunType = readQuery(id_runType, req.url);
         let tmp = '';
         if (filterTask && !filterRunType) {
             return this.model
@@ -104,7 +100,7 @@ class Runs extends Crud {
                 tmp = res.status(400).send({ message: 'Something goes Wrong!' })
             }
             return tmp;
-        }*/
+        }
     }
 
 

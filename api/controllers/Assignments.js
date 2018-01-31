@@ -50,11 +50,11 @@ class Assignments extends Crud {
     }
 
 
-    /*readAll(req, res) {
+    readAll(req, res) {
         let tmp = '';
         let filterTask = readQuery(id_task, req.url);
-        let filterRunType = readQuery(id_runType, url);
-        let filterRun = readQuery(id_run, url);
+        let filterRunType = readQuery(id_runType, req.url);
+        let filterRun = readQuery(id_run, req.url);
         let security = securityControl(filterTask, filterRunType, filterRun);
 
         if (!security) {
@@ -82,7 +82,7 @@ class Assignments extends Crud {
         }
         return tmp;
 
-    }*/
+    }
 
 
 }
