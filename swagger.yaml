@@ -497,7 +497,7 @@ paths:
             type: integer            
         responses:
           200:
-            description: An array of Assignments and Users
+            description: An array of Runs doing by Workers and Workers
             schema:
               $ref: '#/definitions/assignments' 
 
@@ -516,7 +516,7 @@ paths:
               type: integer            
         responses:
           200:
-            description: An array of Assignments and Users
+            description: An array of Runs doing by User's Freinds and Friends
             schema:
               $ref: '#/definitions/assignments'
   
