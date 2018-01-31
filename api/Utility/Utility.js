@@ -88,7 +88,7 @@ const readQuery = (elementSearched, url) => {
 }
 
 //CHECK IF THERE IS ONLY ONE TRUE
-const securityControll = (id_task,id_runtype,id_run) => {
+const securityControl = (id_task,id_runtype,id_run) => {
     let arrayOfBooleans = [id_task,id_run,id_runtype];
     if(id_task && id_runtype && id_run){
         for(let i = 0; i<arrayOfBooleans.length; i++){

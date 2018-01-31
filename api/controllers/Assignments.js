@@ -1,6 +1,6 @@
 const Crud = require("./Crud");
 const assignments = require("../models").assignments;
-const { readQuery, securityControll } = require('../Utility/Utility');
+const { readQuery, securityControl } = require('../Utility/Utility');
 
 const id_task = 'id_task';
 const id_runType = 'id_runtype';
@@ -55,7 +55,7 @@ class Assignments extends Crud {
         let filterTask = readQuery(id_task, url);
         let filterRunType = readQuery(id_runType, url);
         let filterRun = readQuery(id_run, url);
-        let security = securityControll(filterTask, filterRunType, filterRun);
+        let security = securityControl(filterTask, filterRunType, filterRun);
 
         if (!security) {
             tmp = res.status(400).send({ message: 'Something goes Wrong' });
