@@ -2,8 +2,7 @@ const controller = require('../controllers').runs;
 const {ensureAuthorization,ensureAuthorizationCreator} = require('../Utility/Utility');
 module.exports = app => {
    
-    app.post("/tasks/runs", ensureAuthorization,  (req,res) => {
-        
+    app.post("/tasks/runs", ensureAuthorization,  (req,res) => {        
         controller.create(req,res);
     });      
 
