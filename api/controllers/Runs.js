@@ -19,6 +19,7 @@ class Runs extends Crud {
     }
 
     create(req, res) {
+        console.log(req.body);
         return this.model
             .create(req.body)
             .then(data => res.status(200).send(JSON.stringify(data.id)))
