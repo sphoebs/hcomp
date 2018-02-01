@@ -14,7 +14,7 @@ class Users extends Crud {
 
 
   //controllare con access token
-  /*create(req, res) {
+  create(req, res) {
     let data = req.body.data;
     let type = req.body.type;
     let isWriter = req.body.isWriter;
@@ -158,14 +158,9 @@ class Users extends Crud {
         })
         .catch(error => res.status(400).send(error));
     }
-  }*/
-
-  create(req,res) {
-    return this.model
-    .create(req.body)
-    .then(user => res.send('ok'))
-    .catch(error => res.status(400).send(error));
   }
+
+
 
 
   readAll(req, res) {    
