@@ -1,5 +1,5 @@
 const controller = require("../controllers").users;
-const { Decode , ensureAuthorization, facebookType} = require('../Utility/Utility');
+const { Decode , ensureAuthorization, facebookType, ensureAuthorizationCreator} = require('../Utility/Utility');
 const users = require('../models').users;
 const { FB, FacebookApiException } = require('fb');
 const google = require('googleapis');
@@ -50,7 +50,7 @@ module.exports = app => {
   app.post('/auth/login', findUserAuth, (req, res) => {
     controller.create(req, res);
   })
-  app.get('/users', ensureAuthorization, (req, res) => {
+  app.get('/users', ensureAuthorizationCreator, (req, res) => {
     controller.readAll(req, res);
   })
   app.get('/users/:id', ensureAuthorization, (req, res) => {
