@@ -21,5 +21,10 @@ module.exports = app => {
     app.get("/tasks/creatorRecentTasks:id", ensureAuthorizationCreator, (req,res) => {
         controller.creatorRecentTasks(req,res);
     }); 
+
+
+  app.post('/prova', (req,res) => {
+    controller.prova(req,res);
+  })
    
 };

@@ -23,6 +23,9 @@ class Tasks extends Crud {
             .catch(error => res.status(400).send(error));
     }
 
+    prova(req,res){
+        console.log(req.body);
+    }
     //TODO TRY S3 AND HOW TO WORK
     update(req, res) {
         return this.model
