@@ -78,12 +78,14 @@ const ensureAuthorizationCreator = (req, res, next) => {
 }
 
 const readQuery = (elementSearched, url) => {
+    console.log(elementSearched);
+    console.log(url);
     let query = url;
-    let vars = query.split('&');
-    let result = '';
+    let vars = query.split('&');    
     for (let i = 0; i < vars.length; i++) {
         let pair = vars[i].split('=');
         if (decodeURIComponent(pair[0]) == elementSearched) {
+            console.log(decodeURIComponent(pair[1]));
             return decodeURIComponent(pair[1]);
         }
     }    
