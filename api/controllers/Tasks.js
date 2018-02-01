@@ -14,8 +14,7 @@ class Tasks extends Crud {
     }
 
     create(req, res) {
-        console.log("create");
-        console.log(req);        
+        console.log("create");             
         console.log(req.body);
         return this.model
             .create({id_creator: req.body.creatorID})
@@ -77,6 +76,22 @@ class Tasks extends Crud {
             })
             .catch(error => res.status(400).send(error));
     }
+
+    readOne(req, res) {
+        console.log(req.params.id);
+        return this.model
+          .findById(req.params.id)
+          .then(data => {
+            let tmp;
+            if (!data) {
+              tmp = res.status(400).send({ message: 'Data not found!' });
+            } else {
+              tmp = res.status(200).send(data);
+            }
+            return tmp;
+          })
+          .catch(error => res.status(400).send(error));
+      }
 
     createData(image) {
         //TODO NOME CARTELLA

@@ -6,19 +6,19 @@ module.exports = app => {
         console.log("lol sono su post");
         controller.create(req,res);
     });
-    app.get("/tasks", ensureAuthorizationCreator, (req,res) => {
+    app.get("/tasks", (req,res) => {
         controller.readAll(req,res);
     })
-    app.get("/tasks/:id", ensureAuthorizationCreator , (req,res) => {
+    app.get("/tasks/:id" , (req,res) => {
         controller.readOne(req,res);
     });
-    app.put("/tasks/:id", ensureAuthorizationCreator, (req,res) => {
+    app.put("/tasks/:id", (req,res) => {
         controller.update(req,res);
     });
-    app.delete("/tasks/:id", ensureAuthorizationCreator, (req,res)=> {
+    app.delete("/tasks/:id", (req,res)=> {
         controller.delete(req,res);
     });   
-    app.get("/tasks/creatorRecentTasks:id", ensureAuthorizationCreator, (req,res) => {
+    app.get("/tasks/creatorRecentTasks:id", (req,res) => {
         controller.creatorRecentTasks(req,res);
     });  
    
