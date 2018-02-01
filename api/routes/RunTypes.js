@@ -1,5 +1,5 @@
 const controller = require('../controllers').runtypes;
-const {ensureAuthorization} = require('../Utility/Utility');
+const {ensureAuthorization, ensureAuthorizationCreator} = require('../Utility/Utility');
 module.exports = app => {
   
     app.post("/runtypes", ensureAuthorizationCreator, (req,res)=> {
