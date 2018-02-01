@@ -162,7 +162,7 @@ class Users extends Crud {
 
   readAll(req, res) {
     return this.model
-      .findAll({ attributes: ['name', 'img', 'email', 'createdAt'] })
+      .findAll({ attributes: ['id', 'name'] })
       .then(users => res.status(200).send(users))
       .catch(error => res.status(400).send(error));
   }
