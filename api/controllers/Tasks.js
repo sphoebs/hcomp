@@ -13,12 +13,10 @@ class Tasks extends Crud {
         this.lastUpdated;
     }
 
-    create(req, res) {
-        console.log("create");             
-        console.log(req.body);
+    create(req, res) {        
         return this.model
         .create(req.body)
-        .then(data => res.status(200).send(data))
+        .then(data => res.status(200).send(data.id))
         .catch(error => res.status(400).send(error));
     }
 
