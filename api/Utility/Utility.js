@@ -77,20 +77,13 @@ const ensureAuthorizationCreator = (req, res, next) => {
     }
 }
 
-const readQuery = (elementSearched, url) => {    
-    let query = url;
-    let vars = query.split('&');    
-    for (let i = 0; i < vars.length; i++) {
-        let pair = vars[i].split('=');
-        console.log("pair 0");
-        console.log(decodeURIComponent(pair[0]));
-        console.log("pair 1");
-        console.log(decodeURIComponent(pair[1]));
-        if (decodeURIComponent(pair[0]) === elementSearched) {
-            console.log(decodeURIComponent(pair[1]));
-            return decodeURIComponent(pair[1]);
-        }
-    }    
+const readQuery = (elementSearched, url) => {     
+    elementSearched = elementSearched.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + elementSearched + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 //CHECK IF THERE IS ONLY ONE TRUE
