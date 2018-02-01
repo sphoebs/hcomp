@@ -198,9 +198,6 @@ class Users extends Crud {
     return payload;
   }
 
-  prova(req,res){
-    console.log(req.body);
-}
 }
 
 
