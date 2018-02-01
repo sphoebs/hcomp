@@ -38,6 +38,18 @@ paths:
           description: id+jwt
         400:
           description: "Invalid ID supplied"
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Read All Users"
+      description: Read all Users
+      operationId: ReadAll
+      responses:
+        200:
+          description: All name and id of Users
+        400:
+          description: "Invalid ID supplied"
         
   /users/{userID}:
     get:
