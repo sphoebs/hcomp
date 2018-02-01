@@ -6,6 +6,15 @@ class RunTypes extends Crud{
         super(runtypes);
         this.lastUpdated;
     }
+
+    create(req,res){
+        console.log(req.body);
+        return this.model
+        .create(req.body)
+        .then(runtype => res.send('ok'))
+        .catch(error =>
+             res.status(400).send(error))
+    }
 } 
 
 module.exports = RunTypes;
