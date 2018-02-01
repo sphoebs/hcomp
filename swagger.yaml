@@ -47,7 +47,7 @@ paths:
       operationId: ReadAll
       responses:
         200:
-          description: All name and id of Users
+          description: All names,id and image of Users
         400:
           description: "Invalid ID supplied"
         
