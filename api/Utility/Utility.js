@@ -59,8 +59,7 @@ const ensureAuthorization = (req, res, next) => {
   */
 const ensureAuthorizationCreator = (req, res, next) => {
     if (req.headers.authorization) {
-        let decodedJWT = Decode(req.headers.authorization);
-        console.log(decodedJWT);
+        let decodedJWT = Decode(req.headers.authorization);        
         users
             .findOne({ where: { id: decodedJWT.id, creator: true } })
             .then(user => {
