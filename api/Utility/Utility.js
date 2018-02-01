@@ -60,10 +60,12 @@ const ensureAuthorization = (req, res, next) => {
 const ensureAuthorizationCreator = (req, res, next) => {
     if (req.headers.authorization) {
         let decodedJWT = Decode(req.headers.authorization);
+        console.log(decodedJWT);
         users
             .findOne({ where: { id: decodedJWT.id, creator: true } })
             .then(user => {
                 if (!user) {
+                    console.log("non trova utente");
                     res.status(404).send("unAuthorized Area");
                 }
                 else {
@@ -73,6 +75,7 @@ const ensureAuthorizationCreator = (req, res, next) => {
             .catch(error => res.status(400).send(error));
     }
     else {
+        console.log("Non trova il jwt")
         res.status(404).send("unAuthorized Area");
     }
 }
