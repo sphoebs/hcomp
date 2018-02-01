@@ -87,6 +87,7 @@ const readQuery = (elementSearched, url) => {
             result = decodeURIComponent(pair[1]);
         }
     }
+    console.log(result);
     return result;
 }
 

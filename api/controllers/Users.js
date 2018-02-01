@@ -162,6 +162,7 @@ class Users extends Crud {
 
 
   readAll(req, res) {
+    console.log("sono dentro readAll");
     let creatorFilter = readQuery(creator,req.url);
     return this.model
       .findAll({ where: {creator: creatorFilter},attributes: ['id', 'name', 'img'] })
