@@ -1,8 +1,9 @@
 const Crud = require("./Crud");
 const users = require("../models").users;
 const app = require("../../app").app;
-const { Encode, facebookType, googleType } = require('../Utility/Utility');
+const { Encode, facebookType, googleType, readQuery } = require('../Utility/Utility');
 
+const creator = 'creator';
 
 class Users extends Crud {
   
@@ -161,8 +162,9 @@ class Users extends Crud {
 
 
   readAll(req, res) {
+    let creatorFilter = readQuery(creator,req.url);
     return this.model
-      .findAll({ attributes: ['id', 'name', 'img'] })
+      .findAll({ where: {creator: creatorFilter},attributes: ['id', 'name', 'img'] })
       .then(users => res.status(200).send(users))
       .catch(error => res.status(400).send(error));
   }
