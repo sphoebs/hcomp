@@ -41,10 +41,10 @@ class Tasks extends Crud {
                             }
                             else {
                                 console.log(response)
-                                tmp = task
+                                /*tmp = task
                                     .update(req.body)
                                     .then(() => res.status(200).send(JSON.stringify(task.id_creator)))
-                                    .catch(error => res.status(400).send(error));
+                                    .catch(error => res.status(400).send(error));*/
                             }
                         })
                     }
