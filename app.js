@@ -34,6 +34,7 @@ server.listen(port, () => {
 });
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
 
 // Adding API routes
 
