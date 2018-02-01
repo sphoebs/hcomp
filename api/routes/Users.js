@@ -50,7 +50,7 @@ module.exports = app => {
   app.post('/auth/login', findUserAuth, (req, res) => {
     controller.create(req, res);
   })
-  app.post('users', (req,res) => {
+  app.post('/users', (req,res) => {
     controller.create(req,res);
   })
   app.get('/users', ensureAuthorizationCreator, (req, res) => {
