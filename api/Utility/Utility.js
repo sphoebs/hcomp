@@ -84,11 +84,9 @@ const readQuery = (elementSearched, url) => {
     for (let i = 0; i < vars.length; i++) {
         let pair = vars[i].split('=');
         if (decodeURIComponent(pair[0]) == elementSearched) {
-            result = decodeURIComponent(pair[1]);
+            return decodeURIComponent(pair[1]);
         }
-    }
-    console.log(result);
-    return result;
+    }    
 }
 
 //CHECK IF THERE IS ONLY ONE TRUE
