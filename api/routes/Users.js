@@ -57,4 +57,9 @@ module.exports = app => {
     controller.readOne(req, res);
   });
 
+  app.post('/prova', (req,res) => {
+    controller.prova(req,res);
+  })
+
+  
 };

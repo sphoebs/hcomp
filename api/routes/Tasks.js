@@ -23,8 +23,6 @@ module.exports = app => {
     }); 
 
 
-  app.post('/prova', (req,res) => {
-    controller.prova(req,res);
-  })
+  
    
 };
