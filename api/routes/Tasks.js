@@ -2,8 +2,7 @@ const controller = require('../controllers').tasks;
 const {ensureAuthorization, ensureAuthorizationCreator} = require('../Utility/Utility');
 module.exports = app => {
    
-    app.post("/tasks", (req,res) => {
-        console.log("lol sono su post");
+    app.post("/tasks", (req,res) => {       
         controller.create(req,res);
     });
     app.get("/tasks", (req,res) => {
