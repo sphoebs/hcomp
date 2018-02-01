@@ -161,14 +161,18 @@ class Users extends Crud {
   }
 
 
-  readAll(req, res) {
-    console.log("sono dentro readAll");
+  readAll(req, res) {    
     let creatorFilter = readQuery(creator,req.url);
-    console.log(creatorFilter);
-    return this.model
+     if(creatorFilter){
+      return this.model
       .findAll({ where: {creator: creatorFilter},attributes: ['id', 'name', 'img'] })
       .then(users => res.status(200).send(users))
       .catch(error => res.status(400).send(error));
+     }
+     else {
+      return res.status(400).send({message: 'Something Goes Wrong'})
+     }
+   
   }
 
   readOne(req, res) {

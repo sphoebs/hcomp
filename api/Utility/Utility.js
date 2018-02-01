@@ -79,8 +79,9 @@ const ensureAuthorizationCreator = (req, res, next) => {
 
 const readQuery = (elementSearched, url) => {     
     elementSearched = elementSearched.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + elementSearched + "(=([^&#]*)|&|#|$)"),
+    let regex = new RegExp("[?&]" + elementSearched + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
+    console.log(results);
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
