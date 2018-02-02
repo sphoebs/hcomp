@@ -1,7 +1,7 @@
 const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const aws = require('aws-sdk');
-
+const url_images = 'https://s3.eu-central-1.amazonaws.com/socialhumancomputationproject/';
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -42,6 +42,8 @@ class Tasks extends Crud {
                             }
                             else {
                                 console.log(response)
+                                let url_image = url_image+'test1';
+                                console.log(url_image);
                                 /*tmp = task
                                     .update(req.body)
                                     .then(() => res.status(200).send(JSON.stringify(task.id_creator)))
