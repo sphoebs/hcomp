@@ -34,6 +34,7 @@ server.listen(port, () => {
 });
 
 app.use(bodyParser.json());
+app.use(express.bodyParser({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
 
 // Adding API routes
