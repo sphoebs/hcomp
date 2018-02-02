@@ -42,7 +42,7 @@ class Tasks extends Crud {
                             }
                             else {
                                 console.log(response)
-                                let url_image = url_image+'test1';
+                                let url_image = url_images+'test1';
                                 console.log(url_image);
                                 /*tmp = task
                                     .update(req.body)
