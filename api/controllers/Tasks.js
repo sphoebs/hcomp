@@ -33,7 +33,7 @@ class Tasks extends Crud {
                     tmp = res.status(400).send({ message: 'Data not found!' });
                 }
                 else {
-                    if (imgBase64 && imgName) {
+                    if (imgBase64 && imageName) {
                         const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
                         let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
                         let data = this.createData(buf,imageName);
