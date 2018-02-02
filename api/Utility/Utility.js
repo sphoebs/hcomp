@@ -5,6 +5,8 @@ const facebookType = 'facebook';
 
 const googleType = 'google';
 
+const url_images = 'https://s3.eu-central-1.amazonaws.com/socialhumancomputationproject/';
+
 const Encode = payload => {
     const secret = process.env.secretHSC;
     // encode 
@@ -105,6 +107,18 @@ const securityControl = (id_task,id_runtype,id_run) => {
     }
 }
 
+const createData = (number, image) =>{
+    //TODO NOME CARTELLA
+    let data = {
+        Key: number,
+        Body: image,
+        ContentEncoding: 'base64',
+        ContentType: 'image/*',
+        ACL: 'public-read'
+    };
+    return data;
+}
+
 module.exports = {
     Encode,
     Decode,
@@ -113,5 +127,7 @@ module.exports = {
     readQuery,
     securityControl,
     facebookType,
-    googleType
+    googleType,
+    url_images,
+    createData
 };

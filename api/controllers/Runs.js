@@ -1,6 +1,6 @@
 const Crud = require("./Crud");
 const runs = require("../models").runs;
-const { readQuery } = require('../Utility/Utility');
+const { readQuery, url_images , createData} = require('../Utility/Utility');
 const aws = require('aws-sdk');
 
 
@@ -28,6 +28,9 @@ class Runs extends Crud {
 
     //TODO TRY S3 AND HOW TO WORK WITH IT
     update(req, res) {
+        let number = req.body.number;
+        let imageName = req.body.imgname;
+        let imageBase64 = req.body.base64;
         return this.model
             .findById(req.params.id)
             .then(run => {
@@ -35,7 +38,7 @@ class Runs extends Crud {
                 if (!run) {
                     tmp = res.status(400).send({ message: 'Data not found!' });
                 } else {
-                    if (!req.body.image) {
+                    if (!number && !imageName && !imageBase64) {
                         tmp = run
                             .update(req.body)
                             .then(() => res.status(200).send({ message: 'Data updated' }))
@@ -43,20 +46,22 @@ class Runs extends Crud {
                     }
                     else {
                         const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-                        let data = this.createData(req.body.image);
+                        let buf = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
+                        let data = createData(buf,imageName);
                         s3.putObject(data, (err, result) => {
                             if (err) {
                                 console.log(err);
                             }
                             else {
                                 console.log(result);
+                                let url_image = url_images+imageName;
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
                                         images: {
                                             ...data.images,
-                                            [req.body.image.number]:
-                                                req.body.image.base64
+                                            [number]:
+                                                url_image
 
                                         }
                                     })
@@ -110,16 +115,7 @@ class Runs extends Crud {
     }
 
 
-    createData(number, image) {
-        //TODO NOME CARTELLA
-        let data = {
-            Key: number,
-            Body: image,
-            ContentEncoding: 'base64',
-            ContentType: 'image/*'
-        };
-        return data;
-    }
+  
 
 
 }

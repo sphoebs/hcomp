@@ -1,7 +1,7 @@
 const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const aws = require('aws-sdk');
-const url_images = 'https://s3.eu-central-1.amazonaws.com/socialhumancomputationproject/';
+const {url_images, createData} = require('../Utility/Utility');
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -37,7 +37,7 @@ class Tasks extends Crud {
                     if (imgBase64 && imageName) {
                         const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
                         let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
-                        let data = this.createData(buf,imageName);
+                        let data = createData(buf,imageName);
                         s3.putObject(data, (err, response) => {
                             if (err) {
                                 tmp = res.status(400).send({message: 'Something Goes Wrong'});
@@ -98,17 +98,7 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
       }
 
-    createData(image,imageName) {
-        //TODO NOME CARTELLA
-        let data = {
-            Key: imageName,
-            Body: image,
-            ContentEncoding: 'base64',
-            ContentType: 'image/jpeg',
-            ACL: 'public-read'
-        };
-        return data;
-    }
+    
 }
 
 module.exports = Tasks;
