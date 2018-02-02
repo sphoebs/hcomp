@@ -34,7 +34,8 @@ class Tasks extends Crud {
                 else {
                     if (req.body.image) {
                         const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-                        let data = this.createData(req.body.image);
+                        let buf = new Buffer(req.body.image.replace(/^data:image\/\w+;base64,/, ""),'base64');
+                        let data = this.createData(buf);
                         s3.putObject(data, (err, response) => {
                             if (err) {
                                 console.log(err);
@@ -98,7 +99,8 @@ class Tasks extends Crud {
             Key: 'test1',
             Body: image,
             ContentEncoding: 'base64',
-            ContentType: 'image/jpeg'
+            ContentType: 'image/jpeg',
+            ACL: 'public-read'
         };
         return data;
     }
