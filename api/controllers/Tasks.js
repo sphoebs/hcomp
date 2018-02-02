@@ -1,7 +1,7 @@
 const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const aws = require('aws-sdk');
-const {url_images, createData} = require('../Utility/Utility');
+const { url_images, createData } = require('../Utility/Utility');
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -13,14 +13,14 @@ class Tasks extends Crud {
         this.lastUpdated;
     }
 
-    create(req, res) {        
+    create(req, res) {
         return this.model
-        .create(req.body)
-        .then(data => res.status(200).send(JSON.stringify(data.id)))
-        .catch(error => res.status(400).send(error));
+            .create(req.body)
+            .then(data => res.status(200).send(JSON.stringify(data.id)))
+            .catch(error => res.status(400).send(error));
     }
 
-    
+
     //TODO TRY S3 AND HOW TO WORK
     update(req, res) {
         let imageName = req.body.imgname;
@@ -36,20 +36,20 @@ class Tasks extends Crud {
                 else {
                     if (imgBase64 && imageName) {
                         const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-                        let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
-                        let data = createData(buf,imageName);
+                        let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+                        let data = createData(buf, imageName);
                         s3.putObject(data, (err, response) => {
                             if (err) {
-                                tmp = res.status(400).send({message: 'Something Goes Wrong'});
+                                tmp = res.status(400).send({ message: 'Something Goes Wrong' });
                             }
-                            else {                                
-                                let url_image = url_images+imageName;
+                            else {
+                                let url_image = url_images + imageName;
                                 console.log(url_image);
                                 tmp = task
                                     .update({
                                         avatar_image: url_image
                                     })
-                                    .then(() => res.status(200).send({message: 'All goes well'}))
+                                    .then(() => res.status(200).send({ message: 'All goes well' }))
                                     .catch(error => res.status(400).send(error));
                             }
                         })
@@ -85,20 +85,20 @@ class Tasks extends Crud {
     readOne(req, res) {
         console.log(req.params.id);
         return this.model
-          .findById(req.params.id)
-          .then(data => {
-            let tmp;
-            if (!data) {
-              tmp = res.status(400).send({ message: 'Data not found!' });
-            } else {
-              tmp = res.status(200).send(data);
-            }
-            return tmp;
-          })
-          .catch(error => res.status(400).send(error));
-      }
+            .findById(req.params.id)
+            .then(data => {
+                let tmp;
+                if (!data) {
+                    tmp = res.status(400).send({ message: 'Data not found!' });
+                } else {
+                    tmp = res.status(200).send(data);
+                }
+                return tmp;
+            })
+            .catch(error => res.status(400).send(error));
+    }
 
-    
+
 }
 
 module.exports = Tasks;

@@ -1,6 +1,6 @@
 const Crud = require("./Crud");
 const runs = require("../models").runs;
-const { readQuery, url_images , createData} = require('../Utility/Utility');
+const { readQuery, url_images, createData } = require('../Utility/Utility');
 const aws = require('aws-sdk');
 
 
@@ -46,15 +46,15 @@ class Runs extends Crud {
                     }
                     else {
                         const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-                        let buf = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
-                        let data = createData(buf,imageName);
+                        let buf = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+                        let data = createData(buf, imageName);
                         s3.putObject(data, (err, result) => {
                             if (err) {
                                 console.log(err);
                             }
                             else {
                                 console.log(result);
-                                let url_image = url_images+imageName;
+                                let url_image = url_images + imageName;
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
@@ -62,7 +62,6 @@ class Runs extends Crud {
                                             ...data.images,
                                             [number]:
                                                 url_image
-
                                         }
                                     })
                                     .then(() => res.status(200).send({ message: 'Data updated' }))
@@ -79,7 +78,7 @@ class Runs extends Crud {
     recentRuns(req, res) {
         let tmp = '';
         return this.model
-            .findAll({order: 'createdAt DESC', limit: 2})
+            .findAll({ order: 'createdAt DESC', limit: 2 })
             .then(data =>
                 tmp = res.status(200).send(data))
             .catch(error =>
@@ -115,7 +114,7 @@ class Runs extends Crud {
     }
 
 
-  
+
 
 
 }

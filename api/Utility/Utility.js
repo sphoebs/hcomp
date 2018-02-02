@@ -62,7 +62,7 @@ const ensureAuthorization = (req, res, next) => {
   */
 const ensureAuthorizationCreator = (req, res, next) => {
     if (req.headers.authorization) {
-        let decodedJWT = Decode(req.headers.authorization);        
+        let decodedJWT = Decode(req.headers.authorization);
         users
             .findOne({ where: { id: decodedJWT.id, creator: true } })
             .then(user => {
@@ -82,21 +82,21 @@ const ensureAuthorizationCreator = (req, res, next) => {
     }
 }
 
-const readQuery = (elementSearched, url) => {     
+const readQuery = (elementSearched, url) => {
     elementSearched = elementSearched.replace(/[\[\]]/g, "\\$&");
     let regex = new RegExp("[?&]" + elementSearched + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);    
+        results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 //CHECK IF THERE IS ONLY ONE TRUE
-const securityControl = (id_task,id_runtype,id_run) => {
-    let arrayOfBooleans = [id_task,id_run,id_runtype];
-    if(id_task && id_runtype && id_run){
-        for(let i = 0; i<arrayOfBooleans.length; i++){
-            if(!arrayOfBooleans[i]){
+const securityControl = (id_task, id_runtype, id_run) => {
+    let arrayOfBooleans = [id_task, id_run, id_runtype];
+    if (id_task && id_runtype && id_run) {
+        for (let i = 0; i < arrayOfBooleans.length; i++) {
+            if (!arrayOfBooleans[i]) {
                 return true;
             }
         }
@@ -107,7 +107,7 @@ const securityControl = (id_task,id_runtype,id_run) => {
     }
 }
 
-const createData = (number, image) =>{
+const createData = (number, image) => {
     //TODO NOME CARTELLA
     let data = {
         Key: number,
