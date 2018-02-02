@@ -6,8 +6,8 @@ module.exports = (sequelize,DataTypes) =>
     description: DataTypes.TEXT,
     introduction: DataTypes.TEXT,  
     images: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
-      defaultValue: []
+      type: DataTypes.JSONB,
+      defaultValue: {}
     },
     question: DataTypes.TEXT,    
     tutorial: {
