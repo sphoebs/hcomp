@@ -60,7 +60,7 @@ class Runs extends Crud {
                                 tmp = run
                                     .update({
                                         images: {
-                                            ...data.images,
+                                            ...run.images,
                                             [number]:
                                                 url_image
                                         }
