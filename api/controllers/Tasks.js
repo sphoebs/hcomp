@@ -24,8 +24,7 @@ class Tasks extends Crud {
     //TODO TRY S3 AND HOW TO WORK
     update(req, res) {
         let imageName = req.body.imgname;
-        let imgBase64 = req.body.base64;
-        console.log(req.body);
+        let imgBase64 = req.body.base64;       
         return this.model
             .findById(req.params.id)
             .then(task => {

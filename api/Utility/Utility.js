@@ -107,10 +107,10 @@ const securityControl = (id_task, id_runtype, id_run) => {
     }
 }
 
-const createData = (number, image) => {
+const createData = (image, name) => {
     //TODO NOME CARTELLA
     let data = {
-        Key: number,
+        Key: name,
         Body: image,
         ContentEncoding: 'base64',
         ContentType: 'image/*',
@@ -118,6 +118,7 @@ const createData = (number, image) => {
     };
     return data;
 }
+
 
 module.exports = {
     Encode,
