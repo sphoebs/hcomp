@@ -97,6 +97,33 @@ class Tasks extends Crud {
             .catch(error => res.status(400).send(error));
     }
 
+    delete(req, res) {
+        return this.model
+          .findById(req.params.id)
+          .then(data => {
+            if (!data) {
+              return res.status(400).send({ message: 'Data not found' });
+            } else {
+              if(!req.body.image){
+                return data
+                .destroy()
+                .then(() => res.status(200).send({ message: 'Data destroyed' }))
+                .catch(error => res.status(400).send(error));
+              }
+              else {
+                return data
+                .update({
+                    avatar_image: ''
+                })
+                .then(() => res.status(200).send({ message: 'Image destroyed' }))
+                .catch(error => res.status(400).send(error));
+              }
+              
+            }
+          })
+          .catch(error => res.status(400).send(error));
+      }
+
 
 }
 

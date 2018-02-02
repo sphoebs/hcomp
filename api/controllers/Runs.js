@@ -18,7 +18,7 @@ class Runs extends Crud {
         this.lastUpdated;
     }
 
-    create(req, res) {        
+    create(req, res) {
         return this.model
             .create(req.body)
             .then(data => res.status(200).send(JSON.stringify(data.id)))
@@ -26,7 +26,7 @@ class Runs extends Crud {
     }
 
     //TODO TRY S3 AND HOW TO WORK WITH IT
-    update(req, res) {            
+    update(req, res) {
         let imageName = req.body.imgname;
         let imageBase64 = req.body.base64;
         return this.model
@@ -51,12 +51,12 @@ class Runs extends Crud {
                             if (err) {
                                 console.log(err);
                             }
-                            else {                                
-                                let url_image = url_images + imageName;                       
+                            else {
+                                let url_image = url_images + imageName;
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
-                                        images:{
+                                        images: {
                                             ...run.images,
                                             [imageName]: url_image
                                         }
@@ -113,7 +113,34 @@ class Runs extends Crud {
         }
     }
 
+    delete(req, res) {
+        return this.model
+            .findById(req.params.id)
+            .then(data => {
+                if (!data) {
+                    return res.status(400).send({ message: 'Data not found' });
+                } else {
+                    if (!req.body.imgName) {
+                        return data
+                            .destroy()
+                            .then(() => res.status(200).send({ message: 'Data destroyed' }))
+                            .catch(error => res.status(400).send(error));
+                    }
+                    else {
+                        let images = data.images;
+                        delete data.images[req.body.imgName];
+                        return data
+                            .update({
+                                images: images
+                            })
+                            .then(() => res.status(200).send({ message: 'Image destroyed' }))
+                            .catch(error => res.status(400).send(error));
+                    }
 
+                }
+            })
+            .catch(error => res.status(400).send(error));
+    }
 
 
 
