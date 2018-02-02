@@ -94,7 +94,7 @@ class Tasks extends Crud {
     createData(image) {
         //TODO NOME CARTELLA
         let data = {
-            Key: req.body.imageName,
+            Key: 'test',
             Body: image,
             ContentEncoding: 'base64',
             ContentType: 'image/*'
