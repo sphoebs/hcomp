@@ -57,14 +57,12 @@ class Runs extends Crud {
                                 console.log(result);
                                 let url_image = url_images + imageName;
                                 console.log(url_image);
+                                let runImages = run.images;
+                                runImages.push(url_image);
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
-                                        images: {
-                                           
-                                            [number]:
-                                                url_image
-                                        }
+                                        images: runImages
                                     })
                                     .then(() => res.status(200).send({ message: 'Data updated' }))
                                     .catch(error => {
