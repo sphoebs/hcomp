@@ -33,8 +33,7 @@ server.listen(port, () => {
   console.log("Running on port " + port);
 });
 
-app.use(bodyParser.json());
-
+app.use(bodyParser({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})) // handle URL-encoded data
 
 // Adding API routes

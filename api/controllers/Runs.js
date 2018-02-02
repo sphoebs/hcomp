@@ -28,6 +28,7 @@ class Runs extends Crud {
 
     //TODO TRY S3 AND HOW TO WORK WITH IT
     update(req, res) {
+        console.log(req.body);
         let number = req.body.number;
         let imageName = req.body.imgname;
         let imageBase64 = req.body.base64;
