@@ -18,8 +18,7 @@ class Runs extends Crud {
         this.lastUpdated;
     }
 
-    create(req, res) {
-        console.log(req.body);
+    create(req, res) {        
         return this.model
             .create(req.body)
             .then(data => res.status(200).send(JSON.stringify(data.id)))
@@ -53,10 +52,8 @@ class Runs extends Crud {
                             if (err) {
                                 console.log(err);
                             }
-                            else {
-                                console.log(result);
-                                let url_image = url_images + imageName;
-                                console.log(url_image);
+                            else {                                
+                                let url_image = url_images + imageName;                          
                                 let runImages = run.images;
                                 runImages.push(url_image);
                                 //TODO INSERT LINK OF IMAGE
