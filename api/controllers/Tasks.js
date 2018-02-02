@@ -94,10 +94,10 @@ class Tasks extends Crud {
     createData(image) {
         //TODO NOME CARTELLA
         let data = {
-            Key: 'test',
+            Key: 'test1',
             Body: image,
             ContentEncoding: 'base64',
-            ContentType: 'image/*'
+            ContentType: 'image/jpeg'
         };
         return data;
     }
