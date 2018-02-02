@@ -26,8 +26,7 @@ class Runs extends Crud {
     }
 
     //TODO TRY S3 AND HOW TO WORK WITH IT
-    update(req, res) {        
-        let number = req.body.number;
+    update(req, res) {            
         let imageName = req.body.imgname;
         let imageBase64 = req.body.base64;
         return this.model
@@ -38,7 +37,7 @@ class Runs extends Crud {
                     tmp = res.status(400).send({ message: 'Data not found!' });
                 }
                 else {
-                    if (!number && !imageName && !imageBase64) {
+                    if (!imageName && !imageBase64) {
                         tmp = run
                             .update(req.body)
                             .then(() => res.status(200).send({ message: 'Data updated' }))
