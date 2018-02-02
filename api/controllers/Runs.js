@@ -27,8 +27,7 @@ class Runs extends Crud {
     }
 
     //TODO TRY S3 AND HOW TO WORK WITH IT
-    update(req, res) {
-        console.log(req.body);
+    update(req, res) {        
         let number = req.body.number;
         let imageName = req.body.imgname;
         let imageBase64 = req.body.base64;
@@ -56,6 +55,7 @@ class Runs extends Crud {
                             else {
                                 console.log(result);
                                 let url_image = url_images + imageName;
+                                console.log(url_image);
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
