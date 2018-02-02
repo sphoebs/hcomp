@@ -33,7 +33,8 @@ module.exports = {
                     onUpdate: 'CASCADE'
                 },
                 answers: {
-                    type: Sequelize.ARRAY(Sequelize.TEXT)
+                    type: Sequelize.ARRAY(Sequelize.TEXT),
+                    defaultValue: [] 
                 },
                 is_completed: {
                     type: Sequelize.BOOLEAN

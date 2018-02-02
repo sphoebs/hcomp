@@ -19,13 +19,15 @@ module.exports = {
                     type: Sequelize.TEXT
                 },
                 images: {
-                    type: Sequelize.ARRAY(Sequelize.TEXT)                    
+                    type: Sequelize.ARRAY(Sequelize.TEXT),
+                    defaultValue: []                    
                 },
                 question: {
                     type: Sequelize.TEXT
                 },
                 tutorial: {
-                    type: Sequelize.ARRAY(Sequelize.TEXT)                    
+                    type: Sequelize.ARRAY(Sequelize.TEXT),
+                    defaultValue: []                     
                 },
                 id_runtype: {
                     type: Sequelize.INTEGER,
