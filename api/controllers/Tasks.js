@@ -25,6 +25,7 @@ class Tasks extends Crud {
     update(req, res) {
         let imageName = req.body.imgname;
         let imgBase64 = req.body.base64;
+        console.log(req.body);
         return this.model
             .findById(req.params.id)
             .then(task => {
