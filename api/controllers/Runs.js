@@ -37,7 +37,8 @@ class Runs extends Crud {
                 let tmp;
                 if (!run) {
                     tmp = res.status(400).send({ message: 'Data not found!' });
-                } else {
+                }
+                else {
                     if (!number && !imageName && !imageBase64) {
                         tmp = run
                             .update(req.body)
@@ -66,7 +67,10 @@ class Runs extends Crud {
                                         }
                                     })
                                     .then(() => res.status(200).send({ message: 'Data updated' }))
-                                    .catch(error => res.status(400).send(error));
+                                    .catch(error => {
+                                        console.error(error)
+                                        res.status(400).send(error)
+                                    });
                             }
                         })
                     }
