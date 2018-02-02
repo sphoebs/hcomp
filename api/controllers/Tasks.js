@@ -23,7 +23,8 @@ class Tasks extends Crud {
     
     //TODO TRY S3 AND HOW TO WORK
     update(req, res) {
-        console.log(req.body.image);
+        let imageName = req.body.imgname;
+        let imgBase64 = req.body.base64;
         return this.model
             .findById(req.params.id)
             .then(task => {
@@ -32,22 +33,23 @@ class Tasks extends Crud {
                     tmp = res.status(400).send({ message: 'Data not found!' });
                 }
                 else {
-                    if (req.body.image) {
+                    if (imgBase64 && imgName) {
                         const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-                        let buf = new Buffer(req.body.image.replace(/^data:image\/\w+;base64,/, ""),'base64');
-                        let data = this.createData(buf);
+                        let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
+                        let data = this.createData(buf,imageName);
                         s3.putObject(data, (err, response) => {
                             if (err) {
-                                console.log(err);
+                                tmp = res.status(400).send({message: 'Something Goes Wrong'});
                             }
-                            else {
-                                console.log(response)
-                                let url_image = url_images+'test1';
+                            else {                                
+                                let url_image = url_images+imageName;
                                 console.log(url_image);
-                                /*tmp = task
-                                    .update(req.body)
-                                    .then(() => res.status(200).send(JSON.stringify(task.id_creator)))
-                                    .catch(error => res.status(400).send(error));*/
+                                tmp = task
+                                    .update({
+                                        avatar_image: url_image
+                                    })
+                                    .then(() => res.status(200).send({message: 'All goes well'}))
+                                    .catch(error => res.status(400).send(error));
                             }
                         })
                     }
@@ -95,10 +97,10 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
       }
 
-    createData(image) {
+    createData(image,imageName) {
         //TODO NOME CARTELLA
         let data = {
-            Key: 'test1',
+            Key: imageName,
             Body: image,
             ContentEncoding: 'base64',
             ContentType: 'image/jpeg',
