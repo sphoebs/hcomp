@@ -6,6 +6,7 @@ aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
+const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
 
 class Tasks extends Crud {
     constructor() {
@@ -24,17 +25,16 @@ class Tasks extends Crud {
     //TODO TRY S3 AND HOW TO WORK
     update(req, res) {
         let imageName = req.body.imgname;
-        let imgBase64 = req.body.base64;       
+        let imgBase64 = req.body.base64;
         return this.model
             .findById(req.params.id)
             .then(task => {
                 let tmp;
                 if (!task) {
-                    tmp = res.status(400).send({ message: 'Data not found!' });
+                    tmp = res.status(404).send({ message: 'Data not found!' });
                 }
                 else {
                     if (imgBase64 && imageName) {
-                        const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
                         let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
                         let data = createData(buf, imageName);
                         s3.putObject(data, (err, response) => {
@@ -71,7 +71,7 @@ class Tasks extends Crud {
             })
             .then(tasks => {
                 if (!tasks) {
-                    res.send(404).send({ message: 'Not found' });
+                    res.status(404).send({ message: 'Not found' });
                 }
                 else {
                     res.send(200).send(tasks);
@@ -88,7 +88,7 @@ class Tasks extends Crud {
             .then(data => {
                 let tmp;
                 if (!data) {
-                    tmp = res.status(400).send({ message: 'Data not found!' });
+                    tmp = res.status(404).send({ message: 'Data not found!' });
                 } else {
                     tmp = res.status(200).send(data);
                 }
@@ -98,31 +98,40 @@ class Tasks extends Crud {
     }
 
     delete(req, res) {
+        let tmp = '';
         return this.model
-          .findById(req.params.id)
-          .then(data => {
-            if (!data) {
-              return res.status(400).send({ message: 'Data not found' });
-            } else {
-              if(!req.body.image){
-                return data
-                .destroy()
-                .then(() => res.status(200).send({ message: 'Data destroyed' }))
-                .catch(error => res.status(400).send(error));
-              }
-              else {
-                return data
-                .update({
-                    avatar_image: ''
-                })
-                .then(() => res.status(200).send({ message: 'Image destroyed' }))
-                .catch(error => res.status(400).send(error));
-              }
-              
-            }
-          })
-          .catch(error => res.status(400).send(error));
-      }
+            .findById(req.params.id)
+            .then(data => {
+                if (!data) {
+                    tmp = res.status(404).send({ message: 'Data not found' });
+                } else {
+                    if (!req.body.image) {
+                        return data
+                            .destroy()
+                            .then(() => tmp = res.status(200).send({ message: 'Data destroyed' }))
+                            .catch(error => tmp = res.status(400).send(error));
+                    }
+                    else {
+                        s3.deleteObject({ Key: req.body.imgName }, (err, data) => {
+                            if (err) {
+                                tmp = res.status(400).send(error);
+                            }
+                            else {
+                                return data
+                                    .update({
+                                        avatar_image: ''
+                                    })
+                                    .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
+                                    .catch(error => tmp = res.status(400).send(error));
+                            }
+                        });
+                    }
+
+                }
+            })
+            .catch(error => tmp = res.status(400).send(error));
+        return tmp;
+    }
 
 
 }

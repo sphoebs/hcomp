@@ -183,7 +183,7 @@ class Users extends Crud {
       .then(user => {
         let tmp;
         if (!user) {
-          tmp = res.status(400).send({ message: 'Data not found!' });
+          tmp = res.status(404).send({ message: 'Data not found!' });
         } else {
           tmp = res.status(200).send(user);
         }

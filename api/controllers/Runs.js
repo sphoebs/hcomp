@@ -2,16 +2,13 @@ const Crud = require("./Crud");
 const runs = require("../models").runs;
 const { readQuery, url_images, createData } = require('../Utility/Utility');
 const aws = require('aws-sdk');
-
-
 const id_task = 'id_task';
 const id_runType = 'id_runtype';
-
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
-
+const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
 class Runs extends Crud {
     constructor() {
         super(runs);
@@ -34,7 +31,7 @@ class Runs extends Crud {
             .then(run => {
                 let tmp;
                 if (!run) {
-                    tmp = res.status(400).send({ message: 'Data not found!' });
+                    tmp = res.status(404).send({ message: 'Data not found!' });
                 }
                 else {
                     if (!imageName && !imageBase64) {
@@ -44,7 +41,6 @@ class Runs extends Crud {
                             .catch(error => res.status(400).send(error));
                     }
                     else {
-                        const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
                         let buf = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
                         let data = createData(buf, imageName);
                         s3.putObject(data, (err, result) => {
@@ -79,8 +75,14 @@ class Runs extends Crud {
         let tmp = '';
         return this.model
             .findAll({ order: 'createdAt DESC', limit: 2 })
-            .then(data =>
-                tmp = res.status(200).send(data))
+            .then(data => {
+                if (!data) {
+                    tmp = res.status(404).send({message: 'Data Not Found'})
+                }
+                else {
+                    tmp = res.status(200).send(data)
+                }
+            })
             .catch(error =>
                 tmp = res.status(400).send(error));
     }
@@ -92,8 +94,15 @@ class Runs extends Crud {
         if (filterTask && !filterRunType) {
             return this.model
                 .findAll({ where: { id_task } })
-                .then(data =>
-                    tmp = res.status(200).send(data))
+                .then(data => {
+                    if (!data) {
+                        tmp = res.status(404).send({ message: 'Data Not Found' })
+                    }
+                    else {
+                        tmp = res.status(200).send(data)
+                    }
+
+                })
                 .catch(error =>
                     tmp = res.status(400).send(error));
         }
@@ -114,32 +123,40 @@ class Runs extends Crud {
     }
 
     delete(req, res) {
+        let tmp = '';
         return this.model
             .findById(req.params.id)
             .then(data => {
                 if (!data) {
-                    return res.status(400).send({ message: 'Data not found' });
+                    return tmp = res.status(404).send({ message: 'Data not found' });
                 } else {
                     if (!req.body.imgName) {
                         return data
                             .destroy()
-                            .then(() => res.status(200).send({ message: 'Data destroyed' }))
-                            .catch(error => res.status(400).send(error));
+                            .then(() => tmp = res.status(200).send({ message: 'Data destroyed' }))
+                            .catch(error => tmp = res.status(400).send(error));
                     }
                     else {
-                        let images = data.images;
-                        delete data.images[req.body.imgName];
-                        return data
-                            .update({
-                                images: images
-                            })
-                            .then(() => res.status(200).send({ message: 'Image destroyed' }))
-                            .catch(error => res.status(400).send(error));
+                        s3.deleteObject({ Key: req.body.imgName }, (err, data) => {
+                            if (err) {
+                                tmp = res.status(400).send(error);
+                            }
+                            else {
+                                let images = data.images;
+                                delete images[req.body.imgName];
+                                return data
+                                    .update({
+                                        images: images
+                                    })
+                                    .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
+                                    .catch(error => tmp = res.status(400).send(error));
+                            }
+                        });
                     }
-
                 }
             })
             .catch(error => res.status(400).send(error));
+        return tmp;
     }
 
 

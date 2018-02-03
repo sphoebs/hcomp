@@ -11,7 +11,7 @@ class RunTypes extends Crud{
         console.log(req.body);
         return this.model
         .create(req.body)
-        .then(runtype => res.send('ok'))
+        .then(data => res.send({message :'RunType Created'}))
         .catch(error =>
              res.status(400).send(error))
     }

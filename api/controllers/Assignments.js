@@ -18,7 +18,7 @@ class Assignments extends Crud {
             .readAll({ where: { id_worker: req.params.id } })
             .then(assignments => {
                 if (!assignments) {
-                    res.send(404).send({ message: 'Not found' });
+                    res.send(404).send({ message: 'Data Not found' });
                 }
                 else {
                     res.status(200).send(assignments);
@@ -34,7 +34,7 @@ class Assignments extends Crud {
             })
             .then(assignments => {
                 if (!assignments) {
-                    res.send(404).send({ message: 'Not found' });
+                    res.send(404).send({ message: 'Data Not found' });
                 }
                 else {
                     res.send(200).send(assignments);
