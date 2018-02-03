@@ -11,13 +11,6 @@ const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
 
-app.use(session({
-    secret: 'lol',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {maxAge: 60*60*24}
-}));
-
 app.use((req, res, next) => {
   // TODO: change this to website(react) dom when in production
   res.setHeader('Access-Control-Allow-Origin', '*');
