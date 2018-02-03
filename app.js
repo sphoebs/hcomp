@@ -27,7 +27,7 @@ server.listen(port, () => {
 });
 
 app.use(bodyParser({limit: '50mb'}));
-app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})) // handle URL-encoded data
+
 
 // Adding API routes
 
