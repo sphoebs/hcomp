@@ -26,6 +26,7 @@ class Runs extends Crud {
     update(req, res) {
         let imageName = req.body.imgname;
         let imageBase64 = req.body.base64;
+        console.log(imageName);
         return this.model
             .findById(req.params.id)
             .then(run => {
@@ -49,6 +50,7 @@ class Runs extends Crud {
                             }
                             else {
                                 let url_image = url_images + imageName;
+                                console.log(run.images);
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
