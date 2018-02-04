@@ -53,7 +53,8 @@ class Runs extends Crud {
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
-                                        images: {                                            
+                                        images: {           
+                                            ...run.images,                                 
                                             [imageName]: url_image
                                         }
                                     })
