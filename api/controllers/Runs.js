@@ -125,13 +125,15 @@ class Runs extends Crud {
 
     delete(req, res) {
         let tmp = '';
+        console.log(req.body);
         console.log(req.body.imgName);
         return this.model
             .findById(req.params.id)
             .then(data => {
                 if (!data) {
                     return tmp = res.status(404).send({ message: 'Data not found' });
-                } else {
+                } 
+                else {
                     if (!req.body.imgName) {
                         console.log("distrugge tutto");
                         return data
