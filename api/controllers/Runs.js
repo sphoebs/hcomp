@@ -125,9 +125,7 @@ class Runs extends Crud {
 
     deletePhotos(req, res) {
         let tmp = '';
-        let count = 0;
-        console.log(req.body);
-        console.log(req.body.imgName);
+        let count = 0;       
         return this.model
             .findById(req.params.id)
             .then(data => {
@@ -143,9 +141,7 @@ class Runs extends Crud {
                                     tmp = res.status(400).send(error);
                                 }
                                 else {
-                                    if (count === Object.keys(data.images).length) {
-                                        console.log("solo una foto");
-                                       
+                                    if (count === Object.keys(data.images).length) {           
                                         return data
                                             .update({
                                                 images: {}

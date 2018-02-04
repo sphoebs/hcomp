@@ -21,4 +21,7 @@ module.exports = app => {
         controller.creatorRecentTasks(req,res);
     });  
    
+    app.patch('/tasks', ensureAuthorizationCreator, (req,res) => {
+        controller.deletePhoto(req,res);
+    })
 };
