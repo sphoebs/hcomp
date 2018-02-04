@@ -126,6 +126,7 @@ class Runs extends Crud {
     deletePhotos(req, res) {
         let tmp = '';
         let count = 0;       
+        console.log(req.params.id);
         return this.model
             .findById(req.params.id)
             .then(data => {
