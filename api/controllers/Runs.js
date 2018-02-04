@@ -162,6 +162,7 @@ class Runs extends Crud {
                             }
                             else {                                
                                 let images = data.images;
+                                console.log(data);
                                 console.log(images);
                                 delete images[req.body.imgname];
                                 return data
