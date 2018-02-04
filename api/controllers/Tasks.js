@@ -64,6 +64,7 @@ class Tasks extends Crud {
             })
             .catch(error => res.status(400).send(error));
     }
+    
     creatorRecentTasks(req, res) {
         return this.model
             .findAll({
