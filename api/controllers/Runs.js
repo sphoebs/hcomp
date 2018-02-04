@@ -49,12 +49,12 @@ class Runs extends Crud {
                                 console.log(err);
                             }
                             else {
-                                let url_image = url_images + imageName;                          
+                                let url_image = url_images + imageName;
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
-                                        images: {           
-                                            ...run.images,                                 
+                                        images: {
+                                            ...run.images,
                                             [imageName]: url_image
                                         }
                                     })
@@ -78,7 +78,7 @@ class Runs extends Crud {
             .findAll({ order: 'createdAt DESC', limit: 2 })
             .then(data => {
                 if (!data) {
-                    tmp = res.status(404).send({message: 'Data Not Found'})
+                    tmp = res.status(404).send({ message: 'Data Not Found' })
                 }
                 else {
                     tmp = res.status(200).send(data)
@@ -123,8 +123,9 @@ class Runs extends Crud {
         }
     }
 
-    delete(req, res) {
+    deletePhotos(req, res) {
         let tmp = '';
+        let count = 0;
         console.log(req.body);
         console.log(req.body.imgName);
         return this.model
@@ -132,16 +133,32 @@ class Runs extends Crud {
             .then(data => {
                 if (!data) {
                     return tmp = res.status(404).send({ message: 'Data not found' });
-                } 
+                }
                 else {
-                    if (!req.body.imgName) {
-                        console.log("distrugge tutto");
-                        return data
-                            .destroy()
-                            .then(() => tmp = res.status(200).send({ message: 'Data destroyed' }))
-                            .catch(error => tmp = res.status(400).send(error));
+                    if (req.body.deleteAll) {
+                        for (key in data.images) {
+                            count++;
+                            s3.deleteObject({ Key: data.images[key] }, (err, data) => {
+                                if (err) {
+                                    tmp = res.status(400).send(error);
+                                }
+                                else {
+                                    if (count === Object.keys(data.images).length) {
+                                        console.log("solo una foto");
+                                       
+                                        return data
+                                            .update({
+                                                images: {}
+                                            })
+                                            .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
+                                            .catch(error => tmp = res.status(400).send(error));
+                                    }
+                                }
+                            });
+                        }
+                        tmp = res.status(400).send(error);
                     }
-                    else {
+                    if (req.body.imgName) {
                         s3.deleteObject({ Key: req.body.imgName }, (err, data) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
@@ -164,8 +181,6 @@ class Runs extends Crud {
             .catch(error => res.status(400).send(error));
         return tmp;
     }
-
-
 
 }
 
