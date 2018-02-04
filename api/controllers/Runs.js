@@ -9,6 +9,7 @@ aws.config.update({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
+
 class Runs extends Crud {
     constructor() {
         super(runs);
