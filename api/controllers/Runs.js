@@ -156,6 +156,7 @@ class Runs extends Crud {
                         tmp = res.status(400).send(error);
                     }
                     if (req.body.imgName) {
+                        console.log(req.body.imgName);
                         s3.deleteObject({ Key: req.body.imgName }, (err, data) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
