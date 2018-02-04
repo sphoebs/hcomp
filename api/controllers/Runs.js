@@ -127,6 +127,7 @@ class Runs extends Crud {
         let tmp = '';
         let count = 0;       
         console.log(req.params.id);
+        console.log(req.body.imgName);
         return this.model
             .findById(req.params.id)
             .then(data => {
