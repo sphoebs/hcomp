@@ -49,8 +49,7 @@ class Runs extends Crud {
                                 console.log(err);
                             }
                             else {
-                                let url_image = url_images + imageName;
-                                console.log(run.images);
+                                let url_image = url_images + imageName;                          
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
