@@ -128,7 +128,7 @@ class Runs extends Crud {
         let tmp = '';
         let count = 0;       
         console.log(req.params.id);
-        console.log(req.body.imgName);
+        console.log(req.body.imgname);
         return this.model
             .findById(req.params.id)
             .then(data => {
@@ -157,16 +157,16 @@ class Runs extends Crud {
                         }
                         tmp = res.status(400).send(error);
                     }
-                    if (req.body.imgName) {
-                        console.log(req.body.imgName);
-                        s3.deleteObject({ Key: req.body.imgName }, (err, data) => {
+                    if (req.body.imgname) {
+                        console.log(req.body.imgname);
+                        s3.deleteObject({ Key: req.body.imgname }, (err, data) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
                             }
                             else {
                                 console.log("solo una foto");
                                 let images = data.images;
-                                delete images[req.body.imgName];
+                                delete images[req.body.imgname];
                                 return data
                                     .update({
                                         images: images
