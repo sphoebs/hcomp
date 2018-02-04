@@ -105,7 +105,7 @@ class Tasks extends Crud {
                 if (!data) {
                     tmp = res.status(404).send({ message: 'Data not found' });
                 } else {
-                    if (!req.body.image) {
+                    if (!req.body.imgName) {
                         return data
                             .destroy()
                             .then(() => tmp = res.status(200).send({ message: 'Data destroyed' }))
