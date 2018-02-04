@@ -97,7 +97,7 @@ class Tasks extends Crud {
             .catch(error => res.status(400).send(error));
     }
 
-    delete(req, res) {
+    deletePhoto(req, res) {
         let tmp = '';
         return this.model
             .findById(req.params.id)
@@ -105,13 +105,7 @@ class Tasks extends Crud {
                 if (!data) {
                     tmp = res.status(404).send({ message: 'Data not found' });
                 } else {
-                    if (!req.body.imgName) {
-                        return data
-                            .destroy()
-                            .then(() => tmp = res.status(200).send({ message: 'Data destroyed' }))
-                            .catch(error => tmp = res.status(400).send(error));
-                    }
-                    else {
+                    if (req.body.imgName) {
                         s3.deleteObject({ Key: req.body.imgName }, (err, data) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
