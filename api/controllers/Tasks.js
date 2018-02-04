@@ -106,7 +106,7 @@ class Tasks extends Crud {
                     tmp = res.status(404).send({ message: 'Data not found' });
                 } else {
                     if (req.body.imgname) {
-                        s3.deleteObject({ Key: req.body.imgname }, (err, data) => {
+                        s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
                             }
