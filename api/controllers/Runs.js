@@ -169,6 +169,7 @@ class Runs extends Crud {
                     return res.status(404).send({ message: 'Data not found' });
                 } else {
                     if(Object.keys(data.images).length>0){
+                        let tmpData = data;
                         this.deleteAll(tmpData,destroyAll);
                     }                     
                     return data
