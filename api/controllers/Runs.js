@@ -162,14 +162,13 @@ class Runs extends Crud {
                                 .then(() => {
                                     console.log('Destroyed');
                                     if (Object.keys(data.images).length === 0) {
-                                        this.deleteAll(data.id);
+                                        this.deleteAll(data.id,data.id_task);
                                         tmp = res.status(200).send({ message: 'All images Destroyed' })
                                     }
                                 })
                                 .catch(error => {
                                     tmp = res.status(400).send(error)
                                 });
-
                         }
                     }
                     if (req.body.imgname) {
@@ -196,7 +195,7 @@ class Runs extends Crud {
         return tmp;
     }
 
-    delete(req, res) {        
+    delete(req, res) {
         console.log(req.params.id);
         return this.model
             .findById(req.params.id)
@@ -205,7 +204,7 @@ class Runs extends Crud {
                     return res.status(404).send({ message: 'Data not found' });
                 } else {
                     if (Object.keys(data.images).length > 0) {
-                        this.deleteAll(data.id,data.id_task);
+                        this.deleteAll(data.id, data.id_task);
                     }
                     return data
                         .destroy()
@@ -216,8 +215,9 @@ class Runs extends Crud {
             .catch(error => res.status(400).send(error));
     }
 
-    deleteAll(runsID,tasksID) {
-        let albumKey = tasksName + tasksID + '/' + runsName + runsID + '/'
+    deleteAll(runsID, tasksID) {
+        let albumKey = tasksName + tasksID + '/' + runsName + runsID + '/';
+        console.log("Entro in delete ALL");
         s3.listObjects({ Prefix: albumKey }, (err, response) => {
             if (err) {
                 console.log('There was an error deleting your album: ', err.message);
@@ -233,7 +233,7 @@ class Runs extends Crud {
                 }
                 console.log('Successfully deleted album.');
             });
-        });        
+        });
     }
 }
 
