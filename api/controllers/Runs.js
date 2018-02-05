@@ -162,14 +162,13 @@ class Runs extends Crud {
                                     images: images
                                 })
                                 .then(() => {                                    
-                                    if (Object.keys(data.images).length === 0) {                 
+                                    if (Object.keys(data.images).length === 0) {  
+                                        console.log("STO PER CANCELLARE LE IMMAGINI....");        
                                         this.deleteAll(data.id, data.id_task);
-                                        tmp = res.status(200).send({ message: 'All images Destroyed' })
+                                        tmp = res.status(200).send({ message: 'All images Destroyed' });
                                     }
                                 })
-                                .catch(error => {
-                                    tmp = res.status(400).send(error)
-                                });
+                                .catch(error => res.status(400).send(error));
                         }
                     }
                     if (req.body.imgname) {
@@ -186,13 +185,13 @@ class Runs extends Crud {
                                         images: images
                                     })
                                     .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
-                                    .catch(error => tmp = res.status(400).send(error));
+                                    .catch(error => res.status(400).send(error));
                             }
                         });
                     }
                 }
             })
-            .catch(error => tmp = res.status(400).send(error));
+            .catch(error => res.status(400).send(error));
         return tmp;
     }
 
