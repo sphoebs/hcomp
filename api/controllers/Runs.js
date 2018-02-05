@@ -175,7 +175,7 @@ class Runs extends Crud {
                     }
                 }
             })
-            .catch(error => res.status(400).send(error));
+            .catch(error => tmp = res.status(400).send(error));
         return tmp;
     }
 
