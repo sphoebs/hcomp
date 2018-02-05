@@ -1,7 +1,7 @@
 const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const aws = require('aws-sdk');
-const { url_images, createData } = require('../Utility/Utility');
+const { url_images, createData , tasksName} = require('../Utility/Utility');
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -19,7 +19,7 @@ class Tasks extends Crud {
         return this.model
             .create(req.body)
             .then(data => {
-                let albumKey = this.model + encodeURIComponent(data.id) + '/';
+                let albumKey = tasksName + (data.id) + '/';
                 s3.headObject({ Key: albumKey }, (err, response) => {
                     if (!err) {
                         console.log('Album already exists.');
@@ -54,7 +54,7 @@ class Tasks extends Crud {
                 else {
                     if (imgBase64 && imageName) {
                         let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-                        let imageKey = this.model + task.id + '/' + imageName;
+                        let imageKey = tasksName + task.id + '/' + imageName;
                         let data = createData(buf, imageKey);
                         s3.putObject(data, (err, response) => {
                             if (err) {
@@ -126,7 +126,7 @@ class Tasks extends Crud {
                     tmp = res.status(404).send({ message: 'Data not found' });
                 } else {
                     if (req.body.imgname) {
-                        let imageKey = this.model + task.id + '/' + req.body.imgname;
+                        let imageKey = tasksName + task.id + '/' + req.body.imgname;
                         s3.deleteObject({ Key: imageKey }, (err, response) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
@@ -166,7 +166,7 @@ class Tasks extends Crud {
     }
 
     destroyDirectoryTaskPhotos(taskID) {
-        let albumKey = this.model+encodeURIComponent(taskID) + '/';
+        let albumKey = tasksName + (taskID) + '/';
         s3.listObjects({ Prefix: albumKey }, (err, response) => {
             if (err) {
                 console.log('There was an error deleting your album: ', err.message);

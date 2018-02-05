@@ -6,7 +6,8 @@ const facebookType = 'facebook';
 const googleType = 'google';
 
 const url_images = 'https://s3.eu-central-1.amazonaws.com/socialhumancomputationproject/';
-
+const tasksName = 'tasks';
+const runsName = 'runs';
 const Encode = payload => {
     const secret = process.env.secretHSC;
     // encode 
@@ -130,5 +131,7 @@ module.exports = {
     facebookType,
     googleType,
     url_images,
-    createData
+    createData,
+    runsName,
+    tasksName
 };
