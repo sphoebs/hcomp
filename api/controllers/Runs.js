@@ -126,7 +126,7 @@ class Runs extends Crud {
 
     deletePhotos(req, res) {
         let tmp = '';
-        let count=0;
+        let count = 0;
         return this.model
             .findById(req.params.id)
             .then(data => {
@@ -135,8 +135,9 @@ class Runs extends Crud {
                 }
                 else {
                     if (req.body.deleteAll) {
-                        console.log(req.body.deleteAll);
-                        for (let key in data.images) {                            
+                        let sizeImages = Object.keys(data.images).length;
+                        console.log(sizeImages);
+                        for (let key in data.images) {
                             s3.deleteObject({ Key: data.images[key] }, (err, response) => {
                                 if (err) {
                                     console.log("error");
@@ -144,20 +145,26 @@ class Runs extends Crud {
                                 }
                                 else {
                                     console.log("eliminato ");
+                                    count += 1;
                                     let images = data.images;
-                                    delete images[req.body.imgname];
+                                    delete images[key];
                                     return data
                                         .update({
                                             images: images
                                         })
-                                        .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
+                                        .then(() => {
+                                            if (count === sizeImages) {
+                                                tmp = res.status(200).send({ message: 'Image destroyed' })
+                                            }
+                                        })
                                         .catch(error => {
                                             console.log(error);
-                                            tmp = res.status(400).send(error)});
+                                            tmp = res.status(400).send(error)
+                                        });
 
                                 }
                             });
-                        }                        
+                        }
                     }
                     if (req.body.imgname) {
                         s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
