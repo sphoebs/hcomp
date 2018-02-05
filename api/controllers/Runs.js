@@ -164,6 +164,7 @@ class Runs extends Crud {
                             .catch(error => res.status(400).send(error));
                     }
                     if (req.body.imgname) {
+                        console.log(req.body.imgname);
                         console.log("SINGLE IMAGE");
                         let imageKey = tasksName + data.id_task + '/' + runsName + data.id + '/' + req.body.imgname;
                         s3.deleteObject({ Key: imageKey }, (err, response) => {
