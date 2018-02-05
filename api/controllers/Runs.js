@@ -130,7 +130,7 @@ class Runs extends Crud {
             .findById(req.params.id)
             .then(data => {
                 if (!data) {
-                    return tmp = res.status(404).send({ message: 'Data not found' });
+                    tmp = res.status(404).send({ message: 'Data not found' });
                 }
                 else {
                     if (req.body.deleteAll) {
