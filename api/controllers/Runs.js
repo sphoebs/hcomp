@@ -183,6 +183,7 @@ class Runs extends Crud {
     }
 
     deleteAll(data, destroyAll) {
+        let tmp = '';
         let sizeImages = Object.keys(data.images).length;
         console.log(sizeImages);
         for (let key in data.images) {
@@ -210,6 +211,7 @@ class Runs extends Crud {
                             });
                     }
                     else {
+                        delete data.images[key];
                         if (Object.keys(data.images).length === 0) {
                             tmp = res.status(200).send({ message: 'All images Destroyed' })
                         }
