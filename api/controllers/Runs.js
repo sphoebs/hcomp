@@ -135,16 +135,14 @@ class Runs extends Crud {
                 }
                 else {
                     if (req.body.deleteAll) {
-                        let sizeImages = Object.keys(data.images).length;
-                        console.log(sizeImages);
+                        let sizeImages = Object.keys(data.images).length;                        
                         for (let key in data.images) {
                             s3.deleteObject({ Key: data.images[key] }, (err, response) => {
                                 if (err) {
                                     console.log("error");
                                     tmp = res.status(400).send(err);
                                 }
-                                else {
-                                    console.log("eliminato ");
+                                else {                                    
                                     count += 1;
                                     let images = data.images;
                                     delete images[key];
