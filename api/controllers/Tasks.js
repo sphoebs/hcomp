@@ -107,7 +107,19 @@ class Tasks extends Crud {
                     tmp = res.status(404).send({ message: 'Data not found' });
                 } else {
                     if (req.body.imgname) {
-                        this.destroyPhoto(data);
+                        s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
+                            if (err) {
+                                tmp = res.status(400).send(error);
+                            }
+                            else {
+                                return data
+                                    .update({
+                                        avatar_image: ''
+                                    })
+                                    .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
+                                    .catch(error => tmp = res.status(400).send(error));
+                            }
+                        });
                     }
 
                 }
@@ -117,14 +129,13 @@ class Tasks extends Crud {
     }
 
     delete(req, res) {
-        let destroyPhoto = true;
         return this.model
           .findById(req.params.id)
           .then(data => {
             if (!data) {
               return res.status(400).send({ message: 'Data not found' });
             } else {
-              this.destroyPhoto(data,destroyPhoto);
+              destroyImage(data);
               return data
                 .destroy()
                 .then(() => res.status(200).send({ message: 'Data destroyed' }))
@@ -133,28 +144,19 @@ class Tasks extends Crud {
           })
           .catch(error => res.status(400).send(error));
       }
-
-    destroyPhoto(data,destroyPhoto){
-        s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
+    
+    destroyImage(task){
+        let taskImgName = task.avatar_image.slice(68);
+        s3.deleteObject({ Key: taskImgName}, (err, response) => {
             if (err) {
-                tmp = res.status(400).send(error);
+                console.log(error);
             }
             else {
-                if(!destroyPhoto){
-                return data
-                    .update({
-                        avatar_image: ''
-                    })
-                    .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
-                    .catch(error => tmp = res.status(400).send(error));
-                }
-                else {
-                    tmp = tmp = res.status(200).send({ message: 'Image destroyed' });
-                }
+                console.log("image destroyed");
             }
         });
-        return tmp;
     }
+
 }
 
 module.exports = Tasks;
