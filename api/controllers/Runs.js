@@ -126,7 +126,6 @@ class Runs extends Crud {
 
     deletePhotos(req, res) {
         let tmp = '';
-        let count = 0;
         return this.model
             .findById(req.params.id)
             .then(data => {
@@ -135,31 +134,29 @@ class Runs extends Crud {
                 }
                 else {
                     if (req.body.deleteAll) {
-                        let sizeImages = Object.keys(data.images).length;                        
+                        let sizeImages = Object.keys(data.images).length;
                         for (let key in data.images) {
                             s3.deleteObject({ Key: data.images[key] }, (err, response) => {
                                 if (err) {
                                     console.log("error");
                                     tmp = res.status(400).send(err);
                                 }
-                                else {                                    
-                                    count += 1;
+                                else {
                                     let images = data.images;
                                     delete images[key];
                                     return data
                                         .update({
                                             images: images
                                         })
-                                        .then(() => {
-                                            if (count === sizeImages) {
-                                                tmp = res.status(200).send({ message: 'Image destroyed' })
+                                        .then(() => {                                            
+                                            console.log('Destroyed');
+                                            if (Object.keys(data.images).length === 0) {
+                                                tmp = res.status(200).send({ message: 'All images Destroyed' })
                                             }
                                         })
-                                        .catch(error => {
-                                            console.log(error);
+                                        .catch(error => {                                        
                                             tmp = res.status(400).send(error)
                                         });
-
                                 }
                             });
                         }
