@@ -9,7 +9,7 @@ aws.config.update({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-
+const tasksName = 'tasks';
 class Runs extends Crud {
     constructor() {
         super(runs);
@@ -17,9 +17,27 @@ class Runs extends Crud {
     }
 
     create(req, res) {
+
         return this.model
             .create(req.body)
-            .then(data => res.status(200).send(JSON.stringify(data.id)))
+            .then(data => {
+                let albumKey = tasksName + data.id_task + '/' + encodeURIComponent(data.id) + '/';
+                s3.headObject({ Key: albumKey }, (err, response) => {
+                    if (!err) {
+                        return alert('Album already exists.');
+                    }
+                    if (err.code !== 'NotFound') {
+                        return alert('There was an error creating your album: ' + err.message);
+                    }
+                    s3.putObject({ Key: albumKey }, (err, response) => {
+                        if (err) {
+                            return alert('There was an error creating your album: ' + err.message);
+                        }
+                        alert('Successfully created album.');
+                    });
+                });
+                res.status(200).send(JSON.stringify(data.id))
+            })
             .catch(error => res.status(400).send(error));
     }
 
@@ -44,13 +62,14 @@ class Runs extends Crud {
                     }
                     else {
                         let buf = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-                        let data = createData(buf, imageName);
+                        let imageKey = tasksName + data.id_task + '/' + encodeURIComponent(data.id) + '/' + imageName;
+                        let data = createData(buf, imageKey);
                         s3.putObject(data, (err, result) => {
                             if (err) {
                                 console.log(err);
                             }
                             else {
-                                let url_image = url_images + imageName;
+                                let url_image = url_images + imageKey;
                                 //TODO INSERT LINK OF IMAGE
                                 tmp = run
                                     .update({
@@ -134,10 +153,11 @@ class Runs extends Crud {
                 }
                 else {
                     if (req.body.deleteAll) {
-                        tmp = this.deleteAll(data,res);
+                        tmp = this.deleteAll(data, res);
                     }
                     if (req.body.imgname) {
-                        s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
+                        let imageKey = tasksName + data.id_task + '/' + encodeURIComponent(data.id) + '/' + req.body.imgname;
+                        s3.deleteObject({ Key: imageKey }, (err, response) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
                             }
@@ -168,56 +188,65 @@ class Runs extends Crud {
                 if (!data) {
                     return res.status(404).send({ message: 'Data not found' });
                 } else {
-                    if(Object.keys(data.images).length>0){
+                    if (Object.keys(data.images).length > 0) {
                         let tmpData = data;
                         console.log(tmpData);
-                        this.deleteAll(tmpData,res,destroyAll);
-                    }                     
+                        this.deleteAll(tmpData, res, destroyAll);
+                    }
                     return data
                         .destroy()
                         .then(() => res.status(200).send({ message: 'Data destroyed' }))
-                        .catch(error =>{ console.log(error); res.status(400).send(error)});
+                        .catch(error => { console.log(error); res.status(400).send(error) });
                 }
             })
             .catch(error => res.status(400).send(error));
     }
 
-    deleteAll(data,res,destroyAll) {
+    deleteAll(data, res, destroyAll) {
         let tmp = '';
         let sizeImages = Object.keys(data.images).length;
         console.log(sizeImages);
         for (let key in data.images) {
-            s3.deleteObject({ Key: data.images[key] }, (err, response) => {
-                if (err) {
-                    console.log("error");
-                    tmp = res.status(400).send(err);
-                }
-                else {
-                    if (!destroyAll) {
-                        let images = data.images;
-                        delete images[key];
-                        return data
-                            .update({
-                                images: images
-                            })
-                            .then(() => {
-                                console.log('Destroyed');
-                                if (Object.keys(data.images).length === 0) {
-                                    tmp = res.status(200).send({ message: 'All images Destroyed' })
-                                }
-                            })
-                            .catch(error => {
-                                tmp = res.status(400).send(error)
-                            });
-                    }
-                    else {
-                        delete data.images[key];
+            if (!destroyAll) {
+                let images = data.images;
+                delete images[key];
+                return data
+                    .update({
+                        images: images
+                    })
+                    .then(() => {
+                        console.log('Destroyed');
                         if (Object.keys(data.images).length === 0) {
                             tmp = res.status(200).send({ message: 'All images Destroyed' })
                         }
-                    }
+                    })
+                    .catch(error => {
+                        tmp = res.status(400).send(error)
+                    });
+            }
+            else {
+                delete data.images[key];
+                if (Object.keys(data.images).length === 0) {
+                    let albumKey = tasksName + data.id_task + '/' + encodeURIComponent(data.id) + '/'
+                    s3.listObjects({ Prefix: albumKey }, (err, response) => {
+                        if (err) {
+                            console.log('There was an error deleting your album: ', err.message);
+                        }
+                        let objects = response.Contents.map((object) => {
+                           return { Key: object.Key };
+                        });
+                        s3.deleteObjects({
+                            Delete: { Objects: objects, Quiet: true }
+                        }, (err, response) => {
+                            if (err) {
+                                console.log('There was an error deleting your album: ', err.message);
+                            }
+                            console.log('Successfully deleted album.');
+                        });
+                    });
+                    tmp = res.status(200).send({ message: 'All images Destroyed' })
                 }
-            });
+            }
         }
         return tmp;
     }

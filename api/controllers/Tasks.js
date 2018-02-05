@@ -15,9 +15,27 @@ class Tasks extends Crud {
     }
 
     create(req, res) {
+
         return this.model
             .create(req.body)
-            .then(data => res.status(200).send(JSON.stringify(data.id)))
+            .then(data => {
+                let albumKey = this.model + encodeURIComponent(data.id) + '/';
+                s3.headObject({ Key: albumKey }, (err, response) => {
+                    if (!err) {
+                        return alert('Album already exists.');
+                    }
+                    if (err.code !== 'NotFound') {
+                        return alert('There was an error creating your album: ' + err.message);
+                    }
+                    s3.putObject({ Key: albumKey }, (err, response) => {
+                        if (err) {
+                            return alert('There was an error creating your album: ' + err.message);
+                        }
+                        alert('Successfully created album.');
+                    });
+                });
+                res.status(200).send(JSON.stringify(data.id));
+            })
             .catch(error => res.status(400).send(error));
     }
 
@@ -36,13 +54,14 @@ class Tasks extends Crud {
                 else {
                     if (imgBase64 && imageName) {
                         let buf = new Buffer(imgBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-                        let data = createData(buf, imageName);
+                        let imageKey = this.model + task.id + '/' + imageName;
+                        let data = createData(buf, imageKey);
                         s3.putObject(data, (err, response) => {
                             if (err) {
                                 tmp = res.status(400).send({ message: 'Something Goes Wrong' });
                             }
                             else {
-                                let url_image = url_images + imageName;
+                                let url_image = url_images + imageKey;
                                 console.log(url_image);
                                 tmp = task
                                     .update({
@@ -64,7 +83,7 @@ class Tasks extends Crud {
             })
             .catch(error => res.status(400).send(error));
     }
-    
+
     creatorRecentTasks(req, res) {
         return this.model
             .findAll({
@@ -107,7 +126,8 @@ class Tasks extends Crud {
                     tmp = res.status(404).send({ message: 'Data not found' });
                 } else {
                     if (req.body.imgname) {
-                        s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
+                        let imageKey = this.model + task.id + '/' + req.body.imgname;
+                        s3.deleteObject({ Key: imageKey }, (err, response) => {
                             if (err) {
                                 tmp = res.status(400).send(error);
                             }
@@ -130,33 +150,38 @@ class Tasks extends Crud {
 
     delete(req, res) {
         return this.model
-          .findById(req.params.id)
-          .then(data => {
-            if (!data) {
-              return res.status(400).send({ message: 'Data not found' });
-            } else {
-                if(data.avatar_image){
-                    destroyImage(data.avatar_image);
-                }            
-              return data
-                .destroy()
-                .then(() => res.status(200).send({ message: 'Data destroyed' }))
-                .catch(error => res.status(400).send(error));
-            }
-          })
-          .catch(error => res.status(400).send(error));
-      }
-    
-    destroyImage(image){
-        let taskImgName = image.slice(68);
-        console.log(taskImgName);
-        s3.deleteObject({ Key: taskImgName}, (err, response) => {
+            .findById(req.params.id)
+            .then(data => {
+                if (!data) {
+                    return res.status(400).send({ message: 'Data not found' });
+                } else {
+                    destroyDirectoryTaskPhotos(data.id);
+                    return data
+                        .destroy()
+                        .then(() => res.status(200).send({ message: 'Data destroyed' }))
+                        .catch(error => res.status(400).send(error));
+                }
+            })
+            .catch(error => res.status(400).send(error));
+    }
+
+    destroyDirectoryTaskPhotos(taskID) {
+        let albumKey = this.model+encodeURIComponent(taskID) + '/';
+        s3.listObjects({ Prefix: albumKey }, (err, response) => {
             if (err) {
-                console.log(error);
+                console.log('There was an error deleting your album: ', err.message);
             }
-            else {
-                console.log("image destroyed");
-            }
+            let objects = response.Contents.map( (object) => {
+                return { Key: object.Key };
+            });
+            s3.deleteObjects({
+                Delete: { Objects: objects, Quiet: true }
+            },  (err, response) => {
+                if (err) {
+                   console.log('There was an error deleting your album: ', err.message);
+                }
+                console.log('Successfully deleted album');                
+            });
         });
     }
 
