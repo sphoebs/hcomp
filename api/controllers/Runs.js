@@ -156,6 +156,7 @@ class Runs extends Crud {
                             console.log("sono nel for");
                             let images = data.images;
                             delete images[key];
+                            console.log(images);
                             data
                                 .update({
                                     images: images
