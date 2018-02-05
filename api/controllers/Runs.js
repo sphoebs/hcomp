@@ -205,7 +205,7 @@ class Runs extends Crud {
                     return res.status(404).send({ message: 'Data not found' });
                 } else {
                     if (Object.keys(data.images).length > 0) {
-                        this.deleteAll(data.id);
+                        this.deleteAll(data.id,data.id_task);
                     }
                     return data
                         .destroy()
@@ -216,8 +216,8 @@ class Runs extends Crud {
             .catch(error => res.status(400).send(error));
     }
 
-    deleteAll(runsID) {
-        let albumKey = tasksName + data.id_task + '/' + runsName + runsID + '/'
+    deleteAll(runsID,tasksID) {
+        let albumKey = tasksName + tasksID + '/' + runsName + runsID + '/'
         s3.listObjects({ Prefix: albumKey }, (err, response) => {
             if (err) {
                 console.log('There was an error deleting your album: ', err.message);
