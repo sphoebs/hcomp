@@ -149,6 +149,7 @@ class Tasks extends Crud {
     
     destroyImage(image){
         let taskImgName = image.slice(68);
+        console.log(taskImgName);
         s3.deleteObject({ Key: taskImgName}, (err, response) => {
             if (err) {
                 console.log(error);
