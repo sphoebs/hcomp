@@ -161,13 +161,15 @@ class Runs extends Crud {
 
     delete(req, res) {
         let destroyAll = true;
+        console.log(req.params.id);
         return this.model
             .findById(req.params.id)
             .then(data => {
                 if (!data) {
                     return res.status(404).send({ message: 'Data not found' });
                 } else {
-                    this.deleteAll(data,destroyAll);
+                    let tmpData = data;
+                    this.deleteAll(tmpData,destroyAll);
                     return data
                         .destroy()
                         .then(() => res.status(200).send({ message: 'Data destroyed' }))
