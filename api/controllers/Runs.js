@@ -152,24 +152,16 @@ class Runs extends Crud {
                 }
                 else {
                     if (req.body.deleteAll) {
-                        for (let key in data.images) {
-                            console.log("sono nel for");
-                            let images = data.images;
-                            delete images[key];
-                            console.log(images);
-                            data
-                                .update({
-                                    images: images
-                                })
-                                .then(() => {                                    
-                                    if (Object.keys(data.images).length === 0) {  
-                                        console.log("STO PER CANCELLARE LE IMMAGINI....");        
-                                        this.deleteAll(data.id, data.id_task);
-                                        tmp = res.status(200).send({ message: 'All images Destroyed' });
-                                    }
-                                })
-                                .catch(error => res.status(400).send(error));
-                        }
+                        data
+                            .update({
+                                images: {}
+                            })
+                            .then(() => {
+                                console.log("STO PER CANCELLARE LE IMMAGINI....");
+                                this.deleteAll(data.id, data.id_task);
+                                tmp = res.status(200).send({ message: 'All images Destroyed' });
+                            })
+                            .catch(error => res.status(400).send(error));
                     }
                     if (req.body.imgname) {
                         let imageKey = tasksName + data.id_task + '/' + runsName + (data.id) + '/' + req.body.imgname;
