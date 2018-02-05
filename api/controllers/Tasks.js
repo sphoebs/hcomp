@@ -135,7 +135,9 @@ class Tasks extends Crud {
             if (!data) {
               return res.status(400).send({ message: 'Data not found' });
             } else {
-              destroyImage(data);
+                if(data.avatar_image){
+                    destroyImage(data.avatar_image);
+                }            
               return data
                 .destroy()
                 .then(() => res.status(200).send({ message: 'Data destroyed' }))
@@ -145,8 +147,8 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
       }
     
-    destroyImage(task){
-        let taskImgName = task.avatar_image.slice(68);
+    destroyImage(image){
+        let taskImgName = image.slice(68);
         s3.deleteObject({ Key: taskImgName}, (err, response) => {
             if (err) {
                 console.log(error);
