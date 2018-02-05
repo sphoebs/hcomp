@@ -61,7 +61,7 @@ class Runs extends Crud {
                     }
                     else {
                         let buf = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-                        let imageKey = tasksName + data.id_task + '/' + runsName + (data.id) + '/' + imageName;
+                        let imageKey = tasksName + run.id_task + '/' + runsName + (run.id) + '/' + imageName;
                         let data = createData(buf, imageKey);
                         s3.putObject(data, (err, result) => {
                             if (err) {
