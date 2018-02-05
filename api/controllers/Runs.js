@@ -170,6 +170,7 @@ class Runs extends Crud {
                 } else {
                     if(Object.keys(data.images).length>0){
                         let tmpData = data;
+                        console.log(tmpData);
                         this.deleteAll(tmpData,destroyAll);
                     }                     
                     return data
