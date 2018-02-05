@@ -153,6 +153,7 @@ class Runs extends Crud {
                 else {
                     if (req.body.deleteAll) {
                         for (let key in data.images) {
+                            console.log("sono nel for");
                             let images = data.images;
                             delete images[key];
                             return data
@@ -162,6 +163,7 @@ class Runs extends Crud {
                                 .then(() => {
                                     console.log('Destroyed');
                                     if (Object.keys(data.images).length === 0) {
+                                        console.log("sono nel if");
                                         this.deleteAll(data.id,data.id_task);
                                         tmp = res.status(200).send({ message: 'All images Destroyed' })
                                     }
@@ -203,7 +205,7 @@ class Runs extends Crud {
                 if (!data) {
                     return res.status(404).send({ message: 'Data not found' });
                 } else {
-                    if (Object.keys(data.images).length > 0) {
+                    if (Object.keys(data.images).length > 0) {                        
                         this.deleteAll(data.id, data.id_task);
                     }
                     return data
