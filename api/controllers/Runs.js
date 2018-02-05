@@ -143,7 +143,7 @@ class Runs extends Crud {
                                     tmp = res.status(400).send(err);
                                 }
                                 else {
-                                    console.log("eliminato");
+                                    console.log("eliminato ");
                                     let images = data.images;
                                     delete images[req.body.imgname];
                                     return data
