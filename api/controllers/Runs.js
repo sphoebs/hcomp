@@ -160,10 +160,8 @@ class Runs extends Crud {
                                 .update({
                                     images: images
                                 })
-                                .then(() => {
-                                    console.log('Destroyed');
-                                    if (Object.keys(data.images).length === 0) {
-                                        console.log("sono nel if");
+                                .then(() => {                                    
+                                    if (Object.keys(data.images).length === 0) {                 
                                         this.deleteAll(data.id, data.id_task);
                                         tmp = res.status(200).send({ message: 'All images Destroyed' })
                                     }

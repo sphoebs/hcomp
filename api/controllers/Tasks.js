@@ -155,7 +155,7 @@ class Tasks extends Crud {
                 if (!data) {
                     return res.status(400).send({ message: 'Data not found' });
                 } else {
-                    destroyDirectoryTaskPhotos(data.id);
+                    this.destroyDirectoryTaskPhotos(data.id);
                     return data
                         .destroy()
                         .then(() => res.status(200).send({ message: 'Data destroyed' }))
@@ -166,7 +166,7 @@ class Tasks extends Crud {
     }
 
     destroyDirectoryTaskPhotos(taskID) {
-        let albumKey = tasksName + (taskID) + '/';
+        let albumKey = tasksName + taskID + '/';
         s3.listObjects({ Prefix: albumKey }, (err, response) => {
             if (err) {
                 console.log('There was an error deleting your album: ', err.message);
