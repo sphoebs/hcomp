@@ -165,13 +165,13 @@ class Runs extends Crud {
             .findById(req.params.id)
             .then(data => {
                 if (!data) {
-                    return res.status(400).send({ message: 'Data not found' });
+                    return res.status(404).send({ message: 'Data not found' });
                 } else {
                     this.deleteAll(data,destroyAll);
                     return data
                         .destroy()
                         .then(() => res.status(200).send({ message: 'Data destroyed' }))
-                        .catch(error => res.status(400).send(error));
+                        .catch(error =>{ console.log(error); res.status(400).send(error)});
                 }
             })
             .catch(error => res.status(400).send(error));
@@ -179,6 +179,7 @@ class Runs extends Crud {
 
     deleteAll(data, destroyAll) {
         let sizeImages = Object.keys(data.images).length;
+        console.log(sizeImages);
         for (let key in data.images) {
             s3.deleteObject({ Key: data.images[key] }, (err, response) => {
                 if (err) {
