@@ -24,16 +24,16 @@ class Runs extends Crud {
                 let albumKey = tasksName + data.id_task + '/' + encodeURIComponent(data.id) + '/';
                 s3.headObject({ Key: albumKey }, (err, response) => {
                     if (!err) {
-                        return alert('Album already exists.');
+                        console.log('Album already exists.');
                     }
                     if (err.code !== 'NotFound') {
-                        return alert('There was an error creating your album: ' + err.message);
+                        console.log('There was an error creating your album: ' + err.message);
                     }
                     s3.putObject({ Key: albumKey }, (err, response) => {
                         if (err) {
-                            return alert('There was an error creating your album: ' + err.message);
+                            console.log('There was an error creating your album: ' + err.message);
                         }
-                        alert('Successfully created album.');
+                        console.log('Successfully created album.');
                     });
                 });
                 res.status(200).send(JSON.stringify(data.id))
