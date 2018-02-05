@@ -134,32 +134,7 @@ class Runs extends Crud {
                 }
                 else {
                     if (req.body.deleteAll) {
-                        let sizeImages = Object.keys(data.images).length;
-                        for (let key in data.images) {
-                            s3.deleteObject({ Key: data.images[key] }, (err, response) => {
-                                if (err) {
-                                    console.log("error");
-                                    tmp = res.status(400).send(err);
-                                }
-                                else {
-                                    let images = data.images;
-                                    delete images[key];
-                                    return data
-                                        .update({
-                                            images: images
-                                        })
-                                        .then(() => {                                            
-                                            console.log('Destroyed');
-                                            if (Object.keys(data.images).length === 0) {
-                                                tmp = res.status(200).send({ message: 'All images Destroyed' })
-                                            }
-                                        })
-                                        .catch(error => {                                        
-                                            tmp = res.status(400).send(error)
-                                        });
-                                }
-                            });
-                        }
+                        tmp = this.deleteAll(data);
                     }
                     if (req.body.imgname) {
                         s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
@@ -184,6 +159,60 @@ class Runs extends Crud {
         return tmp;
     }
 
+    delete(req, res) {
+        let destroyAll = true;
+        return this.model
+            .findById(req.params.id)
+            .then(data => {
+                if (!data) {
+                    return res.status(400).send({ message: 'Data not found' });
+                } else {
+                    this.deleteAll(data,destroyAll);
+                    return data
+                        .destroy()
+                        .then(() => res.status(200).send({ message: 'Data destroyed' }))
+                        .catch(error => res.status(400).send(error));
+                }
+            })
+            .catch(error => res.status(400).send(error));
+    }
+
+    deleteAll(data, destroyAll) {
+        let sizeImages = Object.keys(data.images).length;
+        for (let key in data.images) {
+            s3.deleteObject({ Key: data.images[key] }, (err, response) => {
+                if (err) {
+                    console.log("error");
+                    tmp = res.status(400).send(err);
+                }
+                else {
+                    if (!destroyAll) {
+                        let images = data.images;
+                        delete images[key];
+                        return data
+                            .update({
+                                images: images
+                            })
+                            .then(() => {
+                                console.log('Destroyed');
+                                if (Object.keys(data.images).length === 0) {
+                                    tmp = res.status(200).send({ message: 'All images Destroyed' })
+                                }
+                            })
+                            .catch(error => {
+                                tmp = res.status(400).send(error)
+                            });
+                    }
+                    else {
+                        if (Object.keys(data.images).length === 0) {
+                            tmp = res.status(200).send({ message: 'All images Destroyed' })
+                        }
+                    }
+                }
+            });
+        }
+        return tmp;
+    }
 }
 
 module.exports = Runs;
