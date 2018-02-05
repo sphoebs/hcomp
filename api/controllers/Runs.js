@@ -135,8 +135,7 @@ class Runs extends Crud {
                 else {
                     if (req.body.deleteAll) {
                         console.log(req.body.deleteAll);
-                        for (key in data.images) {
-                            count += 1;
+                        for (key in data.images) {                            
                             s3.deleteObject({ Key: data.images[key] }, (err, response) => {
                                 if (err) {
                                     tmp = res.status(400).send(error);
@@ -153,8 +152,7 @@ class Runs extends Crud {
 
                                 }
                             });
-                        }
-                        tmp = res.status(400).send(error);
+                        }                        
                     }
                     if (req.body.imgname) {
                         s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
