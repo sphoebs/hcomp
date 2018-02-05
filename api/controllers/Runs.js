@@ -134,7 +134,7 @@ class Runs extends Crud {
                 }
                 else {
                     if (req.body.deleteAll) {
-                        tmp = this.deleteAll(data);
+                        tmp = this.deleteAll(data,res);
                     }
                     if (req.body.imgname) {
                         s3.deleteObject({ Key: req.body.imgname }, (err, response) => {
@@ -171,7 +171,7 @@ class Runs extends Crud {
                     if(Object.keys(data.images).length>0){
                         let tmpData = data;
                         console.log(tmpData);
-                        this.deleteAll(tmpData,destroyAll);
+                        this.deleteAll(tmpData,res,destroyAll);
                     }                     
                     return data
                         .destroy()
@@ -182,7 +182,7 @@ class Runs extends Crud {
             .catch(error => res.status(400).send(error));
     }
 
-    deleteAll(data, destroyAll) {
+    deleteAll(data,res,destroyAll) {
         let tmp = '';
         let sizeImages = Object.keys(data.images).length;
         console.log(sizeImages);
