@@ -16,7 +16,7 @@ class Tasks extends Crud {
     }
 
     create(req, res) {
-
+        console.log(req.body);
         return this.model
             .create(req.body)
             .then(data => {
