@@ -98,7 +98,7 @@ class Tasks extends Crud {
                                     .catch(error => console.log(error));
                             });
                         }
-                        console.log("Sono prima del delete di runs");
+                        console.log("Sono prima del delete di runs!");
                         delete req.body.runs;
                         console.log(req.body);
                         tmp = task
