@@ -11,12 +11,16 @@ const db = {};
 
 let sequelize;
 
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
+
+sequelize = new Sequelize(
+  process.env.database,
+  process.env.username,
+  process.env.password,
+  {
+    host: process.env.host,
+    dialect: process.env.dialect
+  }
+);
 
 
 fs
