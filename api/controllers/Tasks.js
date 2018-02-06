@@ -90,7 +90,7 @@ class Tasks extends Crud {
                                             .then(run => {
                                                 count += 1;
                                                 if (count === req.body.runs.length) {
-                                                    console.log('All goes well!');
+                                                    console.log('All goes well!!');
                                                     console.log("Sono prima del delete di runs!");
                                                     delete req.body.runs;
                                                     console.log(req.body);
