@@ -161,7 +161,10 @@ class Users extends Crud {
   }
 
 
-
+  prova(req,res){
+    console.log(req.query);
+    res.send('ok');
+  }
 
   readAll(req, res) {    
     let creatorFilter = readQuery(creator,req.url);

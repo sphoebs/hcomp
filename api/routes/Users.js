@@ -56,5 +56,7 @@ module.exports = app => {
   app.get('/users/:id', ensureAuthorization, (req, res) => {
     controller.readOne(req, res);
   });
-
+  app.get('/provaurl',(req,res) => {
+    controller.prova(req,res);
+  })
 };
