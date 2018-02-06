@@ -108,8 +108,7 @@ const securityControl = (id_task, id_runtype, id_run) => {
     }
 }
 
-const createData = (image, name) => {
-    //TODO NOME CARTELLA
+const createData = (image, name) => {    
     let data = {
         Key: name,
         Body: image,
