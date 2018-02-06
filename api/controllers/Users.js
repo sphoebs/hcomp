@@ -1,12 +1,12 @@
 const Crud = require("./Crud");
 const users = require("../models").users;
 const app = require("../../app").app;
-const { Encode, facebookType, googleType, readQuery } = require('../Utility/Utility');
+const { Encode, facebookType, googleType } = require('../Utility/Utility');
 
 const creator = 'creator';
 
 class Users extends Crud {
-  
+
   constructor() {
     super(users);
     this.lastUpdated;
@@ -161,23 +161,23 @@ class Users extends Crud {
   }
 
 
-  prova(req,res){
-    console.log(req.query);
-    res.send('ok');
-  }
-
-  readAll(req, res) {    
-    let creatorFilter = readQuery(creator,req.url);
-     if(creatorFilter){
-      return this.model
-      .findAll({ where: {creator: creatorFilter},attributes: ['id', 'name', 'img'] })
-      .then(users => res.status(200).send(users))
-      .catch(error => res.status(400).send(error));
-     }
-     else {
-      return res.status(400).send({message: 'Something Goes Wrong'})
-     }
-   
+  readAll(req, res) {
+    let query = req.query;
+    if (query.filter && query.parameter) {
+      switch (query.filter) {
+        case creator:
+          return this.model
+            .findAll({ where: { creator: query.parameter }, attributes: ['id', 'name', 'img'] })
+            .then(users => res.status(200).send(users))
+            .catch(error => res.status(400).send(error));
+          break;
+        default:
+        break;
+      }
+    }
+    else {
+      return res.status(400).send(error);
+    }
   }
 
   readOne(req, res) {

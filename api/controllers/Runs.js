@@ -1,6 +1,6 @@
 const Crud = require("./Crud");
 const runs = require("../models").runs;
-const { readQuery, url_images, createData, tasksName, runsName } = require('../Utility/Utility');
+const { url_images, createData, tasksName, runsName } = require('../Utility/Utility');
 const aws = require('aws-sdk');
 const id_task = 'id_task';
 const id_runType = 'id_runtype';
@@ -108,39 +108,44 @@ class Runs extends Crud {
     }
 
     readAll(req, res) {
-        let filterTask = readQuery(id_task, req.url);
-        let filterRunType = readQuery(id_runType, req.url);
+        let query = req.query;
         let tmp = '';
-        if (filterTask && !filterRunType) {
-            return this.model
-                .findAll({ where: { id_task } })
-                .then(data => {
-                    if (!data) {
-                        tmp = res.status(404).send({ message: 'Data Not Found' })
-                    }
-                    else {
-                        tmp = res.status(200).send(data)
-                    }
+        if (query.filter && query.parameter) {
+            switch (query.filter) {
+                case id_task:
+                    return this.model
+                        .findAll({ where: { id_task: query.parameter } })
+                        .then(data => {
+                            if (!data) {
+                                tmp = res.status(404).send({ message: 'Data Not Found' })
+                            }
+                            else {
+                                tmp = res.status(200).send(data)
+                            }
 
-                })
-                .catch(error =>
-                    tmp = res.status(400).send(error));
+                        })
+                        .catch(error =>
+                            tmp = res.status(400).send(error));
+                    break;
+
+                case id_runType:
+                    return this.model
+                        .findAll({ where: { id_runtype: query.parameter } })
+                        .then(data =>
+                            tmp = res.status(200).send(data))
+                        .catch(error =>
+                            tmp = res.status(400).send(error));
+                    break;
+                default:
+                    break;
+            }
         }
         else {
-            if (filterRunType && !filterTask) {
-                return this.model
-                    .findAll({ where: { id_runtype } })
-                    .then(data =>
-                        tmp = res.status(200).send(data))
-                    .catch(error =>
-                        tmp = res.status(400).send(error));
-            }
-            else {
-                tmp = res.status(400).send({ message: 'Something goes Wrong!' })
-            }
-            return tmp;
+            tmp = res.status(400).send({ message: 'Something goes Wrong!' })
         }
+        return tmp;
     }
+
 
     deletePhotos(req, res) {
         let tmp = '';
