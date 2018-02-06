@@ -86,13 +86,12 @@ class Tasks extends Crud {
                                             introduction: element.introduction,
                                             id_runtype: element.type,
                                             question: element.description,
-                                            index: element.index,
-                                            is_active: element.is_active
+                                            index: element.index
                                         })
                                             .then(run => {
-                                                count+=1;
+                                                count += 1;
                                                 if (count === req.body.runs.length) {
-                                                    tmp = res.status(200).send({ message: 'All goes well' })
+                                                    console.log('All goes well');
                                                 }
                                             })
                                             .catch(error => tmp = res.status(400).send(error));
@@ -100,12 +99,12 @@ class Tasks extends Crud {
                                     .catch(error => tmp = res.status(400).send(error));
                             });
                         }
-                        else {
-                            tmp = task
-                                .update(req.body)
-                                .then(() => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
-                                .catch(error => tmp = res.status(400).send(error));
-                        }
+                        let bodyWithoutRuns = delete req.body[runs];
+                        tmp = task
+                            .update(bodyWithoutRuns)
+                            .then(() => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
+                            .catch(error => tmp = res.status(400).send(error));
+
                     }
                 }
                 return tmp;
