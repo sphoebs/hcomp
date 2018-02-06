@@ -1,5 +1,6 @@
 const Crud = require("./Crud");
 const tasks = require("../models").tasks;
+const runs = require('../models').runs;
 const aws = require('aws-sdk');
 const { url_images, createData , tasksName} = require('../Utility/Utility');
 aws.config.update({
@@ -73,10 +74,26 @@ class Tasks extends Crud {
                         })
                     }
                     else {
+                        if(req.body.runs){
+                            req.body.runs.forEach(element => {
+                                runs.findById(element.id_run)
+                                .then(run => {
+                                    delete element[id_run];
+                                    run.update(element)
+                                    .then(run => {
+                                        res.status(200).send({ message: 'All goes well' })
+                                    })
+                                    .catch(error => res.status(400).send(error));
+                                })
+                                .catch(error => res.status(400).send(error));
+                            });
+                        }
+                        else{
                         tmp = task
                             .update(req.body)
                             .then(() => res.status(200).send(JSON.stringify(task.id_creator)))
                             .catch(error => res.status(400).send(error));
+                        }
                     }
                 }
                 return tmp;

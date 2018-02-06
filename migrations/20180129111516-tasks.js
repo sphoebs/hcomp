@@ -31,6 +31,14 @@ module.exports = {
                     onDelete: 'CASCADE',
                     onUpdate: 'CASCADE'
                 },
+                collaborators: {
+                    type: Sequelize.ARRAY(Sequelize.INTEGER),
+                    defaultValue: []                     
+                },
+                tutorial: {
+                    type: Sequelize.ARRAY(Sequelize.TEXT),
+                    defaultValue: []                     
+                },
                 is_deleted: {
                     type: Sequelize.BOOLEAN
                 },
