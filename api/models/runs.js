@@ -18,5 +18,6 @@ module.exports = (sequelize,DataTypes) =>
     id_task: DataTypes.INTEGER,
     is_deleted: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN,
-    max_assignments: DataTypes.INTEGER
+    max_assignments: DataTypes.INTEGER,
+    index: DataTypes.INTEGER
   });

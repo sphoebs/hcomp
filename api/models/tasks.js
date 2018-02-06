@@ -10,11 +10,12 @@ module.exports = (sequelize,DataTypes) =>
     is_deleted: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN,
     collaborators: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       defaultValue: []
-    }, 
+    }
+    , 
     tutorial: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+      type: DataTypes.ARRAY(DataTypes.JSONB),
       defaultValue: []
     },
   });

@@ -58,6 +58,9 @@ module.exports = {
                 max_assignments: {
                     type: Sequelize.INTEGER
                 },
+                index: {
+                    type: Sequelize.INTEGER
+                },
                 createdAt: {
                     type: Sequelize.DATE,
                     allowNull: false

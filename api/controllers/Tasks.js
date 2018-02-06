@@ -75,11 +75,18 @@ class Tasks extends Crud {
                     }
                     else {
                         if(req.body.runs){
+                            console.log(req.body);
                             req.body.runs.forEach(element => {
-                                runs.findById(element.id_run)
-                                .then(run => {
-                                    delete element[id_run];
-                                    run.update(element)
+                                runs.findById(element.id)
+                                .then(run => {                                    
+                                    run.update({
+                                        title: element.title,
+                                        description: element.description,
+                                        introduction: element.introduction,
+                                        id_runtype: element.type,
+                                        question: element.description,
+                                        index: element.index
+                                    })
                                     .then(run => {
                                         res.status(200).send({ message: 'All goes well' })
                                     })
