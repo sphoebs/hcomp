@@ -2,13 +2,13 @@ const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const runs = require('../models').runs;
 const aws = require('aws-sdk');
-const { url_images, createData, tasksName } = require('../Utility/Utility');
+const { url_images, createData, tasksName, readQuery } = require('../Utility/Utility');
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
-
+const user = 'user';
 class Tasks extends Crud {
     constructor() {
         super(tasks);
@@ -40,7 +40,26 @@ class Tasks extends Crud {
             .catch(error => { console.log(error); res.status(400).send(error) });
     }
 
-
+    readAll(req, res) {
+        let userFilter = readQuery(user, req.url);
+        if (userFilter) {
+            return this.model
+                .findAll({ where: { id_creator: userFilter }})
+                .then(tasks => {
+                    if(!tasks){
+                        return res.status(404).send({messsage : 'Something goes very wrong'});
+                    }
+                    else {
+                        return res.status(200).send(tasks);
+                    }
+                   
+                })
+                .catch(error => res.status(400).send(error));
+        }
+        else {
+            return res.status(400).send({ message: 'Something Goes Wrong' })
+        }
+    }
     //TODO TRY S3 AND HOW TO WORK
     update(req, res) {
         let imageName = req.body.imgname;
@@ -105,11 +124,11 @@ class Tasks extends Crud {
                                     .catch(error => console.log(error));
                             });
                         }
-                        else {                           
-                        tmp = task
-                            .update(req.body)
-                            .then(task=> tmp = res.status(200).send(JSON.stringify(task.id_creator)))
-                            .catch(error => tmp = res.status(400).send(error));
+                        else {
+                            tmp = task
+                                .update(req.body)
+                                .then(task => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
+                                .catch(error => tmp = res.status(400).send(error));
                         }
 
                     }
