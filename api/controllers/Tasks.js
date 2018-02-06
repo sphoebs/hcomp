@@ -74,7 +74,7 @@ class Tasks extends Crud {
                         })
                     }
                     else {
-                        if(req.body.runs){
+                        if(req.body.runs.length > 0){
                             console.log(req.body);
                             req.body.runs.forEach(element => {
                                 runs.findById(element.id)
