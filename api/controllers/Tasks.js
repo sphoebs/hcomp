@@ -93,9 +93,9 @@ class Tasks extends Crud {
                                                     console.log('All goes well!');
                                                 }
                                             })
-                                            .catch(error => tmp = res.status(400).send(error));
+                                            .catch(error => console.log(error));
                                     })
-                                    .catch(error => tmp = res.status(400).send(error));
+                                    .catch(error => console.log(error));
                             });
                         }
                         console.log("Sono prima del delete di runs");
