@@ -91,7 +91,7 @@ class Tasks extends Crud {
                                             .then(run => {
                                                 count += 1;
                                                 if (count === req.body.runs.length) {
-                                                    console.log('All goes well');
+                                                    console.log('All goes well!');
                                                 }
                                             })
                                             .catch(error => tmp = res.status(400).send(error));
