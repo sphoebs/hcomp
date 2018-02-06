@@ -2,7 +2,7 @@ const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const runs = require('../models').runs;
 const aws = require('aws-sdk');
-const { url_images, createData , tasksName} = require('../Utility/Utility');
+const { url_images, createData, tasksName } = require('../Utility/Utility');
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -37,7 +37,7 @@ class Tasks extends Crud {
                 });
                 res.status(200).send(JSON.stringify(data.id));
             })
-            .catch(error => {console.log(error); res.status(400).send(error)});
+            .catch(error => { console.log(error); res.status(400).send(error) });
     }
 
 
@@ -74,32 +74,35 @@ class Tasks extends Crud {
                         })
                     }
                     else {
-                        if(req.body.runs.length > 0){
+                        if (req.body.runs.length > 0) {
                             console.log(req.body);
                             req.body.runs.forEach(element => {
                                 runs.findById(element.id)
-                                .then(run => {                                    
-                                    run.update({
-                                        title: element.title,
-                                        description: element.description,
-                                        introduction: element.introduction,
-                                        id_runtype: element.type,
-                                        question: element.description,
-                                        index: element.index
-                                    })
                                     .then(run => {
-                                        tmp = res.status(200).send({ message: 'All goes well' })
+                                        run.update({
+                                            title: element.title,
+                                            description: element.description,
+                                            introduction: element.introduction,
+                                            id_runtype: element.type,
+                                            question: element.description,
+                                            index: element.index,
+                                            is_active: element.is_active
+                                        })
+                                            .then(run => {
+                                                if (count === req.body.runs.length) {
+                                                    tmp = res.status(200).send({ message: 'All goes well' })
+                                                }
+                                            })
+                                            .catch(error => tmp = res.status(400).send(error));
                                     })
                                     .catch(error => tmp = res.status(400).send(error));
-                                })
-                                .catch(error => tmp = res.status(400).send(error));
                             });
                         }
-                        else{
-                        tmp = task
-                            .update(req.body)
-                            .then(() => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
-                            .catch(error => tmp = res.status(400).send(error));
+                        else {
+                            tmp = task
+                                .update(req.body)
+                                .then(() => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
+                                .catch(error => tmp = res.status(400).send(error));
                         }
                     }
                 }
@@ -195,16 +198,16 @@ class Tasks extends Crud {
             if (err) {
                 console.log('There was an error deleting your album: ', err.message);
             }
-            let objects = response.Contents.map( (object) => {
+            let objects = response.Contents.map((object) => {
                 return { Key: object.Key };
             });
             s3.deleteObjects({
                 Delete: { Objects: objects, Quiet: true }
-            },  (err, response) => {
+            }, (err, response) => {
                 if (err) {
-                   console.log('There was an error deleting your album: ', err.message);
+                    console.log('There was an error deleting your album: ', err.message);
                 }
-                console.log('Successfully deleted album');                
+                console.log('Successfully deleted album');
             });
         });
     }
