@@ -88,18 +88,18 @@ class Tasks extends Crud {
                                         index: element.index
                                     })
                                     .then(run => {
-                                        res.status(200).send({ message: 'All goes well' })
+                                        tmp = res.status(200).send({ message: 'All goes well' })
                                     })
-                                    .catch(error => res.status(400).send(error));
+                                    .catch(error => tmp = res.status(400).send(error));
                                 })
-                                .catch(error => res.status(400).send(error));
+                                .catch(error => tmp = res.status(400).send(error));
                             });
                         }
                         else{
                         tmp = task
                             .update(req.body)
-                            .then(() => res.status(200).send(JSON.stringify(task.id_creator)))
-                            .catch(error => res.status(400).send(error));
+                            .then(() => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
+                            .catch(error => tmp = res.status(400).send(error));
                         }
                     }
                 }
