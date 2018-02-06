@@ -76,6 +76,7 @@ class Tasks extends Crud {
                     else {
                         if (req.body.runs.length > 0) {
                             console.log(req.body);
+                            let count = 0;
                             req.body.runs.forEach(element => {
                                 runs.findById(element.id)
                                     .then(run => {
@@ -89,6 +90,7 @@ class Tasks extends Crud {
                                             is_active: element.is_active
                                         })
                                             .then(run => {
+                                                count+=1;
                                                 if (count === req.body.runs.length) {
                                                     tmp = res.status(200).send({ message: 'All goes well' })
                                                 }
