@@ -99,10 +99,10 @@ class Tasks extends Crud {
                             });
                         }
                         console.log("Sono prima del delete di runs");
-                        let bodyWithoutRuns = delete req.body[runs];
-                        console.log(bodyWithoutRuns);
+                        delete req.body[runs];
+                        console.log(req.body);
                         tmp = task
-                            .update(bodyWithoutRuns)
+                            .update(req.body)
                             .then(task=> tmp = res.status(200).send(JSON.stringify(task.id_creator)))
                             .catch(error => tmp = res.status(400).send(error));
 
