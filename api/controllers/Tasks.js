@@ -99,7 +99,7 @@ class Tasks extends Crud {
                             });
                         }
                         console.log("Sono prima del delete di runs");
-                        delete req.body[runs];
+                        delete req.body.runs;
                         console.log(req.body);
                         tmp = task
                             .update(req.body)
