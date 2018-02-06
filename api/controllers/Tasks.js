@@ -37,7 +37,7 @@ class Tasks extends Crud {
                 });
                 res.status(200).send(JSON.stringify(data.id));
             })
-            .catch(error => res.status(400).send(error));
+            .catch(error => {console.log(error); res.status(400).send(error)});
     }
 
 
