@@ -74,7 +74,7 @@ class Tasks extends Crud {
                         })
                     }
                     else {
-                        if (req.body.runs.length > 0) {                           
+                        if (req.body.runs.length > 0) {
                             let count = 0;
                             req.body.runs.forEach(element => {
                                 runs.findById(element.id)
@@ -91,6 +91,13 @@ class Tasks extends Crud {
                                                 count += 1;
                                                 if (count === req.body.runs.length) {
                                                     console.log('All goes well!');
+                                                    console.log("Sono prima del delete di runs!");
+                                                    delete req.body.runs;
+                                                    console.log(req.body);
+                                                    tmp = task
+                                                        .update(req.body)
+                                                        .then(task => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
+                                                        .catch(error => tmp = res.status(400).send(error));
                                                 }
                                             })
                                             .catch(error => console.log(error));
@@ -98,13 +105,12 @@ class Tasks extends Crud {
                                     .catch(error => console.log(error));
                             });
                         }
-                        console.log("Sono prima del delete di runs!");
-                        delete req.body.runs;
-                        console.log(req.body);
+                        else {                           
                         tmp = task
                             .update(req.body)
                             .then(task=> tmp = res.status(200).send(JSON.stringify(task.id_creator)))
                             .catch(error => tmp = res.status(400).send(error));
+                        }
 
                     }
                 }
