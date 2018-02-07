@@ -176,7 +176,7 @@ class Users extends Crud {
       }
     }
     else {
-      return res.status(400).send(error);
+      return res.status(400).send({message:'Something goeas wrong'});
     }
   }
 
