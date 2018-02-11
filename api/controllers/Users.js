@@ -1,17 +1,15 @@
 const Crud = require("./Crud");
 const users = require("../models").users;
 const app = require("../../app").app;
-const { Encode, facebookType, googleType } = require('../Utility/Utility');
+const { Encode, facebookType, googleType } = require("../Utility/Utility");
 
-const creator = 'creator';
+const creator = "creator";
 
 class Users extends Crud {
-
   constructor() {
     super(users);
     this.lastUpdated;
   }
-
 
   //controllare con access token
   create(req, res) {
@@ -41,12 +39,13 @@ class Users extends Crud {
               .then(user => {
                 let tmp;
                 if (!user) {
-                  tmp = res.status(400).send({ message: 'Something goes wrong!' });
-                }
-                else {
+                  tmp = res
+                    .status(400)
+                    .send({ message: "Something goes wrong!" });
+                } else {
                   let payload = {
                     id: user.id
-                  }
+                  };
                   let hash = Encode(payload);
                   let sendResponse = this.createPayload(user.id, hash);
                   tmp = res.status(200).send(JSON.stringify(sendResponse));
@@ -54,41 +53,34 @@ class Users extends Crud {
                 return tmp;
               })
               .catch(error => res.status(400).send(error));
-          }
-          else {
-            if (isWriter === user.creator) {
+          } else {            
               if (user.accessToken !== data.accessToken) {
-                user.update({
-                  accessToken: data.accessToken
-                })
+                user
+                  .update({
+                    accessToken: data.accessToken
+                  })
                   .then(user => {
                     let payload = {
                       id: user.id
-                    }
+                    };
                     let hash = Encode(payload);
                     let sendResponse = this.createPayload(user.id, hash);
                     tmp = res.status(200).send(JSON.stringify(sendResponse));
                   })
                   .catch(error => res.status(400).send(error));
-              }
-              else {
+              } else {
                 let payload = {
                   id: user.id
-                }
+                };
                 let hash = Encode(payload);
                 let sendResponse = this.createPayload(user.id, hash);
                 tmp = res.status(200).send(JSON.stringify(sendResponse));
-              }
-            }
-            else {
-              tmp = res.status(400).send({ message: 'Something goes Wrong!' })
-            }
+              }            
           }
           return tmp;
         })
         .catch(error => res.status(400).send(error));
-    }
-    else {
+    } else {
       return this.model
         .findOne({
           where: {
@@ -111,12 +103,13 @@ class Users extends Crud {
               .then(user => {
                 let tmp;
                 if (!user) {
-                  tmp = res.status(400).send({ message: 'Something goes wrong!' });
-                }
-                else {
+                  tmp = res
+                    .status(400)
+                    .send({ message: "Something goes wrong!" });
+                } else {
                   let payload = {
                     id: user.id
-                  }
+                  };
                   let hash = Encode(payload);
                   let sendResponse = this.createPayload(user.id, hash);
                   tmp = res.status(200).send(JSON.stringify(sendResponse));
@@ -124,35 +117,30 @@ class Users extends Crud {
                 return tmp;
               })
               .catch(error => res.status(400).send(error));
-          } else {
-            if (isWriter === user.creator) {
+          } else {            
               //CHECK IF ACCESS TOKEN IS DIFFERENT, IF SO CHANGE IT
               if (user.accessToken !== data.accessToken) {
-                user.update({
-                  accessToken: data.accessToken
-                })
+                user
+                  .update({
+                    accessToken: data.accessToken
+                  })
                   .then(user => {
                     let payload = {
                       id: user.id
-                    }
+                    };
                     let hash = Encode(payload);
                     let sendResponse = this.createPayload(user.id, hash);
                     tmp = res.status(200).send(JSON.stringify(sendResponse));
                   })
                   .catch(error => res.status(400).send(error));
-              }
-              else {
+              } else {
                 let payload = {
                   id: user.id
-                }
+                };
                 let hash = Encode(payload);
                 let sendResponse = this.createPayload(user.id, hash);
                 tmp = res.status(200).send(JSON.stringify(sendResponse));
-              }
-            }
-            else {
-              tmp = res.status(400).send({ message: 'Something Goes Wrong!' })
-            }
+              }            
           }
           return tmp;
         })
@@ -160,33 +148,36 @@ class Users extends Crud {
     }
   }
 
-
   readAll(req, res) {
     let query = req.query;
     if (query.filter && query.parameter) {
       switch (query.filter) {
         case creator:
           return this.model
-            .findAll({ where: { creator: query.parameter }, attributes: ['id', 'name', 'img'] })
+            .findAll({
+              where: { creator: query.parameter },
+              attributes: ["id", "name", "img"]
+            })
             .then(users => res.status(200).send(users))
             .catch(error => res.status(400).send(error));
           break;
         default:
-        break;
+          break;
       }
-    }
-    else {
-      return res.status(400).send({message:'Something goeas wrong'});
+    } else {
+      return res.status(400).send({ message: "Something goeas wrong" });
     }
   }
 
   readOne(req, res) {
     return this.model
-      .findById(req.params.id, { attributes: ['name', 'img', 'email', 'createdAt'] })
+      .findById(req.params.id, {
+        attributes: ["name", "img", "email", "createdAt"]
+      })
       .then(user => {
         let tmp;
         if (!user) {
-          tmp = res.status(404).send({ message: 'Data not found!' });
+          tmp = res.status(404).send({ message: "Data not found!" });
         } else {
           tmp = res.status(200).send(user);
         }
@@ -199,15 +190,12 @@ class Users extends Crud {
     let payload = {
       id: id,
       jwt: jwt
-    }
+    };
     return payload;
   }
-
 }
 
-
 module.exports = Users;
-
 
 //FACEBOOK API CALL FOR TAKING FRIEND THAT USE OUT APP
 
