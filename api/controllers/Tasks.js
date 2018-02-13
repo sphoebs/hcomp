@@ -50,34 +50,37 @@ class Tasks extends Crud {
 
   readAll(req, res) {
     let query = req.query;
-    switch (query.filter) {
-      case id_creator:
-        return this.model
-          .findAll({ where: { id_creator: query.parameter } })
-          .then(tasks => {
-            if (!tasks) {
-              return res
-                .status(404)
-                .send({ messsage: "Something goes very wrong" });
-            } else {
-              return res.status(200).send(tasks);
-            }
-          })
-          .catch(error => res.status(400).send(error));
-        break;
-      default:
+    if (query.filter && query.parameter) {
+      switch (query.filter) {
+        case id_creator:
           return this.model
-          .then(tasks => {
-            if (!tasks) {
-              return res
-                .status(404)
-                .send({ messsage: "Something goes very wrong" });
-            } else {
-              return res.status(200).send(tasks);
-            }
-          })
-          .catch(error => res.status(400).send(error));
-        break;
+            .findAll({ where: { id_creator: query.parameter } })
+            .then(tasks => {
+              if (!tasks) {
+                return res
+                  .status(404)
+                  .send({ messsage: "Something goes very wrong" });
+              } else {
+                return res.status(200).send(tasks);
+              }
+            })
+            .catch(error => res.status(400).send(error));
+          break;
+        default:
+          break;
+      }
+    } else {
+      return this.model
+        .then(tasks => {
+          if (!tasks) {
+            return res
+              .status(404)
+              .send({ messsage: "Something goes very wrong" });
+          } else {
+            return res.status(200).send(tasks);
+          }
+        })
+        .catch(error => res.status(400).send(error));
     }
   }
   //TODO TRY S3 AND HOW TO WORK
