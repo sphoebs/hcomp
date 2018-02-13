@@ -6,7 +6,7 @@ module.exports = (sequelize,DataTypes) =>
     id_task: DataTypes.INTEGER,
     id_run: DataTypes.INTEGER,
     answers: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+      type: DataTypes.ARRAY(DataTypes.JSONB),
       defaultValue: []
     },    
     is_completed: DataTypes.BOOLEAN,
