@@ -71,6 +71,7 @@ class Tasks extends Crud {
       }
     } else {
       return this.model
+        .findAll()
         .then(tasks => {
           if (!tasks) {
             return res
