@@ -49,8 +49,7 @@ class Tasks extends Crud {
   }
 
   readAll(req, res) {
-    let query = req.query;
-    if (query.filter && query.parameter) {
+    let query = req.query;    
       switch (query.filter) {
         case id_creator:
           return this.model
@@ -67,10 +66,7 @@ class Tasks extends Crud {
             .catch(error => res.status(400).send(error));
           break;
         default:
-          break;
-      }
-    } else {
-      return this.model
+        return this.model
         .findAll()
         .then(tasks => {
           if (!tasks) {
@@ -82,7 +78,8 @@ class Tasks extends Crud {
           }
         })
         .catch(error => res.status(400).send(error));
-    }
+          break;
+      }    
   }
   //TODO TRY S3 AND HOW TO WORK
   update(req, res) {
