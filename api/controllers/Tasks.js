@@ -106,7 +106,7 @@ class Tasks extends Crud {
                                 runs.findById(element.id)
                                     .then(run => {
                                         run.update({
-                                            title: element.title,
+                                            name: element.name,
                                             description: element.description,
                                             introduction: element.introduction,
                                             id_runtype: element.type,
