@@ -110,7 +110,7 @@ class Tasks extends Crud {
                                             description: element.description,
                                             introduction: element.introduction,
                                             id_runtype: element.type,
-                                            question: element.description,
+                                            question: element.question,
                                             index: element.index
                                         })
                                             .then(run => {
