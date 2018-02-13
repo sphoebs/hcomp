@@ -19,8 +19,8 @@ module.exports = {
                     type: Sequelize.TEXT
                 },
                 images: {
-                    type: Sequelize.JSONB,
-                    defaultValue: {}
+                    type: Sequelize.ARRAY(Sequelize.JSONB),
+                    defaultValue: []
                 },
                 question: {
                     type: Sequelize.TEXT

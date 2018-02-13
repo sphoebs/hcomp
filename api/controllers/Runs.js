@@ -69,13 +69,14 @@ class Runs extends Crud {
                             }
                             else {
                                 let url_image = url_images + imageKey;
-                                //TODO INSERT LINK OF IMAGE
+                                let arrayOfObjects = run.images;
+                                arrayOfObjects.push({
+                                    name: imageName,
+                                    url: url_image
+                                });
                                 tmp = run
                                     .update({
-                                        images: {
-                                            ...run.images,
-                                            [imageName]: url_image
-                                        }
+                                        images: arrayOfObjects
                                     })
                                     .then(() => res.status(200).send({ message: 'Data updated' }))
                                     .catch(error => {
@@ -159,7 +160,7 @@ class Runs extends Crud {
                     if (req.body.deleteAll) {
                         data
                             .update({
-                                images: {}
+                                images: []
                             })
                             .then(() => {
                                 console.log("STO PER CANCELLARE LE IMMAGINI....");
@@ -178,10 +179,11 @@ class Runs extends Crud {
                             }
                             else {
                                 let images = data.images;
+                                let imagesFiltered = images.filter(object => object.name !== req.body.imgname);
                                 delete images[req.body.imgname];
                                 return data
                                     .update({
-                                        images: images
+                                        images: imagesFiltered
                                     })
                                     .then(() => tmp = res.status(200).send({ message: 'Image destroyed' }))
                                     .catch(error => res.status(400).send(error));
