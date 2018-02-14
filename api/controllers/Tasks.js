@@ -67,7 +67,7 @@ class Tasks extends Crud {
           break;
         default:
         return this.model
-        .findAll()
+        .findAll({where: {is_active: true}})
         .then(tasks => {
           if (!tasks) {
             return res
