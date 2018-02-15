@@ -6,19 +6,19 @@ module.exports = app => {
         controller.create(req,res);
     })
 
-    app.get("/runtypes", ensureAuthorization , (req,res)=> {
+    app.get("/runtypes" , (req,res)=> {
         controller.readAll(req,res);
     })
 
-    app.get("/runtypes/:id", ensureAuthorization , (req,res)=> {
+    app.get("/runtypes/:id" , (req,res)=> {
         controller.readOne(req,res);
     })
 
-    app.put("/runtypes/:id", ensureAuthorization , (req,res)=> {
+    app.put("/runtypes/:id" , (req,res)=> {
         controller.update(req,res);
     })
 
-    app.delete("/runtypes", ensureAuthorization,(req,res)=> {
+    app.delete("/runtypes",(req,res)=> {
         controller.delete(req,res);
     })
 };

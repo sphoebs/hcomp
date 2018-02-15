@@ -5,10 +5,10 @@ module.exports = app => {
     app.post("/tasks", ensureAuthorizationCreator,(req,res) => {       
         controller.create(req,res);
     });
-    app.get("/tasks", ensureAuthorizationCreator,(req,res) => {
+    app.get("/tasks", ensureAuthorization,(req,res) => {
         controller.readAll(req,res);
     })
-    app.get("/tasks/:id" , ensureAuthorizationCreator, (req,res) => {
+    app.get("/tasks/:id" , ensureAuthorization, (req,res) => {
         controller.readOne(req,res);
     });
     app.put("/tasks/:id",ensureAuthorizationCreator, (req,res) => {

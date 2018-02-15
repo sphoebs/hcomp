@@ -6,11 +6,11 @@ module.exports = app => {
         controller.create(req,res);
     });      
 
-    app.get("/tasks/runs", ensureAuthorizationCreator, (req,res) => {        
+    app.get("/tasks/runs", ensureAuthorization, (req,res) => {        
         controller.readAll(req,res);
     });  
 
-    app.get("/tasks/runs/:id", ensureAuthorizationCreator, (req,res) => {
+    app.get("/tasks/runs/:id", ensureAuthorization, (req,res) => {
         controller.readOne(req,res);
     });  
 
@@ -22,7 +22,7 @@ module.exports = app => {
         controller.delete(req,res);
     });  
     
-    app.get("/tasks/runs/recentRuns/:id", ensureAuthorizationCreator, (req,res) => {
+    app.get("/tasks/runs/recentRuns/:id", ensureAuthorization, (req,res) => {
         controller.recentRuns(req,res);
     });
 
