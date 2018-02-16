@@ -2,14 +2,22 @@ const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const runs = require("../models").runs;
 const aws = require("aws-sdk");
-const { url_images, createData, tasksName } = require("../Utility/Utility");
+const {
+  url_images,
+  createData,
+  tasksName
+} = require("../Utility/Utility");
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 const id_creator = "id_creator";
 const recentTasks = 'recentTasks';
-const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
+const s3 = new aws.S3({
+  params: {
+    Bucket: process.env.S3_BUCKET
+  }
+});
 const user = "user";
 class Tasks extends Crud {
   constructor() {
@@ -23,7 +31,9 @@ class Tasks extends Crud {
       .create(req.body)
       .then(data => {
         let albumKey = tasksName + data.id + "/";
-        s3.headObject({ Key: albumKey }, (err, response) => {
+        s3.headObject({
+          Key: albumKey
+        }, (err, response) => {
           if (!err) {
             console.log("Album already exists.");
           }
@@ -32,7 +42,9 @@ class Tasks extends Crud {
               "There was an error creating your album: " + err.message
             );
           }
-          s3.putObject({ Key: albumKey }, (err, response) => {
+          s3.putObject({
+            Key: albumKey
+          }, (err, response) => {
             if (err) {
               console.log(
                 "There was an error creating your album: " + err.message
@@ -54,12 +66,18 @@ class Tasks extends Crud {
     switch (query.filter) {
       case id_creator:
         return this.model
-          .findAll({ where: { id_creator: query.parameter } })
+          .findAll({
+            where: {
+              id_creator: query.parameter
+            }
+          })
           .then(tasks => {
             if (!tasks) {
               return res
                 .status(404)
-                .send({ messsage: "Something goes very wrong" });
+                .send({
+                  messsage: "Something goes very wrong"
+                });
             } else {
               return res.status(200).send(tasks);
             }
@@ -76,13 +94,29 @@ class Tasks extends Crud {
             if (!tasks) {
               return res
                 .status(404)
-                .send({ messsage: "Something goes very wrong" });
+                .send({
+                  messsage: "Something goes very wrong"
+                });
             } else {
               return res.status(200).send(tasks);
             }
           })
           .catch(error => res.status(400).send(error));
       default:
+        return this.model
+          .findAll()
+          .then(tasks => {
+            if (!tasks) {
+              return res
+                .status(404)
+                .send({
+                  messsage: "Something goes very wrong"
+                });
+            } else {
+              return res.status(200).send(tasks);
+            }
+          })
+          .catch(error => res.status(400).send(error));
         break;
     }
   }
@@ -95,7 +129,9 @@ class Tasks extends Crud {
       .then(task => {
         let tmp;
         if (!task) {
-          tmp = res.status(404).send({ message: "Data not found!" });
+          tmp = res.status(404).send({
+            message: "Data not found!"
+          });
         } else {
           if (imgBase64 && imageName) {
             let buf = new Buffer(
@@ -106,7 +142,9 @@ class Tasks extends Crud {
             let data = createData(buf, imageKey);
             s3.putObject(data, (err, response) => {
               if (err) {
-                tmp = res.status(400).send({ message: "Something Goes Wrong" });
+                tmp = res.status(400).send({
+                  message: "Something Goes Wrong"
+                });
               } else {
                 let url_image = url_images + imageKey;
                 console.log(url_image);
@@ -115,7 +153,9 @@ class Tasks extends Crud {
                     avatar_image: url_image
                   })
                   .then(() =>
-                    res.status(200).send({ message: "All goes well" })
+                    res.status(200).send({
+                      message: "All goes well"
+                    })
                   )
                   .catch(error => res.status(400).send(error));
               }
@@ -147,9 +187,9 @@ class Tasks extends Crud {
                             .update(req.body)
                             .then(
                               task =>
-                                (tmp = res
-                                  .status(200)
-                                  .send(JSON.stringify(task.id_creator)))
+                              (tmp = res
+                                .status(200)
+                                .send(JSON.stringify(task.id_creator)))
                             )
                             .catch(
                               error => (tmp = res.status(400).send(error))
@@ -165,9 +205,9 @@ class Tasks extends Crud {
                 .update(req.body)
                 .then(
                   task =>
-                    (tmp = res
-                      .status(200)
-                      .send(JSON.stringify(task.id_creator)))
+                  (tmp = res
+                    .status(200)
+                    .send(JSON.stringify(task.id_creator)))
                 )
                 .catch(error => (tmp = res.status(400).send(error)));
             }
@@ -181,13 +221,17 @@ class Tasks extends Crud {
   creatorRecentTasks(req, res) {
     return this.model
       .findAll({
-        where: { id_creator: req.params.id },
+        where: {
+          id_creator: req.params.id
+        },
         order: "createdAt DESC",
         limit: 2
       })
       .then(tasks => {
         if (!tasks) {
-          res.status(404).send({ message: "Not found" });
+          res.status(404).send({
+            message: "Not found"
+          });
         } else {
           res.send(200).send(tasks);
         }
@@ -202,7 +246,9 @@ class Tasks extends Crud {
       .then(data => {
         let tmp;
         if (!data) {
-          tmp = res.status(404).send({ message: "Data not found!" });
+          tmp = res.status(404).send({
+            message: "Data not found!"
+          });
         } else {
           tmp = res.status(200).send(data);
         }
@@ -217,11 +263,15 @@ class Tasks extends Crud {
       .findById(req.params.id)
       .then(data => {
         if (!data) {
-          tmp = res.status(404).send({ message: "Data not found" });
+          tmp = res.status(404).send({
+            message: "Data not found"
+          });
         } else {
           if (req.body.imgname) {
             let imageKey = tasksName + data.id + "/" + req.body.imgname;
-            s3.deleteObject({ Key: imageKey }, (err, response) => {
+            s3.deleteObject({
+              Key: imageKey
+            }, (err, response) => {
               if (err) {
                 tmp = res.status(400).send(error);
               } else {
@@ -231,9 +281,11 @@ class Tasks extends Crud {
                   })
                   .then(
                     () =>
-                      (tmp = res
-                        .status(200)
-                        .send({ message: "Image destroyed" }))
+                    (tmp = res
+                      .status(200)
+                      .send({
+                        message: "Image destroyed"
+                      }))
                   )
                   .catch(error => (tmp = res.status(400).send(error)));
               }
@@ -250,12 +302,16 @@ class Tasks extends Crud {
       .findById(req.params.id)
       .then(data => {
         if (!data) {
-          return res.status(400).send({ message: "Data not found" });
+          return res.status(400).send({
+            message: "Data not found"
+          });
         } else {
           this.destroyDirectoryTaskPhotos(data.id);
           return data
             .destroy()
-            .then(() => res.status(200).send({ message: "Data destroyed" }))
+            .then(() => res.status(200).send({
+              message: "Data destroyed"
+            }))
             .catch(error => res.status(400).send(error));
         }
       })
@@ -264,16 +320,22 @@ class Tasks extends Crud {
 
   destroyDirectoryTaskPhotos(taskID) {
     let albumKey = tasksName + taskID + "/";
-    s3.listObjects({ Prefix: albumKey }, (err, response) => {
+    s3.listObjects({
+      Prefix: albumKey
+    }, (err, response) => {
       if (err) {
         console.log("There was an error deleting your album: ", err.message);
       }
       let objects = response.Contents.map(object => {
-        return { Key: object.Key };
+        return {
+          Key: object.Key
+        };
       });
-      s3.deleteObjects(
-        {
-          Delete: { Objects: objects, Quiet: true }
+      s3.deleteObjects({
+          Delete: {
+            Objects: objects,
+            Quiet: true
+          }
         },
         (err, response) => {
           if (err) {
