@@ -8,6 +8,7 @@ aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 const id_creator = "id_creator";
+const recentTasks = 'recentTasks';
 const s3 = new aws.S3({ params: { Bucket: process.env.S3_BUCKET } });
 const user = "user";
 class Tasks extends Crud {
@@ -49,37 +50,41 @@ class Tasks extends Crud {
   }
 
   readAll(req, res) {
-    let query = req.query;    
-      switch (query.filter) {
-        case id_creator:
-          return this.model
-            .findAll({ where: { id_creator: query.parameter } })
-            .then(tasks => {
-              if (!tasks) {
-                return res
-                  .status(404)
-                  .send({ messsage: "Something goes very wrong" });
-              } else {
-                return res.status(200).send(tasks);
-              }
-            })
-            .catch(error => res.status(400).send(error));
-          break;
-        default:
+    let query = req.query;
+    switch (query.filter) {
+      case id_creator:
         return this.model
-        .findAll({where: {is_active: true}})
-        .then(tasks => {
-          if (!tasks) {
-            return res
-              .status(404)
-              .send({ messsage: "Something goes very wrong" });
-          } else {
-            return res.status(200).send(tasks);
-          }
-        })
-        .catch(error => res.status(400).send(error));
-          break;
-      }    
+          .findAll({ where: { id_creator: query.parameter } })
+          .then(tasks => {
+            if (!tasks) {
+              return res
+                .status(404)
+                .send({ messsage: "Something goes very wrong" });
+            } else {
+              return res.status(200).send(tasks);
+            }
+          })
+          .catch(error => res.status(400).send(error));
+        break;
+      case recentTasks:
+        return this.model
+          .findAll({
+            order: "createdAt DESC",
+            limit: 4
+          })
+          .then(tasks => {
+            if (!tasks) {
+              return res
+                .status(404)
+                .send({ messsage: "Something goes very wrong" });
+            } else {
+              return res.status(200).send(tasks);
+            }
+          })
+          .catch(error => res.status(400).send(error));
+      default:
+        break;
+    }
   }
   //TODO TRY S3 AND HOW TO WORK
   update(req, res) {
