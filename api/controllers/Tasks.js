@@ -89,8 +89,8 @@ class Tasks extends Crud {
         console.log("Sno qui");
         return this.model
           .findAll({
-            order: '"createdAt" DESC',
-            limit: 4
+            limit: 4,
+            order: '"createdAt" DESC'
           })
           .then(tasks => {
             if (!tasks) {
