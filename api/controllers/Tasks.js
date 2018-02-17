@@ -90,7 +90,7 @@ class Tasks extends Crud {
         return this.model
           .findAll({
             limit: 4,
-            order: '"createdAt" DESC'
+            order: [['createdAt', 'DESC']]
           })
           .then(tasks => {
             if (!tasks) {
