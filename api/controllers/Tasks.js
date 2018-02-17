@@ -89,8 +89,9 @@ class Tasks extends Crud {
         console.log("Sno qui");
         return this.model
           .findAll({
+            where : {is_active: true},
             limit: 4,
-            order: [['createdAt', 'DESC']]
+            order: [['updatedAt', 'DESC']]
           })
           .then(tasks => {
             if (!tasks) {
