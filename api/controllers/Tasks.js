@@ -2,17 +2,13 @@ const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const runs = require("../models").runs;
 const aws = require("aws-sdk");
-const {
-  url_images,
-  createData,
-  tasksName
-} = require("../Utility/Utility");
+const { url_images, createData, tasksName } = require("../Utility/Utility");
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 const id_creator = "id_creator";
-const recentTasks = 'recentTasks';
+const recentTasks = "recentTasks";
 const s3 = new aws.S3({
   params: {
     Bucket: process.env.S3_BUCKET
@@ -31,28 +27,34 @@ class Tasks extends Crud {
       .create(req.body)
       .then(data => {
         let albumKey = tasksName + data.id + "/";
-        s3.headObject({
-          Key: albumKey
-        }, (err, response) => {
-          if (!err) {
-            console.log("Album already exists.");
-          }
-          if (err.code !== "NotFound") {
-            console.log(
-              "There was an error creating your album: " + err.message
-            );
-          }
-          s3.putObject({
+        s3.headObject(
+          {
             Key: albumKey
-          }, (err, response) => {
-            if (err) {
+          },
+          (err, response) => {
+            if (!err) {
+              console.log("Album already exists.");
+            }
+            if (err.code !== "NotFound") {
               console.log(
                 "There was an error creating your album: " + err.message
               );
             }
-            console.log("Successfully created album.");
-          });
-        });
+            s3.putObject(
+              {
+                Key: albumKey
+              },
+              (err, response) => {
+                if (err) {
+                  console.log(
+                    "There was an error creating your album: " + err.message
+                  );
+                }
+                console.log("Successfully created album.");
+              }
+            );
+          }
+        );
         res.status(200).send(JSON.stringify(data.id));
       })
       .catch(error => {
@@ -74,11 +76,9 @@ class Tasks extends Crud {
           })
           .then(tasks => {
             if (!tasks) {
-              return res
-                .status(404)
-                .send({
-                  messsage: "Something goes very wrong"
-                });
+              return res.status(404).send({
+                messsage: "Something goes very wrong"
+              });
             } else {
               return res.status(200).send(tasks);
             }
@@ -86,6 +86,7 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
         break;
       case recentTasks:
+        console.log("Sno qui");
         return this.model
           .findAll({
             order: "createdAt DESC",
@@ -93,26 +94,23 @@ class Tasks extends Crud {
           })
           .then(tasks => {
             if (!tasks) {
-              return res
-                .status(404)
-                .send({
-                  messsage: "Something goes very wrong"
-                });
+              return res.status(404).send({
+                messsage: "Something goes very wrong"
+              });
             } else {
               return res.status(200).send(tasks);
             }
           })
           .catch(error => res.status(400).send(error));
+        break;
       default:
         return this.model
           .findAll()
           .then(tasks => {
             if (!tasks) {
-              return res
-                .status(404)
-                .send({
-                  messsage: "Something goes very wrong"
-                });
+              return res.status(404).send({
+                messsage: "Something goes very wrong"
+              });
             } else {
               return res.status(200).send(tasks);
             }
@@ -188,9 +186,9 @@ class Tasks extends Crud {
                             .update(req.body)
                             .then(
                               task =>
-                              (tmp = res
-                                .status(200)
-                                .send(JSON.stringify(task.id_creator)))
+                                (tmp = res
+                                  .status(200)
+                                  .send(JSON.stringify(task.id_creator)))
                             )
                             .catch(
                               error => (tmp = res.status(400).send(error))
@@ -206,9 +204,9 @@ class Tasks extends Crud {
                 .update(req.body)
                 .then(
                   task =>
-                  (tmp = res
-                    .status(200)
-                    .send(JSON.stringify(task.id_creator)))
+                    (tmp = res
+                      .status(200)
+                      .send(JSON.stringify(task.id_creator)))
                 )
                 .catch(error => (tmp = res.status(400).send(error)));
             }
@@ -270,27 +268,28 @@ class Tasks extends Crud {
         } else {
           if (req.body.imgname) {
             let imageKey = tasksName + data.id + "/" + req.body.imgname;
-            s3.deleteObject({
-              Key: imageKey
-            }, (err, response) => {
-              if (err) {
-                tmp = res.status(400).send(error);
-              } else {
-                return data
-                  .update({
-                    avatar_image: ""
-                  })
-                  .then(
-                    () =>
-                    (tmp = res
-                      .status(200)
-                      .send({
-                        message: "Image destroyed"
-                      }))
-                  )
-                  .catch(error => (tmp = res.status(400).send(error)));
+            s3.deleteObject(
+              {
+                Key: imageKey
+              },
+              (err, response) => {
+                if (err) {
+                  tmp = res.status(400).send(error);
+                } else {
+                  return data
+                    .update({
+                      avatar_image: ""
+                    })
+                    .then(
+                      () =>
+                        (tmp = res.status(200).send({
+                          message: "Image destroyed"
+                        }))
+                    )
+                    .catch(error => (tmp = res.status(400).send(error)));
+                }
               }
-            });
+            );
           }
         }
       })
@@ -310,9 +309,11 @@ class Tasks extends Crud {
           this.destroyDirectoryTaskPhotos(data.id);
           return data
             .destroy()
-            .then(() => res.status(200).send({
-              message: "Data destroyed"
-            }))
+            .then(() =>
+              res.status(200).send({
+                message: "Data destroyed"
+              })
+            )
             .catch(error => res.status(400).send(error));
         }
       })
@@ -321,34 +322,38 @@ class Tasks extends Crud {
 
   destroyDirectoryTaskPhotos(taskID) {
     let albumKey = tasksName + taskID + "/";
-    s3.listObjects({
-      Prefix: albumKey
-    }, (err, response) => {
-      if (err) {
-        console.log("There was an error deleting your album: ", err.message);
-      }
-      let objects = response.Contents.map(object => {
-        return {
-          Key: object.Key
-        };
-      });
-      s3.deleteObjects({
-          Delete: {
-            Objects: objects,
-            Quiet: true
-          }
-        },
-        (err, response) => {
-          if (err) {
-            console.log(
-              "There was an error deleting your album: ",
-              err.message
-            );
-          }
-          console.log("Successfully deleted album");
+    s3.listObjects(
+      {
+        Prefix: albumKey
+      },
+      (err, response) => {
+        if (err) {
+          console.log("There was an error deleting your album: ", err.message);
         }
-      );
-    });
+        let objects = response.Contents.map(object => {
+          return {
+            Key: object.Key
+          };
+        });
+        s3.deleteObjects(
+          {
+            Delete: {
+              Objects: objects,
+              Quiet: true
+            }
+          },
+          (err, response) => {
+            if (err) {
+              console.log(
+                "There was an error deleting your album: ",
+                err.message
+              );
+            }
+            console.log("Successfully deleted album");
+          }
+        );
+      }
+    );
   }
 }
 
