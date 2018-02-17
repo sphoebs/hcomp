@@ -63,6 +63,7 @@ class Tasks extends Crud {
 
   readAll(req, res) {
     let query = req.query;
+    console.log(query.filter);
     switch (query.filter) {
       case id_creator:
         return this.model
