@@ -29,6 +29,7 @@ const Decode = token => {
     token,
     (err, decodedPayload, decodedHeader) => {
       if (err) {
+        console.log(err);
         return null;
       } else {
         return decodedPayload;
