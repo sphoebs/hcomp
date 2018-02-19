@@ -15,6 +15,6 @@ class RunTypes extends Crud{
         .catch(error =>
              res.status(400).send(error))
     }
-} 
+}
 
 module.exports = RunTypes;
