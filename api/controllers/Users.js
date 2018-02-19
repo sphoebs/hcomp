@@ -12,7 +12,7 @@ class Users extends Crud {
   }
 
   //controllare con access token
-  create(req, res) {
+  findOrCreate(req, res) {
     let data = req.body.data;
     let type = req.body.type;
     let isWriter = req.body.isWriter;

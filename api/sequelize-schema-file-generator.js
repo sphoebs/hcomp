@@ -18,10 +18,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 delete models.default;
 
-var sequelize = new _sequelize2.default('postgres', 'admin', 'hsc-dev', {
-    host: '127.0.0.1',
-    dialect: 'postgres'
-});
+var sequelize = new _sequelize2.default(process.env.database,
+    process.env.username,
+    process.env.password,
+    {
+      host: process.env.host,
+      dialect: process.env.dialect
+    });
 
 var _loop = function _loop(model) {
 
