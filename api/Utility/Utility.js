@@ -43,8 +43,9 @@ const Decode = token => {
  */
 
 const ensureAuthorization = (req, res, next) => {
-  if (req.headers.authorization) {
-    let decodedJWT = Decode(req.headers.authorization);
+  console.log(req.headers.authorization);
+  let decodedJWT = Decode(req.headers.authorization);
+  if (decodedJWT) {
     console.log(decodedJWT);
     users
       .findById(decodedJWT.id)
