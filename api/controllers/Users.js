@@ -45,7 +45,8 @@ class Users extends Crud {
                       .send({ message: "Something goes wrong!" });
                   } else {
                     let payload = {
-                      id: user.id
+                      id: user.id,
+                      creator: user.creator
                     };
                     let hash = Encode(payload);
                     let sendResponse = this.createPayload(user.id, hash);
@@ -62,7 +63,8 @@ class Users extends Crud {
                 })
                 .then(user => {
                   let payload = {
-                    id: user.id
+                    id: user.id,
+                    creator: user.creator
                   };
                   let hash = Encode(payload);
                   let sendResponse = this.createPayload(user.id, hash);
@@ -102,7 +104,8 @@ class Users extends Crud {
                       .send({ message: "Something goes wrong!" });
                   } else {
                     let payload = {
-                      id: user.id
+                      id: user.id,
+                      creator: user.creator
                     };
                     let hash = Encode(payload);
                     let sendResponse = this.createPayload(user.id, hash);
@@ -119,7 +122,8 @@ class Users extends Crud {
                 })
                 .then(user => {
                   let payload = {
-                    id: user.id
+                    id: user.id,
+                    creator: user.creator
                   };
                   let hash = Encode(payload);
                   let sendResponse = this.createPayload(user.id, hash);

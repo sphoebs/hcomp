@@ -29,7 +29,6 @@ const Decode = token => {
     token,
     (err, decodedPayload, decodedHeader) => {
       if (err) {
-        console.log(err);
         return null;
       } else {
         return decodedPayload;
@@ -47,17 +46,7 @@ const ensureAuthorization = (req, res, next) => {
   console.log(req.headers.authorization);
   let decodedJWT = Decode(req.headers.authorization);
   if (decodedJWT) {
-    console.log(decodedJWT);
-    users
-      .findById(decodedJWT.id)
-      .then(user => {
-        if (!user) {
-          res.status(404).send("unAuthorized Area");
-        } else {
-          return next();
-        }
-      })
-      .catch(error => res.status(400).send(error));
+    return next();
   } else {
     res.status(404).send("unAuthorized Area");
   }
@@ -67,18 +56,8 @@ const ensureAuthorization = (req, res, next) => {
   */
 const ensureAuthorizationCreator = (req, res, next) => {
   let decodedJWT = Decode(req.headers.authorization);
-  if (decodedJWT) {
-    users
-      .findOne({ where: { id: decodedJWT.id, creator: true } })
-      .then(user => {
-        if (!user) {
-          console.log("non trova utente");
-          res.status(404).send("unAuthorized Area");
-        } else {
-          return next();
-        }
-      })
-      .catch(error => res.status(400).send(error));
+  if (decodedJWT.creator) {
+    return next();
   } else {
     console.log("Non trova il jwt");
     res.status(404).send("unAuthorized Area");
