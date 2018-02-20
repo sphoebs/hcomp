@@ -1,6 +1,7 @@
 var jwt = require("json-web-token");
-const users = require("../models").users;
 
+const tasks = require("../models").tasks;
+const runs = require("../models").runs;
 const facebookType = "facebook";
 
 const googleType = "google";
@@ -59,7 +60,39 @@ const ensureAuthorizationCreator = (req, res, next) => {
   if (decodedJWT.creator) {
     return next();
   } else {
-    console.log("Non trova il jwt");
+    res.status(404).send("unAuthorized Area");
+  }
+};
+
+const ensureAuthorizationCreatorOrCollaboratorOfTask = (req, res, next) => {
+  let decodedJWT = Decode(req.headers.authorization);
+  if (decodedJWT.creator) {
+    tasks.findById(req.params.id).then(task => {
+      if (task.collaborators.indexOf(decodedJWT.creator)) {
+        return next();
+      } else {
+        res.status(404).send("unAuthorized Area");
+      }
+    })
+    .catch(error => res.status(400).send(error));
+  } else {
+    res.status(404).send("unAuthorized Area");
+  }
+};
+
+const ensureAuthorizationCreatorOrCollaboratorOfRun = (req, res, next) => {
+  let decodedJWT = Decode(req.headers.authorization);
+  if (decodedJWT.creator) {
+    runs.findById(req.params.id).then(run => {
+      tasks.findById(run.id_task).then(task => {
+        if (task.collaborators.indexOf(decodedJWT.creator)) {
+          return next();
+        } else {
+          res.status(404).send("unAuthorized Area");
+        }
+      }).catch(error => res.status(400).send(error));
+    }).catch(error => res.status(400).send(error));
+  } else {
     res.status(404).send("unAuthorized Area");
   }
 };
@@ -80,6 +113,8 @@ module.exports = {
   Decode,
   ensureAuthorization,
   ensureAuthorizationCreator,
+  ensureAuthorizationCreatorOrCollaboratorOfRun,
+  ensureAuthorizationCreatorOrCollaboratorOfTask,
   facebookType,
   googleType,
   url_images,

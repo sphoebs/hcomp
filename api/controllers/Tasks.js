@@ -29,7 +29,6 @@ class Tasks extends Crud {
       collaborators: firstCollaborator
     })
       .then(data => {
-        console.log(data);
         let albumKey = tasksName + data.id + "/";
         s3.headObject(
           {
@@ -151,7 +150,6 @@ class Tasks extends Crud {
                 });
               } else {
                 let url_image = url_images + imageKey;
-                console.log(url_image);
                 tmp = task
                   .update({
                     avatar_image: url_image
