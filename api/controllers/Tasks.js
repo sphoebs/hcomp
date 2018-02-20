@@ -29,6 +29,7 @@ class Tasks extends Crud {
       collaboratos: firstCollaborator
     })
       .then(data => {
+        console.log(data);
         let albumKey = tasksName + data.id + "/";
         s3.headObject(
           {
