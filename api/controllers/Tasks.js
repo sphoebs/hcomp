@@ -26,7 +26,7 @@ class Tasks extends Crud {
     return this.model
     .create({
       id_creator: req.body.id_creator,
-      collaboratos: firstCollaborator
+      collaborators: firstCollaborator
     })
       .then(data => {
         console.log(data);
@@ -183,14 +183,14 @@ class Tasks extends Crud {
                       .then(run => {
                         count += 1;
                         if (count === req.body.runs.length) {
-                          let oldCollaborators = task.collaboratos;
+                          let oldCollaborators = task.collaborators;
                           req.body.collaboratos.forEach(collaborator => oldCollaborators.push(collaborator));
                           delete req.body.runs;
                           task
                             .update({
                               name: req.body.name,
                               description: req.body.description,
-                              collaboratos: oldCollaborators,
+                              collaborators: oldCollaborators,
                               introduction: req.body.introduction,
                               tutorial: req.body.tutorial,
                               is_active: req.body.is_active
