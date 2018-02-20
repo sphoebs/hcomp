@@ -1,11 +1,11 @@
 "use strict";
 
 module.exports = (sequelize,DataTypes) =>
-  sequelize.define("tasks", {   
+  sequelize.define("tasks", {
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    introduction: DataTypes.TEXT,  
-    avatar_image: DataTypes.TEXT,    
+    introduction: DataTypes.TEXT,
+    avatar_image: DataTypes.TEXT,
     id_creator: DataTypes.INTEGER,
     is_deleted: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN,
@@ -13,7 +13,7 @@ module.exports = (sequelize,DataTypes) =>
       type: DataTypes.ARRAY(DataTypes.INTEGER),
       defaultValue: []
     }
-    , 
+    ,
     tutorial: {
       type: DataTypes.ARRAY(DataTypes.JSONB),
       defaultValue: []

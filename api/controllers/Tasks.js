@@ -24,7 +24,7 @@ class Tasks extends Crud {
   create(req, res) {
     console.log(req.body);
     return this.model
-      .create(req.body)
+    .create(req.body)
       .then(data => {
         let albumKey = tasksName + data.id + "/";
         s3.headObject(
@@ -179,10 +179,8 @@ class Tasks extends Crud {
                       .then(run => {
                         count += 1;
                         if (count === req.body.runs.length) {
-                          console.log("All goes well!!");
-                          console.log("Sono prima del delete di runs!");
-                          delete req.body.runs;
                           console.log(req.body);
+                          delete req.body.runs;
                           tmp = task
                             .update(req.body)
                             .then(

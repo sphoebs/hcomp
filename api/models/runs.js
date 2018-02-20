@@ -1,15 +1,15 @@
 "use strict";
 
 module.exports = (sequelize,DataTypes) =>
-  sequelize.define("runs", {   
+  sequelize.define("runs", {
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    introduction: DataTypes.TEXT,  
+    introduction: DataTypes.TEXT,
     images: {
       type: DataTypes.ARRAY(DataTypes.JSONB),
       defaultValue: []
     },
-    question: DataTypes.TEXT,    
+    question: DataTypes.TEXT,
     tutorial: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       defaultValue: []
