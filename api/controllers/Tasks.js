@@ -182,7 +182,7 @@ class Tasks extends Crud {
                       .then(run => {
                         count += 1;
                         if (count === req.body.runs.length) {
-                          oldCollaborators = task.collaboratos;
+                          let oldCollaborators = task.collaboratos;
                           req.body.collaboratos.forEach(collaborator => oldCollaborators.push(collaborator));
                           delete req.body.runs;
                           task
