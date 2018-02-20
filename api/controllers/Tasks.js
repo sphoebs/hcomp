@@ -22,9 +22,12 @@ class Tasks extends Crud {
   }
 
   create(req, res) {
-    console.log(req.body);
+    let firstCollaborator = [req.body.id_creator];
     return this.model
-    .create(req.body)
+    .create({
+      id_creator: req.body.id_creator,
+      collaboratos: firstCollaborator
+    })
       .then(data => {
         let albumKey = tasksName + data.id + "/";
         s3.headObject(
@@ -179,19 +182,20 @@ class Tasks extends Crud {
                       .then(run => {
                         count += 1;
                         if (count === req.body.runs.length) {
-                          console.log(req.body);
+                          oldCollaborators = task.collaboratos;
+                          req.body.collaboratos.forEach(collaborator => oldCollaborators.push(collaborator));
                           delete req.body.runs;
-                          tmp = task
-                            .update(req.body)
-                            .then(
-                              task =>
-                                (tmp = res
-                                  .status(200)
-                                  .send(JSON.stringify(task.id_creator)))
-                            )
-                            .catch(
-                              error => (tmp = res.status(400).send(error))
-                            );
+                          task
+                            .update({
+                              name: req.body.name,
+                              description: req.body.description,
+                              collaboratos: oldCollaborators,
+                              introduction: req.body.introduction,
+                              tutorial: req.body.tutorial,
+                              is_active: req.body.is_active
+                            })
+                            .then(task => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
+                            .catch(error => (tmp = res.status(400).send(error)));
                         }
                       })
                       .catch(error => console.log(error));
