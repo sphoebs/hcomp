@@ -68,7 +68,6 @@ class Tasks extends Crud {
 
   readAll(req, res) {
     let query = req.query;
-    console.log(query.filter);
     switch (query.filter) {
       case id_creator:
         return this.model
@@ -89,7 +88,6 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
         break;
       case recentTasks:
-        console.log("Sno qui");
         return this.model
           .findAll({
             where : {is_active: true},
@@ -241,7 +239,6 @@ class Tasks extends Crud {
   }
 
   readOne(req, res) {
-    console.log(req.params.id);
     return this.model
       .findById(req.params.id)
       .then(data => {
