@@ -182,6 +182,35 @@ class Assignments extends Crud {
     }
     return tmp;
   }
+
+  update(req, res) {
+    return this.model
+      .findById(req.params.id)
+      .then(data => {
+        let tmp;
+        if (!data) {
+          tmp = res.status(400).send({ message: "Data not found!" });
+        } else {
+            oldAnswers = data.answers;
+            req.body.answers.forEach(answer => {
+              oldAnswers.push(answer);
+            });
+            tmp = data
+              .update({
+                id_worker: req.body.id_worker,
+                id_task: req.body.id_task,
+                id_run: re.body.id_run,
+                answers: oldAnswers,
+                is_completed: req.body.is_completed,
+                is_in_progress: req.body.is_in_progress
+              })
+              .then(() => res.status(200).send({ message: "Data updated" }))
+              .catch(error => res.status(400).send(error));
+          }
+        return tmp;
+      })
+      .catch(error => res.status(400).send(error));
+  }
 }
 
 module.exports = Assignments;
