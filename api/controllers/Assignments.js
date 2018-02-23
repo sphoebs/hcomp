@@ -199,7 +199,7 @@ class Assignments extends Crud {
               .update({
                 id_worker: req.body.id_worker,
                 id_task: req.body.id_task,
-                id_run: re.body.id_run,
+                id_run: req.body.id_run,
                 answers: oldAnswers,
                 is_completed: req.body.is_completed,
                 is_in_progress: req.body.is_in_progress
