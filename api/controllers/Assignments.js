@@ -18,6 +18,14 @@ class Assignments extends Crud {
     super(assignments);
     this.lastUpdated;
   }
+
+  create(req, res) {
+    return this.model
+      .create(req.body)
+      .then(data => res.status(200).send(data.id))
+      .catch(error => res.status(400).send(error));
+  }
+
   workerHistory(req, res) {
     return this.model
       .readAll({ where: { id_worker: req.params.id } })
