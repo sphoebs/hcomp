@@ -54,18 +54,32 @@ class Runs extends Crud {
   readOne(req, res) {
     return this.model
       .findById(req.params.id)
-      .then(data => {
+      .then(run => {
         let tmp;
-        if (!data) {
+        if (!run) {
           tmp = res.status(400).send({ message: "Data not found!" });
         } else {
           tasks
-            .findById(data.id_task)
+            .findById(run.id_task)
             .then(task => {
               if (!task) {
                 tmp = res.status(400).send({ message: "Data not found!" });
               } else {
-                tmp = res.status(200).send(JSON.stringify(task.tutorial));
+                  let payload = {
+                    name: run.name,
+                    description: run.description,
+                    introduction: run.introduction,
+                    images:run.images,
+                    question: run.question,
+                    tutorial: task.tutorial,
+                    id_runtype: run.id_runtype,
+                    id_task: run.id_task,
+                    is_deleted: run.is_deleted,
+                    is_active: run.is_active,
+                    max_assignments: run.max_assignments,
+                    index: run.index
+                  }
+                tmp = res.status(200).send(JSON.stringify(payload));
               }
             })
             .catch(error => res.status(400).send(error));
