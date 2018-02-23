@@ -22,7 +22,7 @@ class Assignments extends Crud {
   create(req, res) {
     return this.model
       .create(req.body)
-      .then(data => res.status(200).send(data.id))
+      .then(data => res.status(200).send(JSON.stringify(data.id)))
       .catch(error => res.status(400).send(error));
   }
 
