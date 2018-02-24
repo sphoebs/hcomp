@@ -1,5 +1,3 @@
-import { isNumber } from "util";
-
 const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const runs = require("../models").runs;
@@ -267,7 +265,7 @@ class Tasks extends Crud {
         console.log(err);
       } else{
         const id = req.params.id;
-        if(isNumber(id)){
+        if(!isNaN(id)){
           const query = `SELECT u.name AS userName, t.* FROM users AS u INNER JOIN tasks AS t ON u.id=t.id_creator WHERE t.id=${id};`;
         client.query(query, (err, result) => {
           done();
