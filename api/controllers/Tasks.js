@@ -265,7 +265,7 @@ class Tasks extends Crud {
         console.log(err);
       } else {
         const id = parseInt(req.params.id);
-        const query = `SELECT * FROM users WHERE user.id = ${id};`;
+        const query = `SELECT * FROM users WHERE users.id = ${id};`;
         client.query(query, (err, result) => {
           done();
           if (err) {
