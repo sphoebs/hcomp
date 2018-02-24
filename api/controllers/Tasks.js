@@ -265,7 +265,7 @@ class Tasks extends Crud {
         console.log(err);
       } else {
         const id = parseInt(req.params.id);
-        const query = `SELECT u.name AS nameuser, t.* FROM users AS u INNER JOIN tasks AS t ON u.id=t.id_creator WHERE t.id=${id};`;
+        const query = `SELECT u.name AS userName, t.* FROM users AS u INNER JOIN tasks AS t ON u.id=t.id_creator WHERE t.id=${id};`;
         client.query(query, (err, result) => {
           done();
           if (err) {
@@ -274,7 +274,7 @@ class Tasks extends Crud {
             tmp = res.status(400).send(err);
           } else {
             console.log(result.rows[0]);
-            tmp = res.status(200).send(JSON.stringify(result.rows));
+            tmp = res.status(200).send(JSON.stringify(result.rows[0]));
           }
         });
       }
