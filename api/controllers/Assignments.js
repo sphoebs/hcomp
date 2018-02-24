@@ -26,18 +26,6 @@ class Assignments extends Crud {
       .catch(error => res.status(400).send(error));
   }
 
-  workerHistory(req, res) {
-    return this.model
-      .readAll({ where: { id_worker: req.params.id } })
-      .then(assignments => {
-        if (!assignments) {
-          res.send(404).send({ message: "Data Not found" });
-        } else {
-          res.status(200).send(assignments);
-        }
-      })
-      .catch(error => res.status(400).send(error));
-  }
 
   guestMotivational(req, res) {
     return this.model
@@ -183,7 +171,8 @@ class Assignments extends Crud {
     return tmp;
   }
 
-  update(req, res) {
+  update(req, res) {7
+    console.log(req.body);
     return this.model
       .findById(req.params.id)
       .then(data => {
