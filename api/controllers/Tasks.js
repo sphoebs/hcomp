@@ -265,7 +265,7 @@ class Tasks extends Crud {
         done();
         tmp = res.status(500).send({ message: "INTERNAL ERROR" });
         console.log(err);
-      } else {
+      } else{
         const id = req.params.id;
         if(isNumber(id)){
           const query = `SELECT u.name AS userName, t.* FROM users AS u INNER JOIN tasks AS t ON u.id=t.id_creator WHERE t.id=${id};`;
