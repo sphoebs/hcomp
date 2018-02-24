@@ -16,25 +16,6 @@ class RunTypes extends Crud{
              res.status(400).send(error))
     }
     readAll(req,res){
-        const results = [];
-        // Get a Postgres client from the connection pool
-        pg.connect(connectionString, (err, client, done) => {
-          // Handle connection errors
-          if(err) {
-            done();
-            console.log(err);
-            return res.status(500).json({success: false, data: err});
-          }
-          const query = client.query('SELECT * FROM runtypes');
-          query.on('row', (row) => {
-            results.push(row);
-          });
-          // After all data is returned, close connection and return results
-          query.on('end', () => {
-            done();
-            return res.json(results);
-          });
-        });
         return this.model
         .findAll()
         .then(data => res.send(JSON.stringify(data)))
