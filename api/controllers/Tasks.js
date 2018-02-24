@@ -265,7 +265,7 @@ class Tasks extends Crud {
         console.log(err);
       } else {
         const id = parseInt(req.params.id);
-        const query = `SELECT u.name FROM (users AS u INNER JOIN tasks AS t ON users.id = tasks.id_creator) WHERE users.id = ${id};`;
+        const query = `SELECT u.name FROM users AS u, tasks AS t WHERE u.id = ${id} AND u.id = t.id_creator;`;
         client.query(query, (err, result) => {
           done();
           if (err) {
