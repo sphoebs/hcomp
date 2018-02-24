@@ -17,8 +17,6 @@ class RunTypes extends Crud{
     }
     readAll(req,res){
         const results = [];
-        // Grab data from http request
-        const data = {text: req.body.text, complete: false};
         // Get a Postgres client from the connection pool
         pg.connect(connectionString, (err, client, done) => {
           // Handle connection errors
