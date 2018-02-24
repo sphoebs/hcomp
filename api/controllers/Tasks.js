@@ -270,6 +270,7 @@ class Tasks extends Crud {
           done();
           if (err) {
             done();
+            console.log(err);
             tmp = res.status(400).send(err);
           } else {
             console.log(result.rows);
