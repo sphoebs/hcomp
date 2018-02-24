@@ -9,11 +9,11 @@ module.exports = app => {
     controller.create(req, res);
   });
 
-  app.get("/tasks/runs", ensureAuthorization, (req, res) => {
+  app.get("/tasks/runs", (req, res) => {
     controller.readAll(req, res);
   });
 
-  app.get("/tasks/runs/:id", ensureAuthorization, (req, res) => {
+  app.get("/tasks/runs/:id", (req, res) => {
     controller.readOne(req, res);
   });
 

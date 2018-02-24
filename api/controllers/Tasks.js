@@ -2,6 +2,15 @@ const Crud = require("./Crud");
 const tasks = require("../models").tasks;
 const runs = require("../models").runs;
 const aws = require("aws-sdk");
+const pg = require("pg");
+const config = {
+  user: process.env.database,
+  database: process.env.database,
+  password: process.env.password,
+  host: process.env.host
+};
+const pool = new pg.Pool(config);
+
 const { url_images, createData, tasksName } = require("../Utility/Utility");
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -24,10 +33,10 @@ class Tasks extends Crud {
   create(req, res) {
     let firstCollaborator = [req.body.id_creator];
     return this.model
-    .create({
-      id_creator: req.body.id_creator,
-      collaborators: firstCollaborator
-    })
+      .create({
+        id_creator: req.body.id_creator,
+        collaborators: firstCollaborator
+      })
       .then(data => {
         let albumKey = tasksName + data.id + "/";
         s3.headObject(
@@ -90,9 +99,9 @@ class Tasks extends Crud {
       case recentTasks:
         return this.model
           .findAll({
-            where : {is_active: true},
+            where: { is_active: true },
             limit: 4,
-            order: [['updatedAt', 'DESC']]
+            order: [["updatedAt", "DESC"]]
           })
           .then(tasks => {
             if (!tasks) {
@@ -180,7 +189,9 @@ class Tasks extends Crud {
                         count += 1;
                         if (count === req.body.runs.length) {
                           let oldCollaborators = task.collaborators;
-                          req.body.collaborators.forEach(collaborator => oldCollaborators.push(collaborator));
+                          req.body.collaborators.forEach(collaborator =>
+                            oldCollaborators.push(collaborator)
+                          );
                           delete req.body.runs;
                           task
                             .update({
@@ -191,8 +202,15 @@ class Tasks extends Crud {
                               tutorial: req.body.tutorial,
                               is_active: req.body.is_active
                             })
-                            .then(task => tmp = res.status(200).send(JSON.stringify(task.id_creator)))
-                            .catch(error => (tmp = res.status(400).send(error)));
+                            .then(
+                              task =>
+                                (tmp = res
+                                  .status(200)
+                                  .send(JSON.stringify(task.id_creator)))
+                            )
+                            .catch(
+                              error => (tmp = res.status(400).send(error))
+                            );
                         }
                       })
                       .catch(error => console.log(error));
@@ -239,20 +257,25 @@ class Tasks extends Crud {
   }
 
   readOne(req, res) {
-    return this.model
-      .findById(req.params.id)
-      .then(data => {
-        let tmp;
-        if (!data) {
-          tmp = res.status(404).send({
-            message: "Data not found!"
-          });
-        } else {
-          tmp = res.status(200).send(data);
-        }
-        return tmp;
-      })
-      .catch(error => res.status(400).send(error));
+    pool.connect((err, client, done) => {
+      if (err) {
+        done();
+        tmp = res.status(500).send({ message: "INTERNAL ERROR" });
+      } else {
+        const id = parseInt(req.parameter.id);
+        const query = `SELECT name FROM (users INNER JOIN tasks ON users.id = tasks.id_creator) WHERE users.id = ${id};`;
+        client.query(query, (err, result) => {
+          done();
+          if (err) {
+            done();
+            tmp = res.status(400).send(err);
+          } else {
+            console.log(result.rows);
+            res.send("ok");
+          }
+        });
+      }
+    });
   }
 
   deletePhoto(req, res) {
