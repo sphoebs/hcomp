@@ -257,10 +257,12 @@ class Tasks extends Crud {
   }
 
   readOne(req, res) {
+    let tmp = '';
     pool.connect((err, client, done) => {
       if (err) {
         done();
         tmp = res.status(500).send({ message: "INTERNAL ERROR" });
+        console.log(err);
       } else {
         const id = parseInt(req.parameter.id);
         const query = `SELECT name FROM (users INNER JOIN tasks ON users.id = tasks.id_creator) WHERE users.id = ${id};`;
@@ -276,6 +278,7 @@ class Tasks extends Crud {
         });
       }
     });
+    return tmp;
   }
 
   deletePhoto(req, res) {
