@@ -4,7 +4,7 @@ const runs = require("../models").runs;
 const aws = require("aws-sdk");
 const pg = require("pg");
 const config = {
-  user: process.env.database,
+  user: process.env.username,
   database: process.env.database,
   password: process.env.password,
   host: process.env.host
