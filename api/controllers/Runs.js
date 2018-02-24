@@ -65,20 +65,20 @@ class Runs extends Crud {
               if (!task) {
                 tmp = res.status(400).send({ message: "Data not found!" });
               } else {
-                  let payload = {
-                    name: run.name,
-                    description: run.description,
-                    introduction: run.introduction,
-                    images:run.images,
-                    question: run.question,
-                    tutorial: task.tutorial,
-                    id_runtype: run.id_runtype,
-                    id_task: run.id_task,
-                    is_deleted: run.is_deleted,
-                    is_active: run.is_active,
-                    max_assignments: run.max_assignments,
-                    index: run.index
-                  }
+                let payload = {
+                  name: run.name,
+                  description: run.description,
+                  introduction: run.introduction,
+                  images: run.images,
+                  question: run.question,
+                  tutorial: task.tutorial,
+                  id_runtype: run.id_runtype,
+                  id_task: run.id_task,
+                  is_deleted: run.is_deleted,
+                  is_active: run.is_active,
+                  max_assignments: run.max_assignments,
+                  index: run.index
+                };
                 tmp = res.status(200).send(JSON.stringify(payload));
               }
             })
@@ -256,8 +256,7 @@ class Runs extends Crud {
   }
 
   delete(req, res) {
-    console.log(req.params.id);
-    return this.model
+    this.model
       .findById(req.params.id)
       .then(data => {
         if (!data) {
