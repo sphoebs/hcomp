@@ -12,7 +12,7 @@ const {
 const id_task = "id_task";
 const id_runType = "id_runtype";
 const id_run = "id_run";
-
+const worker = 'worker';
 class Assignments extends Crud {
   constructor() {
     super(assignments);
@@ -25,7 +25,6 @@ class Assignments extends Crud {
       .then(data => res.status(200).send(JSON.stringify(data.id)))
       .catch(error => res.status(400).send(error));
   }
-
 
   guestMotivational(req, res) {
     return this.model
@@ -162,6 +161,12 @@ class Assignments extends Crud {
             .then(data => (tmp = res.status(200).send(data)))
             .catch(error => (tmp = res.status(400).send(error)));
           break;
+        case worker:
+          return this.model
+            .findAll({ where: { id_worker: query.parameter } })
+            .then(data => (tmp = res.status(200).send(data)))
+            .catch(error => (tmp = res.status(400).send(error)));
+          break;
         default:
           break;
       }
@@ -171,7 +176,8 @@ class Assignments extends Crud {
     return tmp;
   }
 
-  update(req, res) {7
+  update(req, res) {
+    7;
     console.log(req.body);
     return this.model
       .findById(req.params.id)
@@ -180,22 +186,22 @@ class Assignments extends Crud {
         if (!data) {
           tmp = res.status(400).send({ message: "Data not found!" });
         } else {
-            let oldAnswers = data.answers;
-            req.body.answers.forEach(answer => {
-              oldAnswers.push(answer);
-            });
-            tmp = data
-              .update({
-                id_worker: req.body.id_worker,
-                id_task: req.body.id_task,
-                id_run: req.body.id_run,
-                answers: oldAnswers,
-                is_completed: req.body.is_completed,
-                is_in_progress: req.body.is_in_progress
-              })
-              .then(() => res.status(200).send({ message: "Data updated" }))
-              .catch(error => res.status(400).send(error));
-          }
+          let oldAnswers = data.answers;
+          req.body.answers.forEach(answer => {
+            oldAnswers.push(answer);
+          });
+          tmp = data
+            .update({
+              id_worker: req.body.id_worker,
+              id_task: req.body.id_task,
+              id_run: req.body.id_run,
+              answers: oldAnswers,
+              is_completed: req.body.is_completed,
+              is_in_progress: req.body.is_in_progress
+            })
+            .then(() => res.status(200).send({ message: "Data updated" }))
+            .catch(error => res.status(400).send(error));
+        }
         return tmp;
       })
       .catch(error => res.status(400).send(error));
