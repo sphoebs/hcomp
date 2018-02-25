@@ -21,7 +21,7 @@ class Assignments extends Crud {
 
   create(req, res) {
     return this.model
-    .findAll({where: {id_worker: req.body.id_worker, id_run: req.body.id_run}})
+    .findOne({where: {id_worker: req.body.id_worker, id_run: req.body.id_run}})
     .then(assignment => {
       if(!assignment){
         this.model
