@@ -178,7 +178,6 @@ class Assignments extends Crud {
   }
 
   update(req, res) {
-    7;
     console.log(req.body);
     return this.model
       .findById(req.params.id)
