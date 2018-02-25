@@ -30,10 +30,11 @@ app.use(bodyParser({limit: '50mb'}));
 
 // Adding API routes
 
-require('./api/routes/Runs')(app);
 require('./api/routes/Assignments')(app);
+require('./api/routes/Runs')(app);
 require('./api/routes/RunTypes')(app);
 require('./api/routes/Tasks')(app);
 require('./api/routes/Users')(app);
+
 
 module.exports = app;

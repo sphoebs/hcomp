@@ -12,15 +12,15 @@ module.exports = app => {
 
     app.get("/tasks/runs/assignments/:id",  ensureAuthorization,(req,res) => {
         controller.readOne(req,res);
-    });  
-
+    });
+    
     app.put("/tasks/runs/assignments/:id",  ensureAuthorization,(req,res) => {
         controller.update(req,res);
-    });  
+    });
 
     app.delete("/tasks/runs/assignments/:id",  ensureAuthorization,(req,res) => {
         controller.delete(req,res);
-    });  
+    });
     app.get("/tasks/runs/assignments/workerhistory/:id", ensureAuthorization, (req,res) => {
         controller.workerHistory(req,res);
     });
