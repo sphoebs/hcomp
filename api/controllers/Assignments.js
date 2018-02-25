@@ -154,8 +154,6 @@ class Assignments extends Crud {
             .then(data => (tmp = res.status(200).send(data)))
             .catch(error => (tmp = res.status(400).send(error)));
           break;
-        case id_runtype:
-          break;
         case id_run:
           return this.model
             .findAll({ where: { id_run: id_run } })
