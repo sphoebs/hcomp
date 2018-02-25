@@ -18,7 +18,7 @@ aws.config.update({
 });
 const id_creator = "id_creator";
 const recentTasks = "recentTasks";
-const recentTasksByAssignments = 'recentTasksByAssignments';
+const recentTasksByAssignments = "recentTasksByAssignments";
 const s3 = new aws.S3({
   params: {
     Bucket: process.env.S3_BUCKET
@@ -116,30 +116,27 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
         break;
       case recentTasksByAssignments:
-      pool.connect((err, client, done) => {
-        if (err) {
-          done();
-          tmp = res.status(500).send({ message: "INTERNAL ERROR" });
-          console.log(err);
-        } else{
-          const id = req.params.id;
-          if(!isNaN(id)){
-            const query = `SELECT t.* FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY a.updateAt, DESC LIMIT 4;`;
-          client.query(query, (err, result) => {
+        pool.connect((err, client, done) => {
+          if (err) {
             done();
-            if (err) {
+            tmp = res.status(500).send({ message: "INTERNAL ERROR" });
+            console.log(err);
+          } else {
+            const query = `SELECT t.* FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY a.updateAt DESC LIMIT 4;`;
+            client.query(query, (err, result) => {
               done();
-              console.log(err);
-              tmp = res.status(400).send(err);
-            } else {
-              console.log(result.rows);
-              tmp = res.status(200).send(JSON.stringify(result.rows[0]));
-            }
-          });
+              if (err) {
+                done();
+                console.log(err);
+                tmp = res.status(400).send(err);
+              } else {
+                console.log(result.rows);
+                tmp = res.status(200).send(JSON.stringify(result.rows[0]));
+              }
+            });
           }
-        }
-      });
-      break;
+        });
+        break;
       default:
         return this.model
           .findAll()
@@ -283,26 +280,26 @@ class Tasks extends Crud {
   }
 
   readOne(req, res) {
-    let tmp = '';
+    let tmp = "";
     pool.connect((err, client, done) => {
       if (err) {
         done();
         tmp = res.status(500).send({ message: "INTERNAL ERROR" });
         console.log(err);
-      } else{
+      } else {
         const id = req.params.id;
-        if(!isNaN(id)){
+        if (!isNaN(id)) {
           const query = `SELECT u.name AS userName, t.* FROM users AS u INNER JOIN tasks AS t ON u.id=t.id_creator WHERE t.id=${id};`;
-        client.query(query, (err, result) => {
-          done();
-          if (err) {
+          client.query(query, (err, result) => {
             done();
-            console.log(err);
-            tmp = res.status(400).send(err);
-          } else {
-            tmp = res.status(200).send(JSON.stringify(result.rows[0]));
-          }
-        });
+            if (err) {
+              done();
+              console.log(err);
+              tmp = res.status(400).send(err);
+            } else {
+              tmp = res.status(200).send(JSON.stringify(result.rows[0]));
+            }
+          });
         }
       }
     });
