@@ -116,6 +116,8 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
         break;
       case recentTasksByAssignments:
+      console.log("entro qui");
+      console.log(query.filter);
         pool.connect((err, client, done) => {
           if (err) {
             done();
