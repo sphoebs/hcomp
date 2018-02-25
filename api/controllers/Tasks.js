@@ -130,8 +130,7 @@ class Tasks extends Crud {
                 console.log(err);
                 return  res.status(400).send(err);
               } else {
-                console.log(result.rows);
-                return  res.status(200).send(JSON.stringify(result.rows[0]));
+                return  res.status(200).send(JSON.stringify(result.rows));
               }
             });
           }
