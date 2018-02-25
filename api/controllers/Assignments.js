@@ -162,6 +162,7 @@ class Assignments extends Crud {
             .catch(error => (tmp = res.status(400).send(error)));
           break;
         case worker:
+        console.log(query.parameter);
           return this.model
             .findAll({ where: { id_worker: query.parameter } })
             .then(data => (tmp = res.status(200).send(data)))
