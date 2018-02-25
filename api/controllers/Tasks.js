@@ -122,7 +122,7 @@ class Tasks extends Crud {
             return  res.status(500).send({ message: "INTERNAL ERROR" });
             console.log(err);
           } else {
-            const query = `SELECT distinct t.*,  a."createdAt" FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task GROUP BY t.id ORDER BY a."createdAt" DESC LIMIT 4;`;
+            const query = `DELETE FROM (SELECT distinct t.*,  a."createdAt" FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY a."createdAt" DESC LIMIT 4;) c USING (SELECT distinct t.*,  a."createdAt" FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY a."createdAt" DESC LIMIT 4;) d WHERE c.id = d.id`;
             client.query(query, (err, result) => {
               done();
               if (err) {
