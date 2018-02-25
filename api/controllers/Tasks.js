@@ -123,7 +123,7 @@ class Tasks extends Crud {
             console.log(err);
           } else {
             const id = 'a.updatedAt';
-            const query = `SELECT t.* FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY \"a.updateAt\" DESC LIMIT 4;`;
+            const query = `SELECT t.* FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY updateAt DESC LIMIT 4;`;
             client.query(query, (err, result) => {
               done();
               if (err) {
