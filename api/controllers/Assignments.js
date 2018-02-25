@@ -143,6 +143,7 @@ class Assignments extends Crud {
   }
 
   readAll(req, res) {
+    console.log("read all");
     let tmp = "";
     let query = req.query;
     if (query.filter && query.parameter) {
