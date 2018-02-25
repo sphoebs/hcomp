@@ -21,9 +21,24 @@ class Assignments extends Crud {
 
   create(req, res) {
     return this.model
-      .create(req.body)
-      .then(data => res.status(200).send(JSON.stringify(data.id)))
-      .catch(error => res.status(400).send(error));
+    .findAll({where: {id_creator: req.body.id_creator, id_run: req.body.id_run}})
+    .then(assignment => {
+      if(!assignment){
+        this.model
+        .create(req.body)
+        .then(data => res.status(200).send(JSON.stringify(data.id)))
+        .catch(error => res.status(400).send(error));
+      }
+      else {
+        if(!assignment.is_completed){
+          return res.status(200).send(assignment);
+        }
+        else {
+          return res.status(200).send({message: 'Assignment already done'});
+        }
+      }
+    })
+    .catch(error => res.status(400).send(error));
   }
 
   guestMotivational(req, res) {
@@ -143,7 +158,6 @@ class Assignments extends Crud {
   }
 
   readAll(req, res) {
-    console.log("read all");
     let tmp = "";
     let query = req.query;
     if (query.filter && query.parameter) {
