@@ -124,7 +124,7 @@ class Tasks extends Crud {
         } else{
           const id = req.params.id;
           if(!isNaN(id)){
-            const query = `SELECT t.* FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY a.updateAt DESC LIMIT 4;`;
+            const query = `SELECT t.* FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY a.updateAt, DESC LIMIT 4;`;
           client.query(query, (err, result) => {
             done();
             if (err) {
