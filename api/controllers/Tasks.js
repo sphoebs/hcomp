@@ -116,24 +116,22 @@ class Tasks extends Crud {
           .catch(error => res.status(400).send(error));
         break;
       case recentTasksByAssignments:
-      console.log("entro qui");
-      console.log(query.filter);
         pool.connect((err, client, done) => {
           if (err) {
             done();
-            tmp = res.status(500).send({ message: "INTERNAL ERROR" });
+            return  res.status(500).send({ message: "INTERNAL ERROR" });
             console.log(err);
           } else {
-            const query = `SELECT * FROM tasks;`;
+            const query = `SELECT t.* FROM tasks AS t INNER JOIN assignments AS a ON t.id=a.id_task ORDER BY a.updateAt DESC LIMIT 4;`;
             client.query(query, (err, result) => {
               done();
               if (err) {
                 done();
                 console.log(err);
-                tmp = res.status(400).send(err);
+                return  res.status(400).send(err);
               } else {
                 console.log(result.rows);
-                tmp = res.status(200).send(JSON.stringify(result.rows[0]));
+                return  res.status(200).send(JSON.stringify(result.rows[0]));
               }
             });
           }
