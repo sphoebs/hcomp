@@ -1,5 +1,3 @@
-import { stringify } from "querystring";
-
 const Crud = require("./Crud");
 const assignments = require("../models").assignments;
 const users = require("../models").users;
@@ -204,7 +202,7 @@ class Assignments extends Crud {
           let newAnswers = [];
           req.body.answers.forEach(answer => {
               newAnswers.push({
-                answer: stringify(answer.answer),
+                answer: JSON.stringify(answer.answer),
                 imgname: answer.imgname
               })
           })
