@@ -204,7 +204,7 @@ class Assignments extends Crud {
           let newAnswers = [];
           req.body.answers.forEach(answer => {
               newAnswers.push({
-                answer: answer.answer,
+                answer: stringify(answer.answer),
                 imgname: answer.imgname
               })
           })
