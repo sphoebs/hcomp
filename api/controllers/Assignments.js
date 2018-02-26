@@ -199,16 +199,12 @@ class Assignments extends Crud {
         if (!data) {
           tmp = res.status(400).send({ message: "Data not found!" });
         } else {
-          let oldAnswers = data.answers;
-          req.body.answers.forEach(answer => {
-            oldAnswers.push(answer);
-          });
           tmp = data
             .update({
               id_worker: req.body.id_worker,
               id_task: req.body.id_task,
               id_run: req.body.id_run,
-              answers: oldAnswers,
+              answers: req.body.answers,
               is_completed: req.body.is_completed,
               is_in_progress: req.body.is_in_progress
             })
