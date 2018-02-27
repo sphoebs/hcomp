@@ -246,8 +246,8 @@ class Assignments extends Crud {
                 oldAnswers = {};
               }
               console.log(oldAnswers);
-              let yesPercentOfAnswers = oldAnswers.yes ? oldAnswers.yes : 0;
-              let noPercentOfAnswers = oldAnswers.no ? oldAnswers.no : 0;
+              let yesPercentOfAnswers = oldAnswers.Yes ? oldAnswers.Yes : 0;
+              let noPercentOfAnswers = oldAnswers.No ? oldAnswers.No : 0;
               let totalAnswers = oldAnswers.totalAnswers ? oldAnswers.totalAnswers : 0;
               console.log("totalAnswers", totalAnswers);
               let numberOfYes = totalAnswers > 0 ? totalAnswers * yesPercentOfAnswers / 100 : 0;
