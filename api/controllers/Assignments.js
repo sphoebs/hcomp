@@ -209,7 +209,7 @@ class Assignments extends Crud {
           });
           if (req.body.is_completed) {
             console.log("sto per entrare");
-            //this.populateStatistic(req.body.answers, data.id_run);
+            this.populateStatistic(req.body.answers, data.id_run);
             console.log("dopo populate");
           }
           tmp = data
@@ -275,7 +275,7 @@ class Assignments extends Crud {
             break;
           case 8:
           console.log("Wheel")
-          let oldStatistics = run.statistics;
+          /*let oldStatistics = run.statistics;
           console.log("Old Stats: ",oldStatistics);
             answers.forEach(answer => {
               let oldAnswers = "";
@@ -305,7 +305,7 @@ class Assignments extends Crud {
             }).then(run => {
               console.log("EveryThing Goes Ok");
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error));*/
             break;
           default:
             break;
