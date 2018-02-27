@@ -237,7 +237,7 @@ class Assignments extends Crud {
           console.log("case yes/no");
             let oldStatistics = run.statistics ? run.statistics : {};
             answers.forEach(answer => {
-              let oldAnswers = oldStatistics ? JSON.parse(oldStatistics[answer.imgname]) : {};
+              let oldAnswers = oldStatistics.length>0 ? JSON.parse(oldStatistics[answer.imgname]) : {};
               let yesPercentOfAnswers = oldAnswers.yes ? oldAnswers.yes : 0;
               let noPercentOfAnswers = oldAnswers.no ? oldAnswers.no : 0;
               let totalAnswers = oldAnswers.totalAnswers ? oldAnswers.totalAnswers : 0;
