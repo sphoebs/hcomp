@@ -241,7 +241,6 @@ class Assignments extends Crud {
               console.log(Object.keys(oldStatistics).length);
               let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
-                console.log("entro veramente qui?");
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
                 oldAnswers = {};
@@ -249,19 +248,17 @@ class Assignments extends Crud {
               console.log(oldAnswers);
               let yesPercentOfAnswers = oldAnswers.yes ? oldAnswers.yes : 0;
               let noPercentOfAnswers = oldAnswers.no ? oldAnswers.no : 0;
-              let totalAnswers = oldAnswers.totalAnswers
-                ? oldAnswers.totalAnswers
-                : 0;
-              let numberOfYes =
-                totalAnswers > 0 ? totalAnswers * yesPercentOfAnswers / 100 : 0;
-              let numberOfNo =
-                totalAnswers > 0 ? totalAnswers * noPercentOfAnswers / 100 : 0;
+              let totalAnswers = oldAnswers.totalAnswers ? oldAnswers.totalAnswers : 0;
+              console.log("totalAnswers", totalAnswers);
+              let numberOfYes = totalAnswers > 0 ? totalAnswers * yesPercentOfAnswers / 100 : 0;
+              let numberOfNo = totalAnswers > 0 ? totalAnswers * noPercentOfAnswers / 100 : 0;
               let newTotalAnswers = totalAnswers + 1;
-              console.log(newTotalAnswers);
-              console.log("newTotalAnswers");
+              console.log("newTotalAnswers: ",newTotalAnswers);
+              console.log("Yes: ", numberOfYes);
+              console.log("No: ", numberOfNo);
               if (answer.answer === "Yes") {
                 oldStatistics[answer.imgname] = JSON.stringify({
-                  Yes: (numberOfYes + 1) / newTotalAnswers * 100,
+                  Yes: ((numberOfYes + 1) / newTotalAnswers) * 100,
                   No: numberOfNo / newTotalAnswers * 100,
                   totalAnswers: newTotalAnswers
                 });
