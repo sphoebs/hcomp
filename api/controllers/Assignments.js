@@ -248,16 +248,17 @@ class Assignments extends Crud {
                 ? totalAnswers * noPercentOfAnswers / 100
                 : 0;
               let newTotalAnswers = totalAnswers+1;
+              console.log(newTotalAnswers);
               if (answer.answer === 'Yes') {
                 oldStatistics[answer.imgname] = JSON.stringify({
-                  yes: (numberOfYes + 1) / newTotalAnswers * 100,
-                  no: (numberOfNo) / newTotalAnswers * 100,
+                  Yes: (numberOfYes + 1) / newTotalAnswers * 100,
+                  No: (numberOfNo) / newTotalAnswers * 100,
                   totalAnswers: newTotalAnswers
                 });
               } else {
                 oldStatistics[answer.imgname] = JSON.stringify({
-                  yes: (numberOfYes) / newTotalAnswers * 100,
-                  no: (numberOfNo + 1) / newTotalAnswers * 100,
+                  Yes: (numberOfYes) / newTotalAnswers * 100,
+                  No: (numberOfNo + 1) / newTotalAnswers * 100,
                   totalAnswers: newTotalAnswers
                 });
               }
