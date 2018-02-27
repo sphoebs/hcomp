@@ -275,9 +275,9 @@ class Assignments extends Crud {
             break;
           case 8:
           console.log("Wheel")
-          /*let oldStatistics = run.statistics;
+          let oldStatistics = run.statistics;
           console.log("Old Stats: ",oldStatistics);
-            answers.forEach(answer => {
+          /*  answers.forEach(answer => {
               let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
@@ -286,7 +286,7 @@ class Assignments extends Crud {
               }
               let incomingAnswers = JSON.parse(answer.answer);
               console.log(incomingAnswers);
-              let totNewAnswers = oldAnswers[tot] ? oldAnswers[tot]+ 1 : 0;
+              let totNewAnswers = oldAnswers.tot ? oldAnswers.tot + 1 : 0;
               for (var key in oldAnswers) {
                 if (oldAnswers.hasOwnProperty(key)) {
                   if (incomingAnswers[key] && key !== "tot") {
