@@ -234,28 +234,20 @@ class Assignments extends Crud {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
         switch (run.id_runtype) {
           case 7:
-            console.log("case yes/no");
             let oldStatistics = run.statistics ? run.statistics : {};
-            console.log(oldStatistics);
             answers.forEach(answer => {
-              console.log(Object.keys(oldStatistics).length);
               let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
                 oldAnswers = {};
               }
-              console.log(oldAnswers);
               let yesPercentOfAnswers = oldAnswers.Yes ? oldAnswers.Yes : 0;
               let noPercentOfAnswers = oldAnswers.No ? oldAnswers.No : 0;
               let totalAnswers = oldAnswers.totalAnswers ? oldAnswers.totalAnswers : 0;
-              console.log("totalAnswers", totalAnswers);
               let numberOfYes = totalAnswers > 0 ? totalAnswers * yesPercentOfAnswers / 100 : 0;
               let numberOfNo = totalAnswers > 0 ? totalAnswers * noPercentOfAnswers / 100 : 0;
               let newTotalAnswers = totalAnswers + 1;
-              console.log("newTotalAnswers: ",newTotalAnswers);
-              console.log("Yes: ", numberOfYes);
-              console.log("No: ", numberOfNo);
               if (answer.answer === "Yes") {
                 oldStatistics[answer.imgname] = JSON.stringify({
                   Yes: ((numberOfYes + 1) / newTotalAnswers) * 100,
@@ -271,7 +263,6 @@ class Assignments extends Crud {
               }
             });
             let newStatistics = oldStatistics;
-            console.log(newStatistics);
             run
               .update({
                 statistics: newStatistics
@@ -282,11 +273,16 @@ class Assignments extends Crud {
               .catch(error => console.log(error));
             break;
           case 8:
-          /*let oldStatistics = run.statistics;
+          let oldStatistics = run.statistics;
             answers.forEach(answer => {
-              let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
+              let oldAnswers = "";
+              if (oldStatistics[answer.imgname]!== undefined) {
+                oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
+              } else {
+                oldAnswers = {};
+              }
               let incomingAnswers = JSON.parse(answer.answer);
-              let totNewAnswers = oldAnswers[tot] + 1;
+              let totNewAnswers = oldAnswers[tot] ? oldAnswers[tot]+ 1 : 0;
               for (var key in oldAnswers) {
                 if (oldAnswers.hasOwnProperty(key)) {
                   if (incomingAnswers[key] && key !== "tot") {
@@ -303,7 +299,7 @@ class Assignments extends Crud {
             run.update({
               statistics: newStatistics
             });
-            break;*/
+            break;
           default:
             break;
         }
