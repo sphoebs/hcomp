@@ -208,16 +208,11 @@ class Assignments extends Crud {
             });
           });
           if (req.body.is_completed) {
-            console.log(req.body.id_run);
-            console.log(data.id_run);
-            this.populateStatistic(req.body.answers, req.body.id_run);
+            this.populateStatistic(req.body.answers, data.id_run);
             console.log("dopo populate");
           }
           tmp = data
             .update({
-              id_worker: req.body.id_worker,
-              id_task: req.body.id_task,
-              id_run: req.body.id_run,
               answers: newAnswers,
               is_completed: req.body.is_completed,
               is_in_progress: req.body.is_in_progress
@@ -233,8 +228,8 @@ class Assignments extends Crud {
   populateStatistic(answers, id_run) {
     console.log("sono dentro alla funzione populate");
     console.log(id_run);
-    console.log(answers);
-    /*runs
+
+    runs
       .findById(id_run)
       .then(run => {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
@@ -277,17 +272,18 @@ class Assignments extends Crud {
             answers.forEach(answer => {
               let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               let incomingAnswers = JSON.parse(answer.answer);
-              let totNewAnswers = oldAnswers[tot]+1;
+              let totNewAnswers = oldAnswers[tot] + 1;
               for (var key in oldAnswers) {
                 if (oldAnswers.hasOwnProperty(key)) {
-                   if(incomingAnswers[key] && key !== 'tot'){
-                     let numbOfEmotion = ((oldAnswers[key] / 100) * oldAnswers[tot]);
-                     oldAnswers[key] = ((numbOfEmotion+1) / totalNewAnswers) *100;
-                   }
+                  if (incomingAnswers[key] && key !== "tot") {
+                    let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers[tot];
+                    oldAnswers[key] =
+                      (numbOfEmotion + 1) / totalNewAnswers * 100;
+                  }
                 }
-             }
-             oldAnswers[tot] = totNewAnswers;
-             oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
+              }
+              oldAnswers[tot] = totNewAnswers;
+              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
             let newStatistics = oldStatistics;
             run.update({
@@ -299,7 +295,7 @@ class Assignments extends Crud {
         }
       })
       .catch(error => res.status(400).send(error));
-      return;*/
+    return;
   }
 }
 
