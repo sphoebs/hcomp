@@ -228,14 +228,14 @@ class Assignments extends Crud {
   populateStatistic(answers, id_run) {
     console.log("sono dentro alla funzione populate");
     console.log(id_run);
-
-    /*runs
+    runs
       .findById(id_run)
       .then(run => {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
         switch (run.id_runtype) {
           case 7:
-            let oldStatistics = run.statistics;
+          console.log("case yes/no");
+            /*let oldStatistics = run.statistics;
             answers.forEach(answer => {
               let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               let yesPercentOfAnswers = oldAnswers.yes;
@@ -265,10 +265,10 @@ class Assignments extends Crud {
             let newStatistics = oldStatistics;
             run.update({
               statistics: newStatistics
-            });
+            });*/
             break;
           case 8:
-            let oldStatistics = run.statistics;
+            /*let oldStatistics = run.statistics;
             answers.forEach(answer => {
               let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               let incomingAnswers = JSON.parse(answer.answer);
@@ -289,13 +289,13 @@ class Assignments extends Crud {
             run.update({
               statistics: newStatistics
             });
-            break;
+            break;*/
           default:
             break;
         }
       })
       .catch(error => res.status(400).send(error));
-    return;*/
+    return;
   }
 }
 
