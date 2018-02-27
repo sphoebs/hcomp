@@ -13,6 +13,7 @@ module.exports = (sequelize,DataTypes) =>
       type: DataTypes.ARRAY(DataTypes.JSONB),
       defaultValue: []
     },
+    max_emotions: DataTypes.INTEGER,
     question: DataTypes.TEXT,
     tutorial: {
       type: DataTypes.ARRAY(DataTypes.TEXT),

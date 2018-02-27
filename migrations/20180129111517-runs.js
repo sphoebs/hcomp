@@ -33,6 +33,9 @@ module.exports = {
                     type: Sequelize.ARRAY(Sequelize.JSONB),
                     defaultValue: []
                 },
+                max_emotions: {
+                    type: Sequelize.TEXT
+                },
                 id_runtype: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
