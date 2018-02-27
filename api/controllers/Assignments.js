@@ -239,6 +239,12 @@ class Assignments extends Crud {
             console.log(oldStatistics);
             answers.forEach(answer => {
               console.log(Object.keys(oldStatistics).length);
+              if(Object.keys(oldStatistics).length > 0){
+                let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
+              }
+              else {
+                let oldAnswers = {};
+              }
               let oldAnswers = Object.keys(oldStatistics).length === 0 ? {} : JSON.parse(oldStatistics[answer.imgname]);
               console.log(oldAnswers);
               let yesPercentOfAnswers = oldAnswers.yes ? oldAnswers.yes : 0;
