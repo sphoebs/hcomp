@@ -262,7 +262,8 @@ class Assignments extends Crud {
                 });
               }
             });
-            let newStatistics = oldStatistics;
+            const newStatistics = oldStatistics;
+            console.log(newStatistics);
             run.update({
               statistics: newStatistics
             });
