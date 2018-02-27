@@ -278,10 +278,10 @@ class Assignments extends Crud {
           let oldStatistics = "";
           if(run.statistics){
             console.log("perche sono qui");
-            oldStatistics = run.statistics;
+            //oldStatistics = run.statistics;
           }
           else {
-            oldStatistics = {};
+            //oldStatistics = {};
           }
           console.log(oldStatistics);
             /*answers.forEach(answer => {
