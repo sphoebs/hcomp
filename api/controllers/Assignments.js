@@ -235,16 +235,16 @@ class Assignments extends Crud {
         switch (run.id_runtype) {
           case 7:
           console.log("case yes/no");
-            /*let oldStatistics = run.statistics;
+            let oldStatistics = run.statistics ? run.statistics : {};
             answers.forEach(answer => {
-              let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
-              let yesPercentOfAnswers = oldAnswers.yes;
-              let noPercentOfAnswers = oldAnswers.no;
-              let totalAnswers = oldAnswers.totalAnswers;
-              let numberOfYes = totalAnswers
+              let oldAnswers = oldStatistics ? JSON.parse(oldStatistics[answer.imgname]) : {};
+              let yesPercentOfAnswers = oldAnswers.yes ? oldAnswers.yes : 0;
+              let noPercentOfAnswers = oldAnswers.no ? oldAnswers.no : 0;
+              let totalAnswers = oldAnswers.totalAnswers ? oldAnswers.totalAnswers : 0;
+              let numberOfYes = totalAnswers > 0
                 ? totalAnswers * yesPercentOfAnswers / 100
                 : 0;
-              let numberOfNo = totalAnswers
+              let numberOfNo = totalAnswers > 0
                 ? totalAnswers * noPercentOfAnswers / 100
                 : 0;
               let newTotalAnswers = totalAnswers++;
@@ -265,7 +265,7 @@ class Assignments extends Crud {
             let newStatistics = oldStatistics;
             run.update({
               statistics: newStatistics
-            });*/
+            });
             break;
           case 8:
             /*let oldStatistics = run.statistics;
