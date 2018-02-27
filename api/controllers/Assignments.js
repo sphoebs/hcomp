@@ -241,6 +241,7 @@ class Assignments extends Crud {
               console.log(Object.keys(oldStatistics).length);
               let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== 'undefined') {
+                console.log("entro veramente qui?");
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
                 oldAnswers = {};
