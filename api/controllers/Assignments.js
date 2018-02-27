@@ -208,6 +208,7 @@ class Assignments extends Crud {
             });
           });
           if (req.body.is_completed) {
+            console.log("completata");
             this.populateStatistic(req.body.answers, req.body.id_run);
           }
           tmp = data
@@ -227,7 +228,8 @@ class Assignments extends Crud {
       .catch(error => res.status(400).send(error));
   }
   populateStatistic(answers, id_run) {
-    return runs
+    console.log("sono dentro alla funzione populate");
+    runs
       .findById(id_run)
       .then(run => {
         /*
@@ -296,6 +298,7 @@ class Assignments extends Crud {
         }
       })
       .catch(error => res.status(400).send(error));
+      return;
   }
 }
 
