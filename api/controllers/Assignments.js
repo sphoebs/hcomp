@@ -208,7 +208,7 @@ class Assignments extends Crud {
             });
           });
           if (req.body.is_completed) {
-            populateStatistic(req.body.answers, req.body.id_run);
+            this.populateStatistic(req.body.answers, req.body.id_run);
           }
           tmp = data
             .update({
