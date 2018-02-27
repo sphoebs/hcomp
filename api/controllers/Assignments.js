@@ -207,11 +207,11 @@ class Assignments extends Crud {
               imgname: answer.imgname
             });
           });
-          /*if (req.body.is_completed) {
+          if (req.body.is_completed) {
             console.log("completata");
             this.populateStatistic(req.body.answers, req.body.id_run);
             console.log("dopo populate");
-          }*/
+          }
           tmp = data
             .update({
               id_worker: req.body.id_worker,
@@ -231,13 +231,11 @@ class Assignments extends Crud {
 
   populateStatistic(answers, id_run) {
     console.log("sono dentro alla funzione populate");
-    runs
+    console.log(id_run);
+    console.log(answers);
+    /*runs
       .findById(id_run)
       .then(run => {
-        /*
-        PER YES/NO quando finisco un assignment (oldtotyes+1)/newtot per la prima domanda
-        PER WHEEL QUANDO FINISCO UN ASSIGNMENT (object[sentimento] = oldsentimento+1/totrisposte)
-    */
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
         switch (run.id_runtype) {
           case 7:
@@ -300,7 +298,7 @@ class Assignments extends Crud {
         }
       })
       .catch(error => res.status(400).send(error));
-      return;
+      return;*/
   }
 }
 
