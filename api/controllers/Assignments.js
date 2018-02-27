@@ -277,7 +277,7 @@ class Assignments extends Crud {
           console.log("Wheel")
           let oldStatistics = run.statistics ? run.statistics : {};
           console.log("Old Stats: ",oldStatistics);
-            answers.forEach(answer => {
+            /*answers.forEach(answer => {
               let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
