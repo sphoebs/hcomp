@@ -295,7 +295,7 @@ class Assignments extends Crud {
             break;
         }
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => console.log(error));
     return;
   }
 }
