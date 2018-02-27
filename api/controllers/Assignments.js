@@ -273,7 +273,9 @@ class Assignments extends Crud {
               .catch(error => console.log(error));
             break;
           case 8:
+          console.log("Wheel")
           let oldStatistics = run.statistics;
+          console.log("Old Stats: ",oldStatistics);
             answers.forEach(answer => {
               let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
@@ -282,6 +284,7 @@ class Assignments extends Crud {
                 oldAnswers = {};
               }
               let incomingAnswers = JSON.parse(answer.answer);
+              console.log(incomingAnswers);
               let totNewAnswers = oldAnswers[tot] ? oldAnswers[tot]+ 1 : 0;
               for (var key in oldAnswers) {
                 if (oldAnswers.hasOwnProperty(key)) {
@@ -298,7 +301,10 @@ class Assignments extends Crud {
             let newStatistics = oldStatistics;
             run.update({
               statistics: newStatistics
-            });
+            }).then(run => {
+              console.log("EveryThing Goes Ok");
+            })
+            .catch(error => console.log(error));
             break;
           default:
             break;
