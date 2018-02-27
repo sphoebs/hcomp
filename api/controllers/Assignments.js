@@ -240,7 +240,7 @@ class Assignments extends Crud {
             answers.forEach(answer => {
               console.log(Object.keys(oldStatistics).length);
               let oldAnswers = "";
-              if (Object.keys(oldStatistics).length > 0) {
+              if (oldStatistics[answer.imgname]!== 'undefined') {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
                 oldAnswers = {};
