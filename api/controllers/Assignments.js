@@ -209,7 +209,9 @@ class Assignments extends Crud {
           });
           if (req.body.is_completed) {
             console.log("completata");
+            this.prova('lol');
             this.populateStatistic(req.body.answers, req.body.id_run);
+
             console.log("dopo populate");
           }
           tmp = data
@@ -227,6 +229,9 @@ class Assignments extends Crud {
         return tmp;
       })
       .catch(error => res.status(400).send(error));
+  }
+  prova(a){
+    console.log(a);
   }
   populateStatistic(answers, id_run) {
     console.log("sono dentro alla funzione populate");
