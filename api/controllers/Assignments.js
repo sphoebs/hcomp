@@ -209,7 +209,7 @@ class Assignments extends Crud {
           });
           if (req.body.is_completed) {
             console.log("sto per entrare");
-            this.populateStatistic(req.body.answers, data.id_run);
+            //this.populateStatistic(req.body.answers, data.id_run);
             console.log("dopo populate");
           }
           tmp = data
