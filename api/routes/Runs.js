@@ -14,7 +14,6 @@ module.exports = app => {
   });
 
   app.get("/tasks/runs/:id", (req, res) => {
-    console.log("wtf");
     controller.readOne(req, res);
   });
 

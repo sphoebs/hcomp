@@ -2,6 +2,7 @@ const Crud = require("./Crud");
 const assignments = require("../models").assignments;
 const users = require("../models").users;
 const runs = require("../models").runs;
+const { EngEmotions } = require("../Utility/Emotions");
 const {
   readQuery,
   securityControl,
@@ -12,7 +13,7 @@ const {
 const id_task = "id_task";
 const id_runType = "id_runtype";
 const id_run = "id_run";
-const worker = 'worker';
+const worker = "worker";
 class Assignments extends Crud {
   constructor() {
     super(assignments);
@@ -21,24 +22,24 @@ class Assignments extends Crud {
 
   create(req, res) {
     return this.model
-    .findOne({where: {id_worker: req.body.id_worker, id_run: req.body.id_run}})
-    .then(assignment => {
-      if(!assignment){
-        this.model
-        .create(req.body)
-        .then(data => res.status(200).send(JSON.stringify(data.id)))
-        .catch(error => res.status(400).send(error));
-      }
-      else {
-        if(!assignment.is_completed){
-          return res.status(200).send(assignment);
+      .findOne({
+        where: { id_worker: req.body.id_worker, id_run: req.body.id_run }
+      })
+      .then(assignment => {
+        if (!assignment) {
+          this.model
+            .create(req.body)
+            .then(data => res.status(200).send(JSON.stringify(data.id)))
+            .catch(error => res.status(400).send(error));
+        } else {
+          if (!assignment.is_completed) {
+            return res.status(200).send(assignment);
+          } else {
+            return res.status(200).send({ message: "Assignment already done" });
+          }
         }
-        else {
-          return res.status(200).send({message: 'Assignment already done'});
-        }
-      }
-    })
-    .catch(error => res.status(400).send(error));
+      })
+      .catch(error => res.status(400).send(error));
   }
 
   guestMotivational(req, res) {
@@ -175,7 +176,7 @@ class Assignments extends Crud {
             .catch(error => (tmp = res.status(400).send(error)));
           break;
         case worker:
-        console.log(query.parameter);
+          console.log(query.parameter);
           return this.model
             .findAll({ where: { id_worker: query.parameter } })
             .then(data => (tmp = res.status(200).send(data)))
@@ -201,11 +202,14 @@ class Assignments extends Crud {
         } else {
           let newAnswers = [];
           req.body.answers.forEach(answer => {
-              newAnswers.push({
-                answer: JSON.stringify(answer.answer),
-                imgname: answer.imgname
-              })
-          })
+            newAnswers.push({
+              answer: JSON.stringify(answer.answer),
+              imgname: answer.imgname
+            });
+          });
+          if (req.body.is_completed) {
+            populateStatistic(req.body.answers, req.body.id_run);
+          }
           tmp = data
             .update({
               id_worker: req.body.id_worker,
@@ -219,6 +223,77 @@ class Assignments extends Crud {
             .catch(error => res.status(400).send(error));
         }
         return tmp;
+      })
+      .catch(error => res.status(400).send(error));
+  }
+  populateStatistic(answers, id_run) {
+    return runs
+      .findById(id_run)
+      .then(run => {
+        /*
+        PER YES/NO quando finisco un assignment (oldtotyes+1)/newtot per la prima domanda
+        PER WHEEL QUANDO FINISCO UN ASSIGNMENT (object[sentimento] = oldsentimento+1/totrisposte)
+    */
+        //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
+        switch (run.id_runtype) {
+          case 7:
+            let oldStatistics = run.statistics;
+            answers.forEach(answer => {
+              let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
+              let yesPercentOfAnswers = oldAnswers.yes;
+              let noPercentOfAnswers = oldAnswers.no;
+              let totalAnswers = oldAnswers.totalAnswers;
+              let numberOfYes = totalAnswers
+                ? totalAnswers * yesPercentOfAnswers / 100
+                : 0;
+              let numberOfNo = totalAnswers
+                ? totalAnswers * noPercentOfAnswers / 100
+                : 0;
+              let newTotalAnswers = totalAnswers++;
+              if (answer.answer === yes) {
+                oldStatistics[answer.imgname] = JSON.stringify({
+                  yes: (numberOfYes + 1) / newTotalAnswers * 100,
+                  no: noPercentOfAnswers,
+                  totalAnswers: newTotalAnswers
+                });
+              } else {
+                oldStatistics[answer.imgname] = JSON.stringify({
+                  yes: yesPercentOfAnswers,
+                  no: (numberOfNo + 1) / newTotalAnswers * 100,
+                  totalAnswers: newTotalAnswers
+                });
+              }
+            });
+            let newStatistics = oldStatistics;
+            run.update({
+              statistics: newStatistics
+            });
+            break;
+          case 8:
+            let oldStatistics = run.statistics;
+            answers.forEach(answer => {
+              let oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
+              let incomingAnswers = JSON.parse(answer.answer);
+              let totNewAnswers = oldAnswers[tot]+1;
+              for (var key in oldAnswers) {
+                if (oldAnswers.hasOwnProperty(key)) {
+                   if(incomingAnswers[key] && key !== 'tot'){
+                     let numbOfEmotion = ((oldAnswers[key] / 100) * oldAnswers[tot]);
+                     oldAnswers[key] = ((numbOfEmotion+1) / totalNewAnswers) *100;
+                   }
+                }
+             }
+             oldAnswers[tot] = totNewAnswers;
+             oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
+            });
+            let newStatistics = oldStatistics;
+            run.update({
+              statistics: newStatistics
+            });
+            break;
+          default:
+            break;
+        }
       })
       .catch(error => res.status(400).send(error));
   }

@@ -27,7 +27,11 @@ module.exports = {
                 },
                 tutorial: {
                     type: Sequelize.ARRAY(Sequelize.TEXT),
-                    defaultValue: []                     
+                    defaultValue: []
+                },
+                statistics: {
+                    type: Sequelize.ARRAY(Sequelize.JSONB),
+                    defaultValue: []
                 },
                 id_runtype: {
                     type: Sequelize.INTEGER,

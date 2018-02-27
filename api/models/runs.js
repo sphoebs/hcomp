@@ -9,6 +9,10 @@ module.exports = (sequelize,DataTypes) =>
       type: DataTypes.ARRAY(DataTypes.JSONB),
       defaultValue: []
     },
+    statistics: {
+      type: DataTypes.ARRAY(DataTypes.JSONB),
+      defaultValue: []
+    },
     question: DataTypes.TEXT,
     tutorial: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
