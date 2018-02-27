@@ -229,7 +229,7 @@ class Assignments extends Crud {
     console.log("sono dentro alla funzione populate");
     console.log(id_run);
 
-    runs
+    /*runs
       .findById(id_run)
       .then(run => {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
@@ -295,7 +295,7 @@ class Assignments extends Crud {
         }
       })
       .catch(error => res.status(400).send(error));
-    return;
+    return;*/
   }
 }
 
