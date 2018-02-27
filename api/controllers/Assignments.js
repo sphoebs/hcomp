@@ -266,7 +266,10 @@ class Assignments extends Crud {
             console.log(newStatistics);
             run.update({
               statistics: newStatistics
-            });
+            })
+            .then(run => {
+              console.log("EveryThing Goes Ok");
+            }).catch(error => console.log(error));
             break;
           case 8:
             /*let oldStatistics = run.statistics;
