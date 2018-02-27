@@ -264,12 +264,12 @@ class Assignments extends Crud {
             });
             const newStatistics = oldStatistics;
             console.log(newStatistics);
-            run.update({
+            /*run.update({
               statistics: newStatistics
             })
             .then(run => {
               console.log("EveryThing Goes Ok");
-            }).catch(error => console.log(error));
+            }).catch(error => console.log(error));*/
             break;
           case 8:
             /*let oldStatistics = run.statistics;
