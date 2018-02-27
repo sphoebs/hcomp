@@ -30,8 +30,8 @@ module.exports = {
                     defaultValue: []
                 },
                 statistics: {
-                    type: Sequelize.ARRAY(Sequelize.JSONB),
-                    defaultValue: []
+                    type: Sequelize.JSONB,
+                    defaultValue: {}
                 },
                 max_emotions: {
                     type: Sequelize.TEXT

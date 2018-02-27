@@ -10,8 +10,8 @@ module.exports = (sequelize,DataTypes) =>
       defaultValue: []
     },
     statistics: {
-      type: DataTypes.ARRAY(DataTypes.JSONB),
-      defaultValue: []
+      type: DataTypes.JSONB,
+      defaultValue: {}
     },
     max_emotions: DataTypes.INTEGER,
     question: DataTypes.TEXT,

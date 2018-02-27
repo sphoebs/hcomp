@@ -251,7 +251,7 @@ class Assignments extends Crud {
               if (answer.answer === 'Yes') {
                 oldStatistics[answer.imgname] = JSON.stringify({
                   yes: (numberOfYes + 1) / newTotalAnswers * 100,
-                  no: (numberOfNo + 1) / newTotalAnswers * 100,
+                  no: (numberOfNo) / newTotalAnswers * 100,
                   totalAnswers: newTotalAnswers
                 });
               } else {
