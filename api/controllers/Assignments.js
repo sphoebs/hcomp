@@ -285,7 +285,7 @@ class Assignments extends Crud {
               console.log(incomingAnswers);
               let totNewAnswers = "";
               if (oldAnswers[tot]!== undefined) {
-                totalNewAnswers = oldAnswers[tot] + 1;
+                totNewAnswers = oldAnswers[tot] + 1;
               } else {
                 totNewAnswers = 0;
               }
@@ -294,7 +294,7 @@ class Assignments extends Crud {
                   if (incomingAnswers[key] && key !== "tot") {
                     let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers[tot];
                     oldAnswers[key] =
-                      (numbOfEmotion + 1) / totalNewAnswers * 100;
+                      (numbOfEmotion + 1) / totNewAnswers * 100;
                   }
                 }
               }
