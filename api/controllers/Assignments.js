@@ -295,8 +295,8 @@ class Assignments extends Crud {
                 }
               }
               oldAnswers[tot] = totNewAnswers;
-              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
-            });*/
+              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);*/
+            });
             /*let newStatistics = oldStatistics;
             run.update({
               statistics: newStatistics
