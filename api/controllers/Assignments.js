@@ -282,7 +282,7 @@ class Assignments extends Crud {
                 oldAnswers = {};
               }
               console.log(answer.answer);
-              /*let incomingAnswers = JSON.parse(answer.answer);
+              let incomingAnswers = answer.answer;
               console.log(incomingAnswers);
               let totNewAnswers = oldAnswers.tot ? oldAnswers.tot + 1 : 0;
               for (var key in oldAnswers) {
@@ -295,15 +295,15 @@ class Assignments extends Crud {
                 }
               }
               oldAnswers[tot] = totNewAnswers;
-              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);*/
+              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
-            /*let newStatistics = oldStatistics;
+            let newStatistics = oldStatistics;
             run.update({
               statistics: newStatistics
             }).then(run => {
               console.log("EveryThing Goes Ok");
             })
-            .catch(error => console.log(error));*/
+            .catch(error => console.log(error));
             break;
           default:
             break;
