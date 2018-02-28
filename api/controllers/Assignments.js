@@ -289,7 +289,7 @@ class Assignments extends Crud {
               } else {
                 totNewAnswers = 0;
               }
-              for (var key in oldAnswers) {
+              /*for (var key in oldAnswers) {
                 if (oldAnswers.hasOwnProperty(key)) {
                   if (incomingAnswers[key] && key !== "tot") {
                     let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers[tot];
@@ -297,17 +297,17 @@ class Assignments extends Crud {
                       (numbOfEmotion + 1) / totNewAnswers * 100;
                   }
                 }
-              }
+              }*/
               oldAnswers[tot] = totNewAnswers;
               oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
             let newStatistics = oldStatistics;
-            run.update({
+            /*run.update({
               statistics: newStatistics
             }).then(run => {
               console.log("EveryThing Goes Ok");
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error));*/
             break;
           default:
             break;
