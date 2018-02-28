@@ -281,7 +281,8 @@ class Assignments extends Crud {
               } else {
                 oldAnswers = {};
               }
-              let incomingAnswers = JSON.parse(answer.answer);
+              console.log(answer.answer);
+              /*let incomingAnswers = JSON.parse(answer.answer);
               console.log(incomingAnswers);
               let totNewAnswers = oldAnswers.tot ? oldAnswers.tot + 1 : 0;
               for (var key in oldAnswers) {
@@ -295,7 +296,7 @@ class Assignments extends Crud {
               }
               oldAnswers[tot] = totNewAnswers;
               oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
-            });
+            });*/
             /*let newStatistics = oldStatistics;
             run.update({
               statistics: newStatistics
