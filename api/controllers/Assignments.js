@@ -281,10 +281,14 @@ class Assignments extends Crud {
               } else {
                 oldAnswers = {};
               }
-              console.log(answer.answer);
               let incomingAnswers = answer.answer;
               console.log(incomingAnswers);
-              let totNewAnswers = oldAnswers.tot ? oldAnswers.tot + 1 : 0;
+              let totNewAnswers = "";
+              if (oldAnswers[tot]!== undefined) {
+                totalNewAnswers = oldAnswers[tot] + 1;
+              } else {
+                totNewAnswers = 0;
+              }
               for (var key in oldAnswers) {
                 if (oldAnswers.hasOwnProperty(key)) {
                   if (incomingAnswers[key] && key !== "tot") {
