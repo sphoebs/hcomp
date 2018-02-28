@@ -234,10 +234,10 @@ class Assignments extends Crud {
       .then(run => {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
         let oldStatistics = run.statistics ? run.statistics : {};
+        let oldAnswers = "";
         switch (run.id_runtype) {
           case 7:
             answers.forEach(answer => {
-              let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
@@ -275,10 +275,7 @@ class Assignments extends Crud {
             break;
           case 8:
           console.log("Wheel");
-          console.log(run.statistics);
-          console.log(oldStatistics);
           answers.forEach(answer => {
-              let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
@@ -299,13 +296,13 @@ class Assignments extends Crud {
               oldAnswers[tot] = totNewAnswers;
               oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
-            let newStatistics = oldStatistics;
+            /*let newStatistics = oldStatistics;
             run.update({
               statistics: newStatistics
             }).then(run => {
               console.log("EveryThing Goes Ok");
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error));*/
             break;
           default:
             break;

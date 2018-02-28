@@ -44,7 +44,6 @@ const Decode = token => {
  */
 
 const ensureAuthorization = (req, res, next) => {
-  console.log(req.headers.authorization);
   let decodedJWT = Decode(req.headers.authorization);
   if (decodedJWT) {
     return next();
