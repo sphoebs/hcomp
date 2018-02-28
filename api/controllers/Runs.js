@@ -55,6 +55,7 @@ class Runs extends Crud {
     let query = req.query;
     switch (query.filter) {
       case "stats":
+      let decodedJWT = Decode(req.headers.authorization);
       return this.model
           .findById(req.params.id)
           .then(run => {
