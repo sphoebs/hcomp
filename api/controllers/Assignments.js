@@ -303,12 +303,12 @@ class Assignments extends Crud {
               oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
             newStatistics = oldStatistics;
-            /*run.update({
+            run.update({
               statistics: newStatistics
             }).then(run => {
               console.log("EveryThing Goes Ok");
             })
-            .catch(error => console.log(error));*/
+            .catch(error => console.log(error));
             break;
           default:
             break;
