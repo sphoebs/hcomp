@@ -57,7 +57,15 @@ class Runs extends Crud {
       case "stats":
       return this.model
           .findById(req.params.id)
-          .then(run => res.status(200).send(JSON.stringify(run.statistics)))
+          .then(run => {
+            tasks.findOne({where: {id: run.id_task}})
+            .then(task => {
+              if (task.collaborators.indexOf(decodedJWT.creator)) {
+                return res.status(200).send(JSON.stringify(run.statistics));
+              }
+            })
+            .catch(error => res.status(400).send(error));
+          })
           .catch(error => res.status(400).send(error));
       break;
       default:
