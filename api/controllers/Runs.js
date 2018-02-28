@@ -77,7 +77,8 @@ class Runs extends Crud {
                   is_deleted: run.is_deleted,
                   is_active: run.is_active,
                   max_assignments: run.max_assignments,
-                  index: run.index
+                  index: run.index,
+                  max_emotions: run.max_emotions
                 };
                 tmp = res.status(200).send(JSON.stringify(payload));
               }
