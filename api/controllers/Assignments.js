@@ -233,9 +233,9 @@ class Assignments extends Crud {
       .findById(id_run)
       .then(run => {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
+        let oldStatistics = run.statistics ? run.statistics : {};
         switch (run.id_runtype) {
           case 7:
-            let oldStatistics = run.statistics ? run.statistics : {};
             answers.forEach(answer => {
               let oldAnswers = "";
               if (oldStatistics[answer.imgname]!== undefined) {
@@ -275,10 +275,8 @@ class Assignments extends Crud {
             break;
           case 8:
           console.log("Wheel");
-          let mistero = "";
           console.log(run.statistics);
-          console.log(mistero);
-          
+          console.log(oldStatistics);
           //console.log(oldStatistics);
             /*answers.forEach(answer => {
               let oldAnswers = "";
