@@ -235,24 +235,28 @@ class Assignments extends Crud {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
         let oldStatistics = run.statistics ? run.statistics : {};
         let oldAnswers = "";
-        let newStatistics = '';
+        let newStatistics = "";
         switch (run.id_runtype) {
           case 7:
             answers.forEach(answer => {
-              if (oldStatistics[answer.imgname]!== undefined) {
+              if (oldStatistics[answer.imgname] !== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
                 oldAnswers = {};
               }
               let yesPercentOfAnswers = oldAnswers.Yes ? oldAnswers.Yes : 0;
               let noPercentOfAnswers = oldAnswers.No ? oldAnswers.No : 0;
-              let totalAnswers = oldAnswers.totalAnswers ? oldAnswers.totalAnswers : 0;
-              let numberOfYes = totalAnswers > 0 ? totalAnswers * yesPercentOfAnswers / 100 : 0;
-              let numberOfNo = totalAnswers > 0 ? totalAnswers * noPercentOfAnswers / 100 : 0;
+              let totalAnswers = oldAnswers.totalAnswers
+                ? oldAnswers.totalAnswers
+                : 0;
+              let numberOfYes =
+                totalAnswers > 0 ? totalAnswers * yesPercentOfAnswers / 100 : 0;
+              let numberOfNo =
+                totalAnswers > 0 ? totalAnswers * noPercentOfAnswers / 100 : 0;
               let newTotalAnswers = totalAnswers + 1;
               if (answer.answer === "Yes") {
                 oldStatistics[answer.imgname] = JSON.stringify({
-                  Yes: ((numberOfYes + 1) / newTotalAnswers) * 100,
+                  Yes: (numberOfYes + 1) / newTotalAnswers * 100,
                   No: numberOfNo / newTotalAnswers * 100,
                   totalAnswers: newTotalAnswers
                 });
@@ -275,40 +279,57 @@ class Assignments extends Crud {
               .catch(error => console.log(error));
             break;
           case 8:
-          console.log("Wheel");
-          answers.forEach(answer => {
-              if (oldStatistics[answer.imgname]!== undefined) {
+            console.log("Wheel");
+            answers.forEach(answer => {
+              if (oldStatistics[answer.imgname] !== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
               } else {
                 oldAnswers = {};
               }
               let incomingAnswers = answer.answer;
               console.log(incomingAnswers);
-              let totNewAnswers = "";
-              if (oldAnswers['tot']!== undefined) {
+              let totNewAnswers = 0;
+              if (oldAnswers["tot"] !== undefined) {
                 totNewAnswers = oldAnswers[tot] + 1;
               } else {
-                totNewAnswers = 0;
+                totNewAnswers = totalAnswers + 1;
               }
-              for (var key in oldAnswers) {
-                if (oldAnswers.hasOwnProperty(key)) {
-                  if (incomingAnswers[key] && key !== "tot") {
-                    let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers[tot];
-                    oldAnswers[key] =
-                      (numbOfEmotion + 1) / totNewAnswers * 100;
+              if (Object.keys(oldAnswers).length > 0) {
+                console.log("non c'è nulla pero entra");
+                for (var key in oldAnswers) {
+                  if (oldAnswers.hasOwnProperty(key)) {
+                    if (incomingAnswers[key] && key !== "tot") {
+                      let numbOfEmotion =
+                        oldAnswers[key] / 100 * oldAnswers[tot];
+                      oldAnswers[key] =
+                        (numbOfEmotion + 1) / totNewAnswers * 100;
+                    }
+                  }
+                }
+              } else {
+                console.log("posto giusto");
+                for (var key in incomingAnswers) {
+                  if (incomingAnswers.hasOwnProperty(key)) {
+                    if (key !== "tot") {
+                      let numbOfEmotion = 0
+                      oldAnswers[key] =
+                        (numbOfEmotion + 1) / totNewAnswers * 100;
+                    }
                   }
                 }
               }
-              oldAnswers['tot'] = totNewAnswers;
+              oldAnswers["tot"] = totNewAnswers;
               oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
             newStatistics = oldStatistics;
-            run.update({
-              statistics: newStatistics
-            }).then(run => {
-              console.log("EveryThing Goes Ok");
-            })
-            .catch(error => console.log(error));
+            run
+              .update({
+                statistics: newStatistics
+              })
+              .then(run => {
+                console.log("EveryThing Goes Ok");
+              })
+              .catch(error => console.log(error));
             break;
           default:
             break;
