@@ -292,7 +292,7 @@ class Assignments extends Crud {
               if (oldAnswers["tot"] !== undefined) {
                 totNewAnswers = oldAnswers[tot] + 1;
               } else {
-                totNewAnswers = totalAnswers + 1;
+                totNewAnswers = totNewAnswers + 1;
               }
               if (Object.keys(oldAnswers).length > 0) {
                 console.log("non c'è nulla pero entra");
