@@ -246,25 +246,25 @@ class Assignments extends Crud {
               }
               let yesPercentOfAnswers = oldAnswers.Yes ? oldAnswers.Yes : 0;
               let noPercentOfAnswers = oldAnswers.No ? oldAnswers.No : 0;
-              let totalAnswers = oldAnswers.totalAnswers
-                ? oldAnswers.totalAnswers
+              let tot = oldAnswers.tot
+                ? oldAnswers.tot
                 : 0;
               let numberOfYes =
-                totalAnswers > 0 ? totalAnswers * yesPercentOfAnswers / 100 : 0;
+                tot > 0 ? tot * yesPercentOfAnswers / 100 : 0;
               let numberOfNo =
-                totalAnswers > 0 ? totalAnswers * noPercentOfAnswers / 100 : 0;
-              let newTotalAnswers = totalAnswers + 1;
+                tot > 0 ? tot * noPercentOfAnswers / 100 : 0;
+              let newTotalAnswers = tot + 1;
               if (answer.answer === "Yes") {
                 oldStatistics[answer.imgname] = JSON.stringify({
                   Yes: (numberOfYes + 1) / newTotalAnswers * 100,
                   No: numberOfNo / newTotalAnswers * 100,
-                  totalAnswers: newTotalAnswers
+                  tot: newTotalAnswers
                 });
               } else {
                 oldStatistics[answer.imgname] = JSON.stringify({
                   Yes: numberOfYes / newTotalAnswers * 100,
                   No: (numberOfNo + 1) / newTotalAnswers * 100,
-                  totalAnswers: newTotalAnswers
+                  tot: newTotalAnswers
                 });
               }
             });
