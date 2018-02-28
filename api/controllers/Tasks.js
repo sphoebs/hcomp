@@ -205,7 +205,8 @@ class Tasks extends Crud {
                         introduction: element.introduction,
                         id_runtype: element.type,
                         question: element.question,
-                        index: element.index
+                        index: element.index,
+                        max_emotions: element.max_emotions
                       })
                       .then(run => {
                         count += 1;
