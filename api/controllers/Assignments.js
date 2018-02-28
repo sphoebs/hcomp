@@ -285,12 +285,12 @@ class Assignments extends Crud {
               let incomingAnswers = answer.answer;
               console.log(incomingAnswers);
               let totNewAnswers = "";
-              /*if (oldAnswers['tot']!== undefined) {
+              if (oldAnswers['tot']!== undefined) {
                 totNewAnswers = oldAnswers[tot] + 1;
               } else {
                 totNewAnswers = 0;
               }
-              /*for (var key in oldAnswers) {
+              for (var key in oldAnswers) {
                 if (oldAnswers.hasOwnProperty(key)) {
                   if (incomingAnswers[key] && key !== "tot") {
                     let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers[tot];
@@ -300,7 +300,7 @@ class Assignments extends Crud {
                 }
               }
               oldAnswers['tot'] = totNewAnswers;
-              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);*/
+              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
             newStatistics = oldStatistics;
             /*run.update({
