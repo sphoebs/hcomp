@@ -275,11 +275,10 @@ class Assignments extends Crud {
             break;
           case 8:
           console.log("Wheel");
-          let ok = true;
+          let mistero = "true";
           console.log(run.statistics);
-          if(ok){
-            console.log("ora funziona?");
-          }
+          console.log(mistero);
+          
           //console.log(oldStatistics);
             /*answers.forEach(answer => {
               let oldAnswers = "";
