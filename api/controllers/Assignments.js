@@ -275,7 +275,7 @@ class Assignments extends Crud {
             break;
           case 8:
           console.log("Wheel");
-          let mistero = "true";
+          let mistero = "";
           console.log(run.statistics);
           console.log(mistero);
           
