@@ -290,7 +290,7 @@ class Assignments extends Crud {
               console.log(incomingAnswers);
               let totNewAnswers = 0;
               if (oldAnswers["tot"] !== undefined) {
-                totNewAnswers = oldAnswers[tot] + 1;
+                totNewAnswers = oldAnswers['tot'] + 1;
               } else {
                 totNewAnswers = totNewAnswers + 1;
               }
