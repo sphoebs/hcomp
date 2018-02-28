@@ -235,6 +235,7 @@ class Assignments extends Crud {
         //TODO: per ora funziona solo su id 7 e 8. 7 yes/no | 8 wheel
         let oldStatistics = run.statistics ? run.statistics : {};
         let oldAnswers = "";
+        let newStatistics = '';
         switch (run.id_runtype) {
           case 7:
             answers.forEach(answer => {
@@ -263,7 +264,7 @@ class Assignments extends Crud {
                 });
               }
             });
-            let newStatistics = oldStatistics;
+            newStatistics = oldStatistics;
             run
               .update({
                 statistics: newStatistics
@@ -284,7 +285,7 @@ class Assignments extends Crud {
               let incomingAnswers = answer.answer;
               console.log(incomingAnswers);
               let totNewAnswers = "";
-              if (oldAnswers['tot']!== undefined) {
+              /*if (oldAnswers['tot']!== undefined) {
                 totNewAnswers = oldAnswers[tot] + 1;
               } else {
                 totNewAnswers = 0;
@@ -297,11 +298,11 @@ class Assignments extends Crud {
                       (numbOfEmotion + 1) / totNewAnswers * 100;
                   }
                 }
-              }*/
+              }
               oldAnswers['tot'] = totNewAnswers;
-              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
+              oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);*/
             });
-            let newStatistics = oldStatistics;
+            newStatistics = oldStatistics;
             /*run.update({
               statistics: newStatistics
             }).then(run => {
