@@ -284,7 +284,7 @@ class Assignments extends Crud {
               let incomingAnswers = answer.answer;
               console.log(incomingAnswers);
               let totNewAnswers = "";
-              if (oldAnswers[tot]!== undefined) {
+              if (oldAnswers['tot']!== undefined) {
                 totNewAnswers = oldAnswers[tot] + 1;
               } else {
                 totNewAnswers = 0;
@@ -298,7 +298,7 @@ class Assignments extends Crud {
                   }
                 }
               }*/
-              oldAnswers[tot] = totNewAnswers;
+              oldAnswers['tot'] = totNewAnswers;
               oldStatistics[answer.imgname] = JSON.stringify(oldAnswers);
             });
             let newStatistics = oldStatistics;
