@@ -295,13 +295,19 @@ class Assignments extends Crud {
                 totNewAnswers = totNewAnswers + 1;
               }
               if (Object.keys(oldAnswers).length > 0) {
+                for (var key in incomingAnswers) {
+                  if (incomingAnswers.hasOwnProperty(key)) {
+                    if (incomingAnswers[key] && key !== "tot") {
+                      let numbOfEmotion = oldAnswers[key] ? (oldAnswers[key] / 100 * oldAnswers['tot']) : 0;
+                      oldAnswers[key] = (numbOfEmotion + 1) / totNewAnswers * 100;
+                    }
+                  }
+                }
                 for (var key in oldAnswers) {
                   if (oldAnswers.hasOwnProperty(key)) {
-                    if (incomingAnswers[key] && key !== "tot") {
-                      let numbOfEmotion =
-                        oldAnswers[key] / 100 * oldAnswers['tot'];
-                      oldAnswers[key] =
-                        (numbOfEmotion + 1) / totNewAnswers * 100;
+                    if (!incomingAnswers[key] && key !== "tot") {
+                      let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers['tot'];
+                      oldAnswers[key] = (numbOfEmotion + 1) / totNewAnswers * 100;
                     }
                   }
                 }
