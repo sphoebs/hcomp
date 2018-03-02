@@ -7,8 +7,8 @@ module.exports = (sequelize,DataTypes) =>
     introduction: DataTypes.TEXT,
     avatar_image: DataTypes.TEXT,
     id_creator: DataTypes.INTEGER,
-    is_deleted: DataTypes.BOOLEAN,
-    is_active: DataTypes.BOOLEAN,
+    is_public: DataTypes.BOOLEAN,
+    is_live: DataTypes.BOOLEAN,
     collaborators: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
       defaultValue: []

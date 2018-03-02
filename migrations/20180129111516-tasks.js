@@ -33,16 +33,16 @@ module.exports = {
                 },
                 collaborators: {
                     type: Sequelize.ARRAY(Sequelize.INTEGER),
-                    defaultValue: []                     
+                    defaultValue: []
                 },
                 tutorial: {
                     type: Sequelize.ARRAY(Sequelize.TEXT),
-                    defaultValue: []                     
+                    defaultValue: []
                 },
-                is_deleted: {
+                is_live: {
                     type: Sequelize.BOOLEAN
                 },
-                is_active: {
+                is_public: {
                     type: Sequelize.BOOLEAN
                 },
                 createdAt: {

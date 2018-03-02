@@ -100,7 +100,7 @@ class Tasks extends Crud {
       case recentTasks:
         return this.model
           .findAll({
-            where: { is_active: true },
+            where: { is_live: true, is_public: true },
             limit: 4,
             order: [["updatedAt", "DESC"]]
           })
@@ -122,7 +122,7 @@ class Tasks extends Crud {
             return  res.status(500).send({ message: "INTERNAL ERROR" });
             console.log(err);
           } else {
-            const query = `SELECT t.* FROM tasks AS t INNER JOIN (SELECT min(id_task) as id_task,max("createdAt")  FROM assignments GROUP BY id_task) AS a ON t.id=a.id_task LIMIT 4;`;
+            const query = `SELECT t.* FROM tasks WHERE t.is_live=true AND t.is_public=true AS t INNER JOIN (SELECT min(id_task) as id_task,max("createdAt")  FROM assignments GROUP BY id_task) AS a ON t.id=a.id_task LIMIT 4;`;
             client.query(query, (err, result) => {
               done();
               if (err) {
@@ -138,7 +138,7 @@ class Tasks extends Crud {
         break;
       default:
         return this.model
-          .findAll()
+          .findAll({where: {is_active: true, is_live: true}})
           .then(tasks => {
             if (!tasks) {
               return res.status(404).send({
@@ -223,7 +223,8 @@ class Tasks extends Crud {
                               collaborators: oldCollaborators,
                               introduction: req.body.introduction,
                               tutorial: req.body.tutorial,
-                              is_active: req.body.is_active
+                              is_live: req.body.is_live,
+                              is_public: req.body.is_public
                             })
                             .then(
                               task =>
