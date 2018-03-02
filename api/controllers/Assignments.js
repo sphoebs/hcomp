@@ -227,8 +227,6 @@ class Assignments extends Crud {
   }
 
   populateStatistic(answers, id_run) {
-    console.log("sono dentro alla funzione populate");
-    console.log(id_run);
     runs
       .findById(id_run)
       .then(run => {
@@ -279,7 +277,6 @@ class Assignments extends Crud {
               .catch(error => console.log(error));
             break;
           case 8:
-            console.log("Wheel");
             answers.forEach(answer => {
               if (oldStatistics[answer.imgname] !== undefined) {
                 oldAnswers = JSON.parse(oldStatistics[answer.imgname]);
@@ -287,7 +284,6 @@ class Assignments extends Crud {
                 oldAnswers = {};
               }
               let incomingAnswers = answer.answer;
-              console.log(incomingAnswers);
               let totNewAnswers = 0;
               if (oldAnswers["tot"] !== undefined) {
                 totNewAnswers = oldAnswers['tot'] + 1;
