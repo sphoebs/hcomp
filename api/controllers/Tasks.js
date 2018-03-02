@@ -122,7 +122,7 @@ class Tasks extends Crud {
             return  res.status(500).send({ message: "INTERNAL ERROR" });
             console.log(err);
           } else {
-            const query = `SELECT t.* FROM tasks WHERE t.is_live=true AND t.is_public=true AS t INNER JOIN (SELECT min(id_task) as id_task,max("createdAt")  FROM assignments GROUP BY id_task) AS a ON t.id=a.id_task LIMIT 4;`;
+            const query = `SELECT t.* FROM tasks AS t WHERE t.is_live=true AND t.is_public=true INNER JOIN (SELECT min(id_task) as id_task,max("createdAt")  FROM assignments GROUP BY id_task) AS a ON t.id=a.id_task LIMIT 4;`;
             client.query(query, (err, result) => {
               done();
               if (err) {
