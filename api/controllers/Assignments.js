@@ -2,7 +2,9 @@ const Crud = require("./Crud");
 const assignments = require("../models").assignments;
 const users = require("../models").users;
 const runs = require("../models").runs;
-const { EngEmotions } = require("../Utility/Emotions");
+const {
+  EngEmotions
+} = require("../Utility/Emotions");
 const {
   readQuery,
   securityControl,
@@ -23,7 +25,10 @@ class Assignments extends Crud {
   create(req, res) {
     return this.model
       .findOne({
-        where: { id_worker: req.body.id_worker, id_run: req.body.id_run }
+        where: {
+          id_worker: req.body.id_worker,
+          id_run: req.body.id_run
+        }
       })
       .then(assignment => {
         if (!assignment) {
@@ -35,7 +40,9 @@ class Assignments extends Crud {
           if (!assignment.is_completed) {
             return res.status(200).send(assignment);
           } else {
-            return res.status(200).send({ message: "Assignment already done" });
+            return res.status(200).send({
+              message: "Assignment already done"
+            });
           }
         }
       })
@@ -50,7 +57,9 @@ class Assignments extends Crud {
       })
       .then(assignments => {
         if (!assignments) {
-          res.send(404).send({ message: "Data Not found" });
+          res.send(404).send({
+            message: "Data Not found"
+          });
         } else {
           res.send(200).send(assignments);
         }
@@ -69,29 +78,42 @@ class Assignments extends Crud {
         */
     let resultObject = {};
     return users
-      .findOne({ where: { id: req.params.id_user } })
+      .findOne({
+        where: {
+          id: req.params.id_user
+        }
+      })
       .then(user => {
         if (user.access_type === facebookType) {
           FB.api(
-            "/me/friends",
-            { access_token: user.accessToken },
+            "/me/friends", {
+              access_token: user.accessToken
+            },
             response => {
               if (response.data) {
                 console.log(response.data);
                 response.data.forEach(element => {
                   users
-                    .findOne({ where: { social_id: element.id } })
+                    .findOne({
+                      where: {
+                        social_id: element.id
+                      }
+                    })
                     .then(user => {
                       this.model
                         .findAll({
-                          group: { id_worker: user.id },
+                          group: {
+                            id_worker: user.id
+                          },
                           order: "createdAt DESC",
                           limit: 1
                         })
                         .then(assignment => {
                           runs
                             .findOne({
-                              where: { id: assignment.id_run }
+                              where: {
+                                id: assignment.id_run
+                              }
                             })
                             .then(run => {
                               //TODO ADD ON AN ARRAY WITH USER NAME
@@ -105,7 +127,9 @@ class Assignments extends Crud {
                     .catch(error => (tmp = res.status(400).send(error)));
                 });
               } else {
-                tmp = res.status(400).send({ message: "Something Goes Wrong" });
+                tmp = res.status(400).send({
+                  message: "Something Goes Wrong"
+                });
               }
             }
           );
@@ -113,31 +137,40 @@ class Assignments extends Crud {
           oauth2Client.setCredentials({
             access_token: user.accessToken
           });
-          plus.people.get(
-            {
+          plus.people.get({
               userId: "me/friends",
               personFields: "emailAddresses,names",
               auth: oauth2Client
             },
             (err, response) => {
               if (err) {
-                tmp = res.status(400).send({ message: "Something Goes Wrong" });
+                tmp = res.status(400).send({
+                  message: "Something Goes Wrong"
+                });
               } else {
                 console.log(response.data);
                 response.data.forEach(element => {
                   users
-                    .findOne({ where: { social_id: element.id } })
+                    .findOne({
+                      where: {
+                        social_id: element.id
+                      }
+                    })
                     .then(user => {
                       this.model
                         .findAll({
-                          group: { id_worker: user.id },
+                          group: {
+                            id_worker: user.id
+                          },
                           order: "createdAt DESC",
                           limit: 1
                         })
                         .then(assignment => {
                           runs
                             .findOne({
-                              where: { id: assignment.id_run }
+                              where: {
+                                id: assignment.id_run
+                              }
                             })
                             .then(run => {
                               //TODO ADD ON AN ARRAY WITH USER NAME
@@ -165,20 +198,32 @@ class Assignments extends Crud {
       switch (query.filter) {
         case id_task:
           return this.model
-            .findAll({ where: { id_task: query.parameter } })
+            .findAll({
+              where: {
+                id_task: query.parameter
+              }
+            })
             .then(data => (tmp = res.status(200).send(data)))
             .catch(error => (tmp = res.status(400).send(error)));
           break;
         case id_run:
           return this.model
-            .findAll({ where: { id_run: id_run } })
+            .findAll({
+              where: {
+                id_run: id_run
+              }
+            })
             .then(data => (tmp = res.status(200).send(data)))
             .catch(error => (tmp = res.status(400).send(error)));
           break;
         case worker:
           console.log(query.parameter);
           return this.model
-            .findAll({ where: { id_worker: query.parameter } })
+            .findAll({
+              where: {
+                id_worker: query.parameter
+              }
+            })
             .then(data => (tmp = res.status(200).send(data)))
             .catch(error => (tmp = res.status(400).send(error)));
           break;
@@ -186,7 +231,9 @@ class Assignments extends Crud {
           break;
       }
     } else {
-      tmp = res.status(400).send({ message: "Something goes wrong" });
+      tmp = res.status(400).send({
+        message: "Something goes wrong"
+      });
     }
     return tmp;
   }
@@ -198,7 +245,9 @@ class Assignments extends Crud {
       .then(data => {
         let tmp;
         if (!data) {
-          tmp = res.status(400).send({ message: "Data not found!" });
+          tmp = res.status(400).send({
+            message: "Data not found!"
+          });
         } else {
           let newAnswers = [];
           req.body.answers.forEach(answer => {
@@ -216,7 +265,9 @@ class Assignments extends Crud {
               is_completed: req.body.is_completed,
               is_in_progress: req.body.is_in_progress
             })
-            .then(() => res.status(200).send({ message: "Data updated" }))
+            .then(() => res.status(200).send({
+              message: "Data updated"
+            }))
             .catch(error => res.status(400).send(error));
         }
         return tmp;
@@ -243,9 +294,9 @@ class Assignments extends Crud {
               }
               let yesPercentOfAnswers = oldAnswers.Yes ? oldAnswers.Yes : 0;
               let noPercentOfAnswers = oldAnswers.No ? oldAnswers.No : 0;
-              let tot = oldAnswers.tot
-                ? oldAnswers.tot
-                : 0;
+              let tot = oldAnswers.tot ?
+                oldAnswers.tot :
+                0;
               let numberOfYes =
                 tot > 0 ? tot * yesPercentOfAnswers / 100 : 0;
               let numberOfNo =
@@ -291,29 +342,26 @@ class Assignments extends Crud {
               }
               if (Object.keys(oldAnswers).length > 0) {
                 for (var key in incomingAnswers) {
-                  if (incomingAnswers.hasOwnProperty(key)) {
-                    if (incomingAnswers[key] && key !== "tot") {
-                      let numbOfEmotion = oldAnswers[key] ? (oldAnswers[key] / 100 * oldAnswers['tot']) : 0;
-                      oldAnswers[key] = (numbOfEmotion + 1) / totNewAnswers * 100;
-                    }
+                  console.log('incoming: '+key);
+                  if (incomingAnswers[key] && key !== "tot") {
+                    let numbOfEmotion = oldAnswers[key] ? (oldAnswers[key] / 100 * oldAnswers['tot']) : 0;
+                    oldAnswers[key] = (numbOfEmotion + 1) / totNewAnswers * 100;
                   }
                 }
                 for (var key in oldAnswers) {
-                  if (oldAnswers.hasOwnProperty(key)) {
-                    if (!incomingAnswers[key] && key !== "tot") {
-                      let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers['tot'];
-                      oldAnswers[key] = (numbOfEmotion) / totNewAnswers * 100;
-                    }
+                  console.log('old: '+key);
+                  if (!incomingAnswers[key] && key !== "tot") {
+                    let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers['tot'];
+                    oldAnswers[key] = (numbOfEmotion) / totNewAnswers * 100;
                   }
                 }
               } else {
                 for (var key in incomingAnswers) {
-                  if (incomingAnswers.hasOwnProperty(key)) {
-                    if (incomingAnswers[key] && key !== "tot") {
-                      let numbOfEmotion = 0
-                      oldAnswers[key] =
-                        (numbOfEmotion + 1) / totNewAnswers * 100;
-                    }
+                  console.log('new: '+key);
+                  if (incomingAnswers[key] && key !== "tot") {
+                    let numbOfEmotion = 0
+                    oldAnswers[key] =
+                      (numbOfEmotion + 1) / totNewAnswers * 100;
                   }
                 }
               }
