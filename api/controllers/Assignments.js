@@ -343,14 +343,14 @@ class Assignments extends Crud {
               if (Object.keys(oldAnswers).length > 0) {
                 for (var key in incomingAnswers) {
                   console.log('incoming: '+key);
-                  if (incomingAnswers[key] && key !== "tot") {
+                  if (incomingAnswers[key] && key !== "tot" && isNaN(incomingAnswers[key])) {
                     let numbOfEmotion = oldAnswers[key] ? (oldAnswers[key] / 100 * oldAnswers['tot']) : 0;
                     oldAnswers[key] = (numbOfEmotion + 1) / totNewAnswers * 100;
                   }
                 }
                 for (var key in oldAnswers) {
                   console.log('old: '+key);
-                  if (!incomingAnswers[key] && key !== "tot") {
+                  if (!incomingAnswers[key] && key !== "tot" && isNaN(incomingAnswers[key])) {
                     let numbOfEmotion = oldAnswers[key] / 100 * oldAnswers['tot'];
                     oldAnswers[key] = (numbOfEmotion) / totNewAnswers * 100;
                   }
@@ -358,7 +358,7 @@ class Assignments extends Crud {
               } else {
                 for (var key in incomingAnswers) {
                   console.log('new: '+key);
-                  if (incomingAnswers[key] && key !== "tot") {
+                  if (incomingAnswers[key] && key !== "tot" && isNaN(incomingAnswers[key])) {
                     let numbOfEmotion = 0
                     oldAnswers[key] =
                       (numbOfEmotion + 1) / totNewAnswers * 100;
