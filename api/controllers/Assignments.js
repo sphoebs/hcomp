@@ -208,9 +208,7 @@ class Assignments extends Crud {
             });
           });
           if (req.body.is_completed) {
-            console.log("sto per entrare");
             this.populateStatistic(req.body.answers, data.id_run);
-            console.log("dopo populate");
           }
           tmp = data
             .update({
@@ -227,6 +225,7 @@ class Assignments extends Crud {
   }
 
   populateStatistic(answers, id_run) {
+    console.log(answers);
     runs
       .findById(id_run)
       .then(run => {
