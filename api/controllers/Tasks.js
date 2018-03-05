@@ -138,7 +138,7 @@ class Tasks extends Crud {
         break;
       default:
         return this.model
-          .findAll({where: {is_active: true, is_live: true}})
+          .findAll({where: {is_public: true, is_live: true}})
           .then(tasks => {
             if (!tasks) {
               return res.status(404).send({
