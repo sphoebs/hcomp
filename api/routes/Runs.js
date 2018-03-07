@@ -17,19 +17,35 @@ module.exports = app => {
     controller.readOne(req, res);
   });
 
-  app.put("/tasks/runs/:id", ensureAuthorizationCreatorOrCollaboratorOfRun, (req, res) => {
-    controller.update(req, res);
+  app.patch("/tasks/runs", (req, res) => {
+    controller.updateAllRuns(req, res);
   });
 
-  app.delete("/tasks/runs/:id", ensureAuthorizationCreatorOrCollaboratorOfRun, (req, res) => {
-    controller.delete(req, res);
-  });
+  app.put(
+    "/tasks/runs/:id",
+    ensureAuthorizationCreatorOrCollaboratorOfRun,
+    (req, res) => {
+      controller.update(req, res);
+    }
+  );
+
+  app.delete(
+    "/tasks/runs/:id",
+    ensureAuthorizationCreatorOrCollaboratorOfRun,
+    (req, res) => {
+      controller.delete(req, res);
+    }
+  );
 
   app.get("/tasks/runs/recentRuns/:id", ensureAuthorization, (req, res) => {
     controller.recentRuns(req, res);
   });
 
-  app.patch("/tasks/runs/:id", ensureAuthorizationCreatorOrCollaboratorOfRun, (req, res) => {
-    controller.deletePhotos(req, res);
-  });
+  app.patch(
+    "/tasks/runs/:id",
+    ensureAuthorizationCreatorOrCollaboratorOfRun,
+    (req, res) => {
+      controller.deletePhotos(req, res);
+    }
+  );
 };

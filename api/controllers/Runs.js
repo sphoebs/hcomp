@@ -88,9 +88,9 @@ class Runs extends Crud {
                     //ORDINO L'ARRAY PER NUMERO DI VISUALS
                     //SCELGO LE PRIME VENTI ED INCREMENTO VISUALS
                     const sortedImages = this.mergeSort(run.images);
-                    const firstNImages = sortedImages.slice(0,run.max_images);
+                    const firstNImages = sortedImages.slice(0, run.max_images);
                     firstNImages.forEach(element => {
-                      element.visualize = eleme.visualize + 1;
+                      element.visualize = element.visualize + 1;
                     });
                     let payload = {
                       name: run.name,
@@ -333,6 +333,25 @@ class Runs extends Crud {
           console.log("Successfully deleted album.");
         }
       );
+    });
+  }
+  updateAllRuns(req, res) {
+    this.model.findAll().then(runs => {
+      runs.forEach(run => {
+        run.images.forEach(element => {
+          let newImages = [];
+          element['visualize'] = 0;
+          newImages.push(element);
+          if(newImages.length === run.images.length){
+            run
+            .update({
+              images: newImages
+            })
+            .then(run => console.log("fatto"))
+            .catch(error => console.log(error));
+          }
+        })
+      });
     });
   }
 
