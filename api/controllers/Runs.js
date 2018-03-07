@@ -358,11 +358,11 @@ class Runs extends Crud {
     const left = arr.slice(0, middle); // items on the left side
     const right = arr.slice(middle); // items on the right side
 
-    return merge(mergeSort(left), mergeSort(right));
+    return await this.merge(mergeSort(left), mergeSort(right));
   }
 
   // compare the arrays item by item and return the concatenated result
-  merge(left, right) {
+  async merge(left, right) {
     let result = [];
     let indexLeft = 0;
     let indexRight = 0;
