@@ -232,7 +232,6 @@ class Runs extends Crud {
     .findAll()
     .then(runs => {
       runs.forEach(run => {
-        console.log(size);
         run.update({
           max_images: run.images.length
         })
