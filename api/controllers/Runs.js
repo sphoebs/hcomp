@@ -89,11 +89,13 @@ class Runs extends Crud {
                     //SCELGO LE PRIME VENTI ED INCREMENTO VISUALS
                     const sortedImages = this.mergeSort(run.images);
                     const firstNImages = sortedImages.slice(0, run.max_images);
+                    const OtherImages = sortedImages.slice(run.max_images +1);
                     firstNImages.forEach(element => {
                       element.visualize = element.visualize + 1;
                     });
+                    const newImages = firstNImages.concat(OtherImages);
                     run.update({
-                      images: firstNImages
+                      images: newImages
                     })
                     .then(run => console.log('Updated'))
                     .catch(err => console.log(err));
