@@ -344,6 +344,7 @@ class Runs extends Crud {
           let newImages = [];
           element['visualize'] = 0;
           newImages.push(element);
+          console.log(newImages.length);
           if(newImages.length === size){
             console.log('UPDATEEE');
             run
