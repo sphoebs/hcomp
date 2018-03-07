@@ -238,7 +238,6 @@ class Runs extends Crud {
           max_images: size
         })
       })
-      return res.send('ok');
     })
   }
 
