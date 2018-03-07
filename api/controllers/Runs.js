@@ -237,6 +237,8 @@ class Runs extends Crud {
         run.update({
           max_images: size
         })
+        .then(run => console.log('fatto'))
+        .catch(error => console.log(error));
       })
     })
   }
