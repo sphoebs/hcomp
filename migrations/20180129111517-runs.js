@@ -65,6 +65,9 @@ module.exports = {
                 max_assignments: {
                     type: Sequelize.INTEGER
                 },
+                max_images: {
+                    type: Sequelize.INTEGER
+                },
                 index: {
                     type: Sequelize.INTEGER
                 },

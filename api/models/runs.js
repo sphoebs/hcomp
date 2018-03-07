@@ -24,5 +24,6 @@ module.exports = (sequelize,DataTypes) =>
     is_deleted: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN,
     max_assignments: DataTypes.INTEGER,
+    max_images: DataTypes.INTEGER,
     index: DataTypes.INTEGER
   });
