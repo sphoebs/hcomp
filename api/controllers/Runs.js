@@ -341,7 +341,9 @@ class Runs extends Crud {
         run.images.forEach(element => {
           let newImages = [];
           element['visualize'] = 0;
+          console.log(element);
           newImages.push(element);
+          console.log(newImages);
           if(newImages.length === run.images.length){
             run
             .update({
