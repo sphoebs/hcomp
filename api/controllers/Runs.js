@@ -87,7 +87,7 @@ class Runs extends Crud {
                   } else {
                     //ORDINO L'ARRAY PER NUMERO DI VISUALS
                     //SCELGO LE PRIME VENTI ED INCREMENTO VISUALS
-                    const sortedImages = await this.mergeSort(run.images);
+                    const sortedImages = this.mergeSort(run.images);
                     const firstNImages = sortedImages.slice(0,run.max_images);
                     firstNImages.forEach(element => {
                       element.visualize = eleme.visualize + 1;
@@ -348,7 +348,7 @@ class Runs extends Crud {
     });
   }
 
-  static async mergeSort(arr) {
+  mergeSort(arr) {
     if (arr.length === 1) {
       // return once we hit an array with a single item
       return arr;
@@ -358,11 +358,11 @@ class Runs extends Crud {
     const left = arr.slice(0, middle); // items on the left side
     const right = arr.slice(middle); // items on the right side
 
-    return await this.merge(mergeSort(left), mergeSort(right));
+    return this.merge(mergeSort(left), mergeSort(right));
   }
 
   // compare the arrays item by item and return the concatenated result
-  static async merge(left, right) {
+  merge(left, right) {
     let result = [];
     let indexLeft = 0;
     let indexRight = 0;
