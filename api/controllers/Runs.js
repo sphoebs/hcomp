@@ -348,7 +348,7 @@ class Runs extends Crud {
     });
   }
 
-  async mergeSort(arr) {
+  static async mergeSort(arr) {
     if (arr.length === 1) {
       // return once we hit an array with a single item
       return arr;
@@ -362,7 +362,7 @@ class Runs extends Crud {
   }
 
   // compare the arrays item by item and return the concatenated result
-  async merge(left, right) {
+  static async merge(left, right) {
     let result = [];
     let indexLeft = 0;
     let indexRight = 0;
