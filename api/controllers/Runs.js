@@ -92,6 +92,11 @@ class Runs extends Crud {
                     firstNImages.forEach(element => {
                       element.visualize = element.visualize + 1;
                     });
+                    run.update({
+                      images: firstNImages
+                    })
+                    .then(run => console.log('Updated'))
+                    .catch(err => console.log(err));
                     let payload = {
                       name: run.name,
                       description: run.description,
