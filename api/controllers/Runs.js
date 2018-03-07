@@ -56,20 +56,21 @@ class Runs extends Crud {
     let query = req.query;
     switch (query.filter) {
       case "stats":
-      let decodedJWT = Decode(req.headers.authorization);
-      return this.model
+        let decodedJWT = Decode(req.headers.authorization);
+        return this.model
           .findById(req.params.id)
           .then(run => {
-            tasks.findOne({where: {id: run.id_task}})
-            .then(task => {
-              if (task.collaborators.indexOf(decodedJWT.creator)) {
-                return res.status(200).send(JSON.stringify(run.statistics));
-              }
-            })
-            .catch(error => res.status(400).send(error));
+            tasks
+              .findOne({ where: { id: run.id_task } })
+              .then(task => {
+                if (task.collaborators.indexOf(decodedJWT.creator)) {
+                  return res.status(200).send(JSON.stringify(run.statistics));
+                }
+              })
+              .catch(error => res.status(400).send(error));
           })
           .catch(error => res.status(400).send(error));
-      break;
+        break;
       default:
         return this.model
           .findById(req.params.id)
@@ -84,11 +85,18 @@ class Runs extends Crud {
                   if (!task) {
                     tmp = res.status(400).send({ message: "Data not found!" });
                   } else {
+                    //ORDINO L'ARRAY PER NUMERO DI VISUALS
+                    //SCELGO LE PRIME VENTI ED INCREMENTO VISUALS
+                    const sortedImages = await this.mergeSort(run.images);
+                    const firstNImages = sortedImages.slice(0,run.max_images);
+                    firstNImages.forEach(element => {
+                      element.visualize = eleme.visualize + 1;
+                    });
                     let payload = {
                       name: run.name,
                       description: run.description,
                       introduction: run.introduction,
-                      images: run.images,
+                      images: firstNImages,
                       question: run.question,
                       tutorial: task.tutorial,
                       id_runtype: run.id_runtype,
@@ -97,7 +105,8 @@ class Runs extends Crud {
                       is_active: run.is_active,
                       max_assignments: run.max_assignments,
                       index: run.index,
-                      max_emotions: run.max_emotions
+                      max_emotions: run.max_emotions,
+                      max_images: run.max_images
                     };
                     tmp = res.status(200).send(JSON.stringify(payload));
                   }
@@ -150,7 +159,8 @@ class Runs extends Crud {
                 let arrayOfObjects = run.images;
                 arrayOfObjects.push({
                   name: imageName,
-                  url: url_image
+                  url: url_image,
+                  visualize: 0
                 });
                 tmp = run
                   .update({
@@ -215,6 +225,18 @@ class Runs extends Crud {
       tmp = res.status(400).send({ message: "Something goes Wrong!" });
     }
     return tmp;
+  }
+
+  updateAllRuns(req,res) {
+    this.model
+    .findAll()
+    .then(runs => {
+      runs.forEach(run => {
+        run.update({
+          max_images: run.images.length
+        })
+      })
+    })
   }
 
   deletePhotos(req, res) {
@@ -324,6 +346,38 @@ class Runs extends Crud {
         }
       );
     });
+  }
+
+  async mergeSort(arr) {
+    if (arr.length === 1) {
+      // return once we hit an array with a single item
+      return arr;
+    }
+
+    const middle = Math.floor(arr.length / 2); // get the middle item of the array rounded down
+    const left = arr.slice(0, middle); // items on the left side
+    const right = arr.slice(middle); // items on the right side
+
+    return merge(mergeSort(left), mergeSort(right));
+  }
+
+  // compare the arrays item by item and return the concatenated result
+  merge(left, right) {
+    let result = [];
+    let indexLeft = 0;
+    let indexRight = 0;
+
+    while (indexLeft < left.length && indexRight < right.length) {
+      if (left[indexLeft].visualize < right[indexRight].visualize) {
+        result.push(left[indexLeft]);
+        indexLeft++;
+      } else {
+        result.push(right[indexRight]);
+        indexRight++;
+      }
+    }
+
+    return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
   }
 }
 
