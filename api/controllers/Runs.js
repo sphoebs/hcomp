@@ -335,29 +335,6 @@ class Runs extends Crud {
       );
     });
   }
-  updateAllRuns(req, res) {
-    this.model.findAll().then(runs => {
-      runs.forEach(run => {
-        run.images.forEach(element => {
-          let size = run.images.length;
-          console.log(size);
-          let newImages = [];
-          element['visualize'] = 0;
-          newImages.push(element);
-          console.log(newImages.length);
-          if(newImages.length === size){
-            console.log('UPDATEEE');
-            run
-            .update({
-              images: newImages
-            })
-            .then(run => console.log("fatto"))
-            .catch(error => console.log(error));
-          }
-        })
-      });
-    });
-  }
 
   mergeSort(arr) {
     if (arr.length === 1) {

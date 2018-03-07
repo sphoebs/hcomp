@@ -17,10 +17,6 @@ module.exports = app => {
     controller.readOne(req, res);
   });
 
-  app.patch("/tasks/runs", (req, res) => {
-    controller.updateAllRuns(req, res);
-  });
-
   app.put(
     "/tasks/runs/:id",
     ensureAuthorizationCreatorOrCollaboratorOfRun,
