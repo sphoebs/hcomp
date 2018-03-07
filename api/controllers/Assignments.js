@@ -210,7 +210,7 @@ class Assignments extends Crud {
           return this.model
             .findAll({
               where: {
-                id_run: id_run
+                id_run: query.parameter
               }
             })
             .then(data => (tmp = res.status(200).send(data)))
