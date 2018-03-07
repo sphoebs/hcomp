@@ -227,20 +227,6 @@ class Runs extends Crud {
     return tmp;
   }
 
-  updateAllRuns(req,res) {
-    this.model
-    .findAll()
-    .then(runs => {
-      runs.forEach(run => {
-        run.update({
-          max_images: run.images.length
-        })
-        .then(run => console.log('fatto'))
-        .catch(error => console.log(error));
-      })
-    })
-  }
-
   deletePhotos(req, res) {
     let tmp = "";
     return this.model

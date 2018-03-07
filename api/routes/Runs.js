@@ -29,10 +29,6 @@ module.exports = app => {
     controller.recentRuns(req, res);
   });
 
-  app.patch('/tasks/runs', (req,res) => {
-    controller.updateAllRuns(req,res);
-  })
-
   app.patch("/tasks/runs/:id", ensureAuthorizationCreatorOrCollaboratorOfRun, (req, res) => {
     controller.deletePhotos(req, res);
   });
