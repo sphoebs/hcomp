@@ -87,7 +87,7 @@ class Runs extends Crud {
                   } else {
                     //ORDINO L'ARRAY PER NUMERO DI VISUALS
                     //SCELGO LE PRIME VENTI ED INCREMENTO VISUALS
-                    const sortedImages = this.mergeSort(run.images);
+                    /* const sortedImages = this.mergeSort(run.images);
                     const firstNImages = sortedImages.slice(0, run.max_images);
                     const OtherImages = sortedImages.slice(run.max_images +1);
                     firstNImages.forEach(element => {
@@ -98,12 +98,12 @@ class Runs extends Crud {
                       images: newImages
                     })
                     .then(run => console.log('Updated'))
-                    .catch(err => console.log(err));
+                    .catch(err => console.log(err)); */
                     let payload = {
                       name: run.name,
                       description: run.description,
                       introduction: run.introduction,
-                      images: firstNImages,
+                      images: run.images,
                       question: run.question,
                       tutorial: task.tutorial,
                       id_runtype: run.id_runtype,
